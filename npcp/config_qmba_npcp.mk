@@ -38,11 +38,13 @@ REF_PATH=/g/data/ia39/npcp/data/${REF_VAR}/observations/AGCD/raw
 
 HIST_FILES_ORIG := $(sort $(wildcard ${HIST_PATH}/*day_19*.nc))
 TARGET_FILES_ORIG := $(sort $(wildcard ${TARGET_PATH}/*day_20*.nc))
-REF_FILES_ORIG := $(sort $(wildcard ${REF_PATH}/*day_19*.nc))
+REF_FILES_ORIG := $(sort $(wildcard ${REF_PATH}/*.nc))
 
-OUTPUT_HIST_DIR=/g/data/ia39/npcp/data/${HIST_VAR}/ECMWF-ERA5/BOM-BARPA-R/qm
-OUTPUT_REF_DIR=/g/data/ia39/npcp/data/${HIST_VAR}/ECMWF-ERA5/BOM-BARPA-R/qm
-OUTPUT_TARGET_DIR=/g/data/ia39/npcp/data/${HIST_VAR}/ECMWF-ERA5/BOM-BARPA-R/qm
+/g/data/xv83/dbi599/npcp/data/tasmin/ECMWF-ERA5/BOM-BARPA-R/qm
+
+OUTPUT_HIST_DIR=/g/data/xv83/dbi599/npcp/data/${HIST_VAR}/ECMWF-ERA5/BOM-BARPA-R/qm
+OUTPUT_REF_DIR=/g/data/xv83/dbi599/npcp/data/${HIST_VAR}/ECMWF-ERA5/BOM-BARPA-R/qm
+OUTPUT_TARGET_DIR=/g/data/xv83/dbi599/npcp/data/${HIST_VAR}/ECMWF-ERA5/BOM-BARPA-R/qm
 ifeq (${SSR}, --ssr)
 HIST_DATA=${OUTPUT_HIST_DIR}/${HIST_VAR}-ssr_NPCP-20i_ECMWF-ERA5_evaluation_r1i1p1f1_BOM-BARPA-R_v1_day_${HIST_START}01-${HIST_END}12.nc
 HIST_UNITS=${OUTPUT_UNITS}
