@@ -8,8 +8,6 @@ This repository contains Makefiles and template notebooks used to coordinate qq-
 Generic makefiles, template configuation files and template notebooks can be found in the top directory.
 Each subdirectory then contains configuration files and notebooks relating to specific projects.
 
-## Generic makefiles
-
 The steps involved in using the `Makefile` for a particular project (`project/`) are:
 1. Create a configuration file (e.g. `project/my_config.mk`) based on `config_qdm.mk` or `config_cdfm.mk`
 1. Run `make all -f make_ssr.mk CONFIG=project/my_config.mk` if SSR is required.
