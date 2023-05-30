@@ -9,9 +9,9 @@ Generic makefiles, template configuation files and template notebooks can be fou
 Each subdirectory then contains configuration files and notebooks relating to specific projects.
 
 The steps involved in using the `Makefile` for a particular project (`project/`) are:
-1. Create a configuration file (e.g. `project/my_config.mk`) based on `config_qdm.mk` or `config_cdfm.mk`
+1. Create a configuration file (e.g. `project/my_config.mk`) based on `config_qdm.mk` or `config_ecdfm.mk`
 1. Run `make all -f make_ssr.mk CONFIG=project/my_config.mk` if SSR is required.
-1. Run `make apply-adjustment CONFIG=project/my_config.mk` to implement either QDM or CDFm
+1. Run `make validation CONFIG=project/my_config.mk` to implement either QDM or ECDFm
 
 Additional processing steps for QDM
 (e.g. applying standard CIH file metadata or matching the mean change)

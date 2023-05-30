@@ -10,7 +10,7 @@
 #   - Units: HIST_UNITS, REF_UNITS, TARGET_UNITS, OUTPUT_UNITS
 #   - Notebook example parameters: EXAMPLE_LAT, EXAMPLE_LON, EXAMPLE_MONTH
 #
-#  See config_qdc.mk and config_qmba.mk for examples.
+#  See config_qdm.mk and config_ecdfm.mk for examples.
 
 .PHONY: help
 
@@ -21,7 +21,7 @@ PYTHON=/g/data/xv83/dbi599/miniconda3/envs/qqscale/bin/python
 PAPERMILL=/g/data/xv83/dbi599/miniconda3/envs/qqscale/bin/papermill
 #CODE_DIR=/g/data/wp00/shared_code/qqscale
 CODE_DIR=/home/599/dbi599/qqscale
-TEMPLATE_NOTEBOOK=${CODE_DIR}/workflows/validation_${METHOD}.ipynb
+TEMPLATE_NOTEBOOK=validation_${METHOD}.ipynb
 
 ## train: Calculate the QQ-scale adjustment factors
 train : ${AF_PATH}
