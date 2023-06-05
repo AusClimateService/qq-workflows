@@ -6,13 +6,18 @@ import numpy as np
 import cartopy.crs as ccrs
 import xesmf as xe
 import cmdline_provenance as cmdprov
+import dask
+import dask.diagnostics
 
 sys.path.append('/g/data/wp00/shared_code/qqscale')
 import utils
 
 
+#dask.diagnostics.ProgressBar().register()
+
+
 def quantile_spatial_plot(
-    da, month, cmap, lat_bounds=None, lon_bounds=None, levels=None, city_lat_lon={},
+    da, month, cmap, levels, lat_bounds=None, lon_bounds=None, city_lat_lon={},
 ):
     """Spatial plot of the 10th, 50th and 90th percentile"""
     
@@ -23,16 +28,6 @@ def quantile_spatial_plot(
     if lon_bounds:
         lon_min, lon_max = lon_bounds
         da_selection = da_selection.sel(lon=slice(lon_min, lon_max))
-
-    kwargs = {}
-    if levels:
-        kwargs['levels'] = levels
-    elif cmap_type == 'diverging':
-        abs_max = np.max(np.abs(da_selection.values))
-        vmax = abs_max
-        vmin = -1 * abs_max
-        kwargs['vmax'] = vmax
-        kwargs['vmin'] = vmin
         
     p = da_selection.plot(
         col='quantiles',
@@ -40,7 +35,7 @@ def quantile_spatial_plot(
         cmap=cmap,
         figsize=[20, 5.5],
         subplot_kws={'projection': ccrs.PlateCarree(),},
-        **kwargs,
+        levels=levels,
     )
     for ax in p.axes.flat:
         ax.coastlines()
@@ -58,23 +53,10 @@ def quantile_spatial_plot(
     plt.show()
     
 
-def quantile_month_plot(quantiles, ax, cmap_type, levels=None, extend='both', point=None, title=None):
+def quantile_month_plot(quantiles, ax, cmap, levels, extend='both', point=None, title=None):
     """Create two dimensional month/quantile plot"""
-    
-    assert cmap_type in ['regular', 'diverging']
-    
-    cmap = plot_config[f'{cmap_type}_cmap']
-    kwargs = {}
-    if levels:
-        kwargs['levels'] = levels
-    elif cmap_type == 'diverging':
-        abs_max = np.max(np.abs(quantiles.values))
-        vmax = abs_max
-        vmin = -1 * abs_max
-        kwargs['vmax'] = vmax
-        kwargs['vmin'] = vmin
-    
-    quantiles.transpose('month', 'quantiles').plot(ax=ax, cmap=cmap, extend=extend, **kwargs)
+            
+    quantiles.transpose('month', 'quantiles').plot(ax=ax, cmap=cmap, extend=extend, levels=levels)
     
     yticks = np.arange(1,13)
     ytick_labels = [calendar.month_abbr[i] for i in yticks]
@@ -110,7 +92,14 @@ def projection_spatial_data(da_hist, da_ref, da_target, da_qq, scaling):
     return ref_hist_mean_comparison, qq_obs_mean_comparison 
 
 
-def projection_spatial_plot(ef_hist_mean_comparison, qq_obs_mean_comparison, cmap, levels, city_lat_lon={}):
+def projection_spatial_plot(
+    ref_hist_mean_comparison,
+    qq_obs_mean_comparison,
+    cmap,
+    comparison_levels,
+    diff_levels,
+    city_lat_lon={}
+):
     """Spatial plot of GCM projections, QQ-projections and difference."""
     
     fig = plt.figure(figsize=[24, 6])
@@ -120,7 +109,7 @@ def projection_spatial_plot(ef_hist_mean_comparison, qq_obs_mean_comparison, cma
         ax=ax1,
         transform=ccrs.PlateCarree(),
         cmap=cmap,
-        levels=levels,
+        levels=comparison_levels,
         extend='both'
     )
     ax1.set_title('ref - hist')
@@ -130,7 +119,7 @@ def projection_spatial_plot(ef_hist_mean_comparison, qq_obs_mean_comparison, cma
         ax=ax2,
         transform=ccrs.PlateCarree(),
         cmap=cmap,
-        levels=levels,
+        levels=comparison_levels,
         extend='both'
     )
     ax2.set_title('QQ-scaled - original')
@@ -141,7 +130,7 @@ def projection_spatial_plot(ef_hist_mean_comparison, qq_obs_mean_comparison, cma
         ax=ax3,
         transform=ccrs.PlateCarree(),
         cmap=cmap,
-        levels=levels,
+        levels=diff_levels,
         extend='both'
     )
     ax3.set_title('Difference')
@@ -166,7 +155,7 @@ def projection_spatial_plot(ef_hist_mean_comparison, qq_obs_mean_comparison, cma
     plt.show()
 
 
-def plot_quantiles_2d_point(da_hist_q_point, da_ref_point, da_target_point, quantiles):
+def plot_quantiles_2d_point(da_hist_q_point, da_ref_point, da_target_point, quantiles, cmap, levels):
     """Plot historical, reference and target quantiles for a single grid point."""
     
     da_ref_q_point = utils.get_quantiles(da_ref_point, quantiles, timescale='monthly')
@@ -180,31 +169,31 @@ def plot_quantiles_2d_point(da_hist_q_point, da_ref_point, da_target_point, quan
     quantile_month_plot(
         da_ref_q_point,
         ax1,
-        'regular',
-        levels=plot_config['general_levels'],
+        cmap,
+        levels,
         title='reference',
         extend='max',
     )
     quantile_month_plot(
         da_hist_q_point,
         ax2,
-        'regular',
-        levels=plot_config['general_levels'],
+        cmap,
+        levels,
         title='historical',
         extend='max',
     )
     quantile_month_plot(
         da_target_q_point,
         ax3,
-        'regular',
-        levels=plot_config['general_levels'],
+        cmap,
+        levels,
         title='target (obs)',
         extend='max',
     )
     plt.show()
 
 
-def plot_af_point(da_af_point):
+def plot_af_point(da_af_point, cmap, levels):
     """Plot adjustment factors for a single grid point"""
     
     fig = plt.figure(figsize=[12, 5])
@@ -213,31 +202,33 @@ def plot_af_point(da_af_point):
     quantile_month_plot(
         da_af_point,
         ax1,
-        'diverging',
-        levels=plot_config['af_levels'],
+        cmap,
+        levels,
         title='adjustment factors'
     )
     plt.show()
     
 
-def plot_pdfs_point(da_hist_point, da_ref_point, da_target_point, da_qq_point, month=None):
+def plot_pdfs_point(
+    da_hist_point, da_ref_point, da_target_point, da_qq_point, xbounds=None, ybounds=None, month=None
+):
     """Plot observed, historical and qq-scaled PDFs for a single grid point"""
 
     hist_point = da_hist_point.copy()
     ref_point = da_ref_point.copy()
-    target_point_month = da_target_point.copy()
-    qq_point_month = da_qq_point.copy()
+    target_point = da_target_point.copy()
+    qq_point = da_qq_point.copy()
     if month:
         hist_point = hist_point[hist_point['time'].dt.month == month]
         ref_point = ref_point[ref_point['time'].dt.month == month]
         target_point = target_point[target_point['time'].dt.month == month]
         qq_point = qq_point[qq_point['time'].dt.month == month]        
     
-    fig = plt.figure(figsize=[10, 6])
+    fig = plt.figure(figsize=[15, 5])
     ax1 = fig.add_subplot(122)
     ax2 = fig.add_subplot(121)
     bins = np.arange(0, 150, 1)
-    target_point_month.plot.hist(
+    target_point.plot.hist(
         ax=ax1,
         bins=bins,
         density=True,
@@ -246,7 +237,7 @@ def plot_pdfs_point(da_hist_point, da_ref_point, da_target_point, da_qq_point, m
         alpha=0.5,
         rwidth=0.9,
     )
-    hist_point_month.plot.hist(
+    hist_point.plot.hist(
         ax=ax1,
         bins=bins,
         density=True,
@@ -256,8 +247,12 @@ def plot_pdfs_point(da_hist_point, da_ref_point, da_target_point, da_qq_point, m
         rwidth=0.9,
     )
     ax1.set_ylabel('probability')
-    #ax1.set_xlim(5, 25)
+    if xbounds:
+        ax1.set_xlim(xbounds[0], xbounds[1])
+    if ybounds:
+        ax1.set_ylim(ybounds[0], ybounds[1])
     ax1.legend()
+    ax1.set_title('')
 
     target_point.plot.hist(
         ax=ax2,
@@ -278,22 +273,33 @@ def plot_pdfs_point(da_hist_point, da_ref_point, da_target_point, da_qq_point, m
         rwidth=0.9,
     )
     ax2.set_ylabel('probability')
-    ax2.set_ylim(0, 0.005)
-    ax2.set_xlim(5, 80)
+    if xbounds:
+        ax2.set_xlim(xbounds[0], xbounds[1])
+    if ybounds:
+        ax2.set_ylim(ybounds[0], ybounds[1])
     ax2.legend()
-
+    ax2.set_title('')
+    
     title = calendar.month_name[month] if month else 'all months'
     plt.suptitle(title)
     plt.show()
 
     
-def plot_quantiles_1d_point(da_hist_point, da_ref_point, da_target_point, da_qq_point, quantiles, month=None):
+def plot_quantiles_1d_point(
+    da_hist_point,
+    da_ref_point,
+    da_target_point,
+    da_qq_point,
+    quantiles,
+    xbounds=None,
+    month=None
+):
     """Plot 1D quantiles comparisons"""
     
     hist_point = da_hist_point.copy()
     ref_point = da_ref_point.copy()
-    target_point_month = da_target_point.copy()
-    qq_point_month = da_qq_point.copy()
+    target_point = da_target_point.copy()
+    qq_point = da_qq_point.copy()
     if month:
         hist_point = hist_point[hist_point['time'].dt.month == month]
         ref_point = ref_point[ref_point['time'].dt.month == month]
@@ -304,7 +310,7 @@ def plot_quantiles_1d_point(da_hist_point, da_ref_point, da_target_point, da_qq_
     ref_q_point = utils.get_quantiles(ref_point, quantiles, timescale='annual')
     target_q_point = utils.get_quantiles(target_point, quantiles, timescale='annual')
     qq_q_point = utils.get_quantiles(qq_point, quantiles, timescale='annual')
-
+    
     fig = plt.figure(figsize=[15, 5])
     ax1 = fig.add_subplot(122)
     ax2 = fig.add_subplot(121)
@@ -321,14 +327,17 @@ def plot_quantiles_1d_point(da_hist_point, da_ref_point, da_target_point, da_qq_
 
     ylabel = f"""{da_target_point.attrs['long_name']} ({da_target_point.attrs['units']})"""
 
-    ax1.set_xlim(0, 100)
-    ax1.set_ylim(0, 37)
+    ymax = np.max(np.concatenate([obs_data, qq_data, hist_data, future_data])) + 1
+    if xbounds:
+        ax1.set_xlim(xbounds[0], xbounds[1])
+    ax1.set_ylim(0, ymax)
     ax1.grid()
     ax1.legend()
     ax1.set_xlabel('quantile')
 
-    ax2.set_xlim(0, 100)
-    ax2.set_ylim(0, 37)
+    if xbounds:
+        ax2.set_xlim(xbounds[0], xbounds[1])
+    ax2.set_ylim(0, ymax)
     ax2.grid()
     ax2.legend()
     ax2.set_ylabel(ylabel)
@@ -339,7 +348,24 @@ def plot_quantiles_1d_point(da_hist_point, da_ref_point, da_target_point, da_qq_
     plt.show()
 
 
-def single_point_analysis(da_hist, da_ref, da_target, da_qq, ds_adjust, city, lat, lon, months=[]):
+def single_point_analysis(
+    da_hist,
+    da_ref,
+    da_target,
+    da_qq,
+    ds_adjust,
+    city,
+    lat,
+    lon,
+    general_cmap,
+    af_cmap,
+    general_levels,
+    af_levels,
+    pdf_xbounds=None,
+    pdf_ybounds=None,
+    q_xbounds=None,
+    months=[]
+):
     """Plots for a single grid point"""
     
     point_selection = {'lat': lat, 'lon': lon}
@@ -352,14 +378,50 @@ def single_point_analysis(da_hist, da_ref, da_target, da_qq, ds_adjust, city, la
     
     print(city.upper())
     
-    plot_quantiles_2d_point(ds_adjust_point['hist_q'], da_ref_point, da_target_point, quantiles)
-    plot_af_point(ds_adjust_point['af'])
+    #plot_quantiles_2d_point(
+    #    ds_adjust_point['hist_q'],
+    #    da_ref_point,
+    #    da_target_point,
+    #    quantiles,
+    #    general_cmap,
+    #    general_levels
+    #)
+    #plot_af_point(ds_adjust_point['af'], af_cmap, af_levels)
     
-    plot_pdfs_point(da_hist_point, da_ref_point, da_target_point, da_qq_point)
+    plot_pdfs_point(
+        da_hist_point,
+        da_ref_point,
+        da_target_point,
+        da_qq_point,
+        xbounds=pdf_xbounds,
+        ybounds=pdf_ybounds,
+    )
     for month in months:
-        plot_pdfs_point(da_hist_point, da_ref_point, da_target_point, da_qq_point, month=month)
-
-    plot_quantiles_1d_point(da_hist_point, da_ref_point, da_target_point, da_qq_point, quantiles)
+        plot_pdfs_point(
+            da_hist_point,
+            da_ref_point,
+            da_target_point,
+            da_qq_point,
+            month=month,
+            xbounds=pdf_xbounds,
+            ybounds=pdf_ybounds,
+        )
+    plot_quantiles_1d_point(
+        da_hist_point,
+        da_ref_point,
+        da_target_point,
+        da_qq_point,
+        quantiles,
+        xbounds=q_xbounds
+    )
     for month in months:
-        plot_quantiles_1d_point(da_hist_point, da_ref_point, da_target_point, da_qq_point, quantiles, month=month)
+        plot_quantiles_1d_point(
+            da_hist_point,
+            da_ref_point,
+            da_target_point,
+            da_qq_point,
+            quantiles,
+            month=month,
+            xbounds=q_xbounds,
+        )
     
