@@ -1,51 +1,18 @@
 import calendar
 import sys
-import gc
 
-import xarray as xr
-from xclim import sdba
 import matplotlib.pyplot as plt
 import numpy as np
 import cartopy.crs as ccrs
 import xesmf as xe
-import dask.diagnostics
 import cmdline_provenance as cmdprov
-import dask
-import cmocean
-import seaborn as sns
-import pandas as pd
 
 sys.path.append('/g/data/wp00/shared_code/qqscale')
 import utils
 
 
-plot_config = {}
-plot_config['pct_change_levels'] = [64, 72, 80, 88, 96, 104, 112, 120, 128, 136]
-plot_config['pct_diff_levels'] = [-14, -10, -6, -2, 2, 6, 10, 14]
-if hist_var == 'tasmin':
-    plot_config['regular_cmap'] = cmocean.cm.thermal
-    plot_config['diverging_cmap'] = 'RdBu_r'
-    plot_config['general_levels'] = [-1, 0.5, 2, 3.5, 5, 6.5, 8, 9.5, 11, 12.5, 14, 15.5, 17, 18.5, 20, 21.5]
-    plot_config['af_levels'] = None
-    plot_config['difference_levels'] = [0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0]
-elif hist_var == 'tasmax':
-    plot_config['regular_cmap'] = cmocean.cm.thermal
-    plot_config['diverging_cmap'] = 'RdBu_r'
-    plot_config['general_levels'] = [5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30, 32.5, 35]
-    plot_config['af_levels'] = None
-    plot_config['difference_levels'] = [0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.2]
-elif hist_var == 'pr':
-    plot_config['regular_cmap'] = cmocean.cm.rain
-    plot_config['diverging_cmap'] = 'BrBG'
-    plot_config['general_levels'] = [0, 0.01, 10, 20, 30, 40, 50, 60, 70, 80, 90]
-    plot_config['af_levels'] = [0.125, 0.25, 0.5, 0.67, 0.8, 1, 1.25, 1.5, 2, 4, 8]
-    plot_config['difference_levels'] = [-0.55, -0.45, -0.35, -0.25, -0.15, -0.05, 0.05, 0.15, 0.25, 0.35, 0.45, 0.55]
-else:
-    raise ValueError(f'No plotting configuration defined for {hist_var}')
-
-
 def quantile_spatial_plot(
-    da, month, cmap_type, lat_bounds=None, lon_bounds=None, levels=None,
+    da, month, cmap, lat_bounds=None, lon_bounds=None, levels=None, city_lat_lon={},
 ):
     """Spatial plot of the 10th, 50th and 90th percentile"""
     
@@ -56,8 +23,7 @@ def quantile_spatial_plot(
     if lon_bounds:
         lon_min, lon_max = lon_bounds
         da_selection = da_selection.sel(lon=slice(lon_min, lon_max))
-        
-    cmap = plot_config[f'{cmap_type}_cmap']
+
     kwargs = {}
     if levels:
         kwargs['levels'] = levels
@@ -78,6 +44,16 @@ def quantile_spatial_plot(
     )
     for ax in p.axes.flat:
         ax.coastlines()
+        for lat, lon in city_lat_lon.values():
+            ax.plot(
+                lon,
+                lat,
+                marker='o',
+                markerfacecolor='lime',
+                markeredgecolor='none',
+                zorder=5,
+                transform=ccrs.PlateCarree()
+            )
     plt.suptitle(calendar.month_name[month])
     plt.show()
     
@@ -107,14 +83,14 @@ def quantile_month_plot(quantiles, ax, cmap_type, levels=None, extend='both', po
     if title:
         ax.set_title(title)
 
-        
-def projection_spatial_plot():
-    """Spatial plot of GCM projections, QQ-projections and difference."""
+
+def projection_spatial_data(da_hist, da_ref, da_target, da_qq, scaling):
+    """Get data for projection spatial plot."""
     
-    hist_clim = ds_hist[hist_var].mean('time', keep_attrs=True)
-    ref_clim = ds_ref[ref_var].mean('time', keep_attrs=True)
-    target_clim = ds_target[target_var].mean('time', keep_attrs=True)
-    qq_clim = ds_qq[target_var].mean('time', keep_attrs=True)
+    hist_clim = da_hist.mean('time', keep_attrs=True)
+    ref_clim = da_ref.mean('time', keep_attrs=True)
+    target_clim = da_target.mean('time', keep_attrs=True)
+    qq_clim = da_qq.mean('time', keep_attrs=True)
     
     if scaling == 'additive':
         ref_hist_mean_comparison = ref_clim - hist_clim
@@ -131,7 +107,11 @@ def projection_spatial_plot():
     regridder = xe.Regridder(ref_hist_mean_comparison, qq_obs_mean_comparison, "bilinear")
     ref_hist_mean_comparison = regridder(ref_hist_mean_comparison)
     
-    difference = qq_obs_mean_comparison - ref_hist_mean_comparison
+    return ref_hist_mean_comparison, qq_obs_mean_comparison 
+
+
+def projection_spatial_plot(ef_hist_mean_comparison, qq_obs_mean_comparison, cmap, levels, city_lat_lon={}):
+    """Spatial plot of GCM projections, QQ-projections and difference."""
     
     fig = plt.figure(figsize=[24, 6])
 
@@ -139,8 +119,8 @@ def projection_spatial_plot():
     ref_hist_mean_comparison.plot(
         ax=ax1,
         transform=ccrs.PlateCarree(),
-        cmap=plot_config['diverging_cmap'],
-        levels=plot_config['difference_levels'],
+        cmap=cmap,
+        levels=levels,
         extend='both'
     )
     ax1.set_title('ref - hist')
@@ -149,24 +129,35 @@ def projection_spatial_plot():
     qq_obs_mean_comparison.plot(
         ax=ax2,
         transform=ccrs.PlateCarree(),
-        cmap=plot_config['diverging_cmap'],
-        levels=plot_config['difference_levels'],
+        cmap=cmap,
+        levels=levels,
         extend='both'
     )
     ax2.set_title('QQ-scaled - original')
 
+    difference = qq_obs_mean_comparison - ref_hist_mean_comparison
     ax3 = fig.add_subplot(133, projection=ccrs.PlateCarree())
     difference.plot(
         ax=ax3,
         transform=ccrs.PlateCarree(),
-        cmap=plot_config['diverging_cmap'],
-        levels=plot_config['difference_levels'],
+        cmap=cmap,
+        levels=levels,
         extend='both'
     )
     ax3.set_title('Difference')
 
     for ax in [ax1, ax2, ax3]:
         ax.coastlines()
+        for lat, lon in city_lat_lon.values():
+            ax.plot(
+                lon,
+                lat,
+                marker='o',
+                markerfacecolor='lime',
+                markeredgecolor='none',
+                zorder=5,
+                transform=ccrs.PlateCarree()
+            )
     xmin, xmax = ax3.get_xlim()
     ymin, ymax = ax3.get_ylim()
     ax1.set_extent([xmin, xmax, ymin, ymax], crs=ccrs.PlateCarree())
@@ -174,8 +165,7 @@ def projection_spatial_plot():
 
     plt.show()
 
-    
-#ds_adjust['hist_q'].sel(point_selection, method='nearest')
+
 def plot_quantiles_2d_point(da_hist_q_point, da_ref_point, da_target_point, quantiles):
     """Plot historical, reference and target quantiles for a single grid point."""
     
@@ -349,16 +339,18 @@ def plot_quantiles_1d_point(da_hist_point, da_ref_point, da_target_point, da_qq_
     plt.show()
 
 
-# ds_hist[hist_var], ds_ref[ref_var], ds_target[target_var], ds_qq[target_var]
-def single_point_analysis(da_hist, da_ref, da_target, da_qq, ds_adjust, point_selection, months=[]):
+def single_point_analysis(da_hist, da_ref, da_target, da_qq, ds_adjust, city, lat, lon, months=[]):
     """Plots for a single grid point"""
     
-    da_hist_point = ds_hist[hist_var].sel(point_selection, method='nearest')
-    da_ref_point = ds_ref[ref_var].sel(point_selection, method='nearest')
-    da_target_point = ds_target[target_var].sel(point_selection, method='nearest')
-    da_qq_point = ds_qq[target_var].sel(point_selection, method='nearest')
+    point_selection = {'lat': lat, 'lon': lon}
+    da_hist_point = da_hist.sel(point_selection, method='nearest')
+    da_ref_point = da_ref.sel(point_selection, method='nearest')
+    da_target_point = da_target.sel(point_selection, method='nearest')
+    da_qq_point = da_qq.sel(point_selection, method='nearest')
     ds_adjust_point = ds_adjust.sel(point_selection, method='nearest')
     quantiles = ds_adjust['quantiles'].data
+    
+    print(city.upper())
     
     plot_quantiles_2d_point(ds_adjust_point['hist_q'], da_ref_point, da_target_point, quantiles)
     plot_af_point(ds_adjust_point['af'])
