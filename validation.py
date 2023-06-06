@@ -66,30 +66,119 @@ def quantile_month_plot(quantiles, ax, cmap, levels, extend='both', point=None, 
         ax.set_title(title)
 
 
-def projection_spatial_data(da_hist, da_ref, da_target, da_qq, scaling):
-    """Get data for projection spatial plot."""
-    
-    hist_clim = da_hist.mean('time', keep_attrs=True)
-    ref_clim = da_ref.mean('time', keep_attrs=True)
-    target_clim = da_target.mean('time', keep_attrs=True)
-    qq_clim = da_qq.mean('time', keep_attrs=True)
+def spatial_data(da_hist, da_ref, da_target, da_qq, scaling, time_agg='mean'):
+    """Get data for spatial plots."""
+
+    if time_agg == 'mean':
+        hist_agg = da_hist.mean('time', keep_attrs=True)
+        ref_agg = da_ref.mean('time', keep_attrs=True)
+        target_agg = da_target.mean('time', keep_attrs=True)
+        qq_agg = da_qq.mean('time', keep_attrs=True)
+    elif time_agg == '99pct':
+        hist_agg = da_hist.quantile(0.99, dim='time', keep_attrs=True)
+        ref_agg = da_ref.quantile(0.99, dim='time', keep_attrs=True)
+        target_agg = da_target.quantile(0.99, dim='time', keep_attrs=True)
+        qq_agg = da_qq.quantile(0.99, dim='time', keep_attrs=True)
+    hist_attrs = hist_agg.attrs
     
     if scaling == 'additive':
-        ref_hist_mean_comparison = ref_clim - hist_clim
+        ref_hist_comparison = ref_agg - hist_agg
     elif scaling == 'multiplicative':
-        ref_hist_mean_comparison = (ref_clim / hist_clim) * 100
-    ref_hist_mean_comparison = ref_hist_mean_comparison.compute()
+        ref_hist_comparison = (ref_agg / hist_agg) * 100
+    ref_hist_comparison = ref_hist_comparison.compute()
     
     if scaling == 'additive':
-        qq_obs_mean_comparison = qq_clim - target_clim
+        qq_obs_comparison = qq_agg - target_agg
     elif scaling == 'multiplicative':
-        qq_obs_mean_comparison = (qq_clim / target_clim) * 100
-    qq_obs_mean_comparison = qq_obs_mean_comparison.compute()
+        qq_obs_comparison = (qq_agg / target_agg) * 100
+    qq_obs_comparison = qq_obs_comparison.compute()
     
-    regridder = xe.Regridder(ref_hist_mean_comparison, qq_obs_mean_comparison, "bilinear")
-    ref_hist_mean_comparison = regridder(ref_hist_mean_comparison)
+    regridder = xe.Regridder(ref_hist_comparison, qq_obs_comparison, "bilinear")
+    ref_hist_comparison = regridder(ref_hist_comparison)
     
-    return ref_hist_mean_comparison, qq_obs_mean_comparison 
+    regridder = xe.Regridder(hist_agg, target_agg, "bilinear")
+    hist_agg = regridder(hist_agg)
+    
+    hist_agg.attrs = hist_attrs
+    ref_hist_comparison.attrs = hist_attrs
+    qq_obs_comparison.attrs = hist_attrs
+    if scaling == 'multiplicative':
+        ref_hist_comparison.attrs['units'] = '% change'
+        qq_obs_comparison.attrs['units'] = '% change'
+    hist_agg = hist_agg.compute()
+    target_agg = target_agg.compute()
+    
+    return hist_agg, target_agg, ref_hist_comparison, qq_obs_comparison 
+
+
+def bias_spatial_plot(
+    hist_clim,
+    target_clim,
+    clim_cmap,
+    diff_cmap,
+    clim_levels,
+    diff_levels,
+    mask=None,
+    city_lat_lon={}
+):
+    """Spatial plot of observed climatology, historical climatology and difference."""
+    
+    if mask is not None:
+        hist_clim = hist_clim.where(mask)
+        target_clim = target_clim.where(mask)
+    
+    fig = plt.figure(figsize=[24, 6])
+
+    ax1 = fig.add_subplot(131, projection=ccrs.PlateCarree())
+    hist_clim.plot(
+        ax=ax1,
+        transform=ccrs.PlateCarree(),
+        cmap=clim_cmap,
+        levels=clim_levels,
+        extend='max'
+    )
+    ax1.set_title('historical (model) climatology')
+    
+    ax2 = fig.add_subplot(132, projection=ccrs.PlateCarree())
+    target_clim.plot(
+        ax=ax2,
+        transform=ccrs.PlateCarree(),
+        cmap=clim_cmap,
+        levels=clim_levels,
+        extend='max'
+    )
+    ax2.set_title('observed climatology')
+
+    difference = hist_clim - target_clim
+    difference.attrs = hist_clim.attrs
+    ax3 = fig.add_subplot(133, projection=ccrs.PlateCarree())
+    difference.plot(
+        ax=ax3,
+        transform=ccrs.PlateCarree(),
+        cmap=diff_cmap,
+        levels=diff_levels,
+        extend='both'
+    )
+    ax3.set_title('Difference (historical - observed)')
+
+    for ax in [ax1, ax2, ax3]:
+        ax.coastlines()
+        for lat, lon in city_lat_lon.values():
+            ax.plot(
+                lon,
+                lat,
+                marker='o',
+                markerfacecolor='lime',
+                markeredgecolor='none',
+                zorder=5,
+                transform=ccrs.PlateCarree()
+            )
+    xmin, xmax = ax3.get_xlim()
+    ymin, ymax = ax3.get_ylim()
+    ax1.set_extent([xmin, xmax, ymin, ymax], crs=ccrs.PlateCarree())
+    ax2.set_extent([xmin, xmax, ymin, ymax], crs=ccrs.PlateCarree())
+    plt.suptitle('Model bias')
+    plt.show()
 
 
 def projection_spatial_plot(
@@ -98,9 +187,14 @@ def projection_spatial_plot(
     cmap,
     comparison_levels,
     diff_levels,
+    mask=None,
     city_lat_lon={}
 ):
     """Spatial plot of GCM projections, QQ-projections and difference."""
+    
+    if mask is not None:
+        ref_hist_mean_comparison = ref_hist_mean_comparison.where(mask)
+        qq_obs_mean_comparison = qq_obs_mean_comparison.where(mask)
     
     fig = plt.figure(figsize=[24, 6])
 
@@ -151,60 +245,100 @@ def projection_spatial_plot(
     ymin, ymax = ax3.get_ylim()
     ax1.set_extent([xmin, xmax, ymin, ymax], crs=ccrs.PlateCarree())
     ax2.set_extent([xmin, xmax, ymin, ymax], crs=ccrs.PlateCarree())
-
+    plt.suptitle('Projections')
     plt.show()
 
 
-def plot_quantiles_2d_point(da_hist_q_point, da_ref_point, da_target_point, quantiles, cmap, levels):
+def plot_quantiles_2d_point(
+    da_hist_q_point,
+    da_ref_point,
+    da_target_point,
+    da_af_point,
+    quantiles,
+    general_cmap,
+    af_cmap,
+    diff_cmap,
+    general_levels,
+    af_levels,
+    diff_levels,
+):
     """Plot historical, reference and target quantiles for a single grid point."""
     
     da_ref_q_point = utils.get_quantiles(da_ref_point, quantiles, timescale='monthly')
     da_target_q_point = utils.get_quantiles(da_target_point, quantiles, timescale='monthly')
     
-    fig = plt.figure(figsize=[20, 17])
-    ax1 = fig.add_subplot(311)
-    ax2 = fig.add_subplot(312)
-    ax3 = fig.add_subplot(313)
+    fig = plt.figure(figsize=[20, 42])
+    ax1 = fig.add_subplot(711)
+    ax2 = fig.add_subplot(712)
+    ax3 = fig.add_subplot(713)
+    ax4 = fig.add_subplot(714)
+    ax5 = fig.add_subplot(715)
+    ax6 = fig.add_subplot(716)
+    ax7 = fig.add_subplot(717)
     
+    da_ref_q_point.attrs = da_target_point.attrs
     quantile_month_plot(
         da_ref_q_point,
         ax1,
-        cmap,
-        levels,
-        title='reference',
+        general_cmap,
+        general_levels,
+        title='reference quantiles',
         extend='max',
     )
+    da_hist_q_point.attrs = da_target_point.attrs
     quantile_month_plot(
         da_hist_q_point,
         ax2,
-        cmap,
-        levels,
-        title='historical',
+        general_cmap,
+        general_levels,
+        title='historical quantiles',
         extend='max',
     )
+    da_target_q_point.attrs = da_target_point.attrs
     quantile_month_plot(
         da_target_q_point,
         ax3,
-        cmap,
-        levels,
-        title='target (obs)',
+        general_cmap,
+        general_levels,
+        title='target (obs) quantiles',
         extend='max',
     )
-    plt.show()
-
-
-def plot_af_point(da_af_point, cmap, levels):
-    """Plot adjustment factors for a single grid point"""
-    
-    fig = plt.figure(figsize=[12, 5])
-    ax1 = fig.add_subplot(111)
-
     quantile_month_plot(
         da_af_point,
-        ax1,
-        cmap,
-        levels,
+        ax4,
+        af_cmap,
+        af_levels,
         title='adjustment factors'
+    )
+    model_adjustment = (da_hist_q_point * da_af_point) - da_hist_q_point
+    model_adjustment.attrs = da_target_point.attrs
+    quantile_month_plot(
+        model_adjustment,
+        ax5,
+        diff_cmap,
+        diff_levels,
+        title='model adjustments',
+        extend='both',
+    )
+    qq_adjustment = (da_target_q_point * da_af_point) - da_target_q_point
+    qq_adjustment.attrs = da_target_point.attrs
+    quantile_month_plot(
+        qq_adjustment,
+        ax6,
+        diff_cmap,
+        diff_levels,
+        title='qq adjustments',
+        extend='both',
+    )
+    diff = qq_adjustment - model_adjustment
+    diff.attrs = da_target_point.attrs
+    quantile_month_plot(
+        diff,
+        ax7,
+        diff_cmap,
+        diff_levels,
+        title='qq minus model adjustments',
+        extend='both',
     )
     plt.show()
     
@@ -225,8 +359,8 @@ def plot_pdfs_point(
         qq_point = qq_point[qq_point['time'].dt.month == month]        
     
     fig = plt.figure(figsize=[15, 5])
-    ax1 = fig.add_subplot(122)
-    ax2 = fig.add_subplot(121)
+    ax1 = fig.add_subplot(121)
+    ax2 = fig.add_subplot(122)
     bins = np.arange(0, 150, 1)
     target_point.plot.hist(
         ax=ax1,
@@ -359,8 +493,10 @@ def single_point_analysis(
     lon,
     general_cmap,
     af_cmap,
+    diff_cmap,
     general_levels,
     af_levels,
+    diff_levels,
     pdf_xbounds=None,
     pdf_ybounds=None,
     q_xbounds=None,
@@ -378,34 +514,19 @@ def single_point_analysis(
     
     print(city.upper())
     
-    #plot_quantiles_2d_point(
-    #    ds_adjust_point['hist_q'],
-    #    da_ref_point,
-    #    da_target_point,
-    #    quantiles,
-    #    general_cmap,
-    #    general_levels
-    #)
-    #plot_af_point(ds_adjust_point['af'], af_cmap, af_levels)
-    
-    plot_pdfs_point(
-        da_hist_point,
+    plot_quantiles_2d_point(
+        ds_adjust_point['hist_q'],
         da_ref_point,
         da_target_point,
-        da_qq_point,
-        xbounds=pdf_xbounds,
-        ybounds=pdf_ybounds,
+        ds_adjust_point['af'],
+        quantiles,
+        general_cmap,
+        af_cmap,
+        diff_cmap,
+        general_levels,
+        af_levels,
+        diff_levels,
     )
-    for month in months:
-        plot_pdfs_point(
-            da_hist_point,
-            da_ref_point,
-            da_target_point,
-            da_qq_point,
-            month=month,
-            xbounds=pdf_xbounds,
-            ybounds=pdf_ybounds,
-        )
     plot_quantiles_1d_point(
         da_hist_point,
         da_ref_point,
@@ -423,5 +544,23 @@ def single_point_analysis(
             quantiles,
             month=month,
             xbounds=q_xbounds,
+        )
+    plot_pdfs_point(
+        da_hist_point,
+        da_ref_point,
+        da_target_point,
+        da_qq_point,
+        xbounds=pdf_xbounds,
+        ybounds=pdf_ybounds,
+    )
+    for month in months:
+        plot_pdfs_point(
+            da_hist_point,
+            da_ref_point,
+            da_target_point,
+            da_qq_point,
+            month=month,
+            xbounds=pdf_xbounds,
+            ybounds=pdf_ybounds,
         )
     
