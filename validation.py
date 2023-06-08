@@ -500,7 +500,9 @@ def single_point_analysis(
     pdf_xbounds=None,
     pdf_ybounds=None,
     q_xbounds=None,
-    months=[]
+    months=[],
+    plot_1d_quantiles=True,
+    plot_pdfs=True,
 ):
     """Plots for a single grid point"""
     
@@ -527,40 +529,41 @@ def single_point_analysis(
         af_levels,
         diff_levels,
     )
-    plot_quantiles_1d_point(
-        da_hist_point,
-        da_ref_point,
-        da_target_point,
-        da_qq_point,
-        quantiles,
-        xbounds=q_xbounds
-    )
-    for month in months:
+    if plot_1d_quantiles:
         plot_quantiles_1d_point(
             da_hist_point,
             da_ref_point,
             da_target_point,
             da_qq_point,
             quantiles,
-            month=month,
-            xbounds=q_xbounds,
+            xbounds=q_xbounds
         )
-    plot_pdfs_point(
-        da_hist_point,
-        da_ref_point,
-        da_target_point,
-        da_qq_point,
-        xbounds=pdf_xbounds,
-        ybounds=pdf_ybounds,
-    )
-    for month in months:
+        for month in months:
+            plot_quantiles_1d_point(
+                da_hist_point,
+                da_ref_point,
+                da_target_point,
+                da_qq_point,
+                quantiles,
+                month=month,
+                xbounds=q_xbounds,
+            )
+    if plot_pdfs:
         plot_pdfs_point(
             da_hist_point,
             da_ref_point,
             da_target_point,
             da_qq_point,
-            month=month,
             xbounds=pdf_xbounds,
             ybounds=pdf_ybounds,
         )
-    
+        for month in months:
+            plot_pdfs_point(
+                da_hist_point,
+                da_ref_point,
+                da_target_point,
+                da_qq_point,
+                month=month,
+                xbounds=pdf_xbounds,
+                ybounds=pdf_ybounds,
+        )
