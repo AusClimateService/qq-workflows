@@ -66,88 +66,105 @@ def quantile_month_plot(quantiles, ax, cmap, levels, extend='both', point=None, 
         ax.set_title(title)
 
 
-def spatial_data(da_hist, da_ref, da_target, da_qq, scaling, time_agg='mean'):
-    """Get data for spatial plots."""
+def spatial_mean_data(da_hist, da_ref, da_target, da_qq, scaling):
+    """Get climatology data for spatial plots."""
 
-    if time_agg == 'mean':
-        hist_agg = da_hist.mean('time', keep_attrs=True)
-        ref_agg = da_ref.mean('time', keep_attrs=True)
-        target_agg = da_target.mean('time', keep_attrs=True)
-        qq_agg = da_qq.mean('time', keep_attrs=True)
-    elif time_agg == '99pct':
-        hist_agg = da_hist.quantile(0.99, dim='time', keep_attrs=True)
-        ref_agg = da_ref.quantile(0.99, dim='time', keep_attrs=True)
-        target_agg = da_target.quantile(0.99, dim='time', keep_attrs=True)
-        qq_agg = da_qq.quantile(0.99, dim='time', keep_attrs=True)
-    hist_attrs = hist_agg.attrs
+    hist_clim = da_hist.mean('time', keep_attrs=True)
+    ref_clim = da_ref.mean('time', keep_attrs=True)
+    target_clim = da_target.mean('time', keep_attrs=True)
+    qq_clim = da_qq.mean('time', keep_attrs=True)
+    hist_attrs = hist_clim.attrs
     
     if scaling == 'additive':
-        ref_hist_comparison = ref_agg - hist_agg
+        ref_hist_comparison = ref_clim - hist_clim
     elif scaling == 'multiplicative':
-        ref_hist_comparison = (ref_agg / hist_agg) * 100
+        ref_hist_comparison = (ref_clim / hist_clim) * 100
     ref_hist_comparison = ref_hist_comparison.compute()
     
     if scaling == 'additive':
-        qq_obs_comparison = qq_agg - target_agg
+        qq_obs_comparison = qq_clim - target_clim
     elif scaling == 'multiplicative':
-        qq_obs_comparison = (qq_agg / target_agg) * 100
+        qq_obs_comparison = (qq_clim / target_clim) * 100
     qq_obs_comparison = qq_obs_comparison.compute()
     
     regridder = xe.Regridder(ref_hist_comparison, qq_obs_comparison, "bilinear")
     ref_hist_comparison = regridder(ref_hist_comparison)
     
-    regridder = xe.Regridder(hist_agg, target_agg, "bilinear")
-    hist_agg = regridder(hist_agg)
+    regridder = xe.Regridder(hist_clim, target_clim, "bilinear")
+    hist_agg = regridder(hist_clim)
     
-    hist_agg.attrs = hist_attrs
+    hist_clim.attrs = hist_attrs
     ref_hist_comparison.attrs = hist_attrs
     qq_obs_comparison.attrs = hist_attrs
     if scaling == 'multiplicative':
         ref_hist_comparison.attrs['units'] = '% change'
         qq_obs_comparison.attrs['units'] = '% change'
-    hist_agg = hist_agg.compute()
-    target_agg = target_agg.compute()
+    hist_clim = hist_clim.compute()
+    target_clim = target_clim.compute()
     
-    return hist_agg, target_agg, ref_hist_comparison, qq_obs_comparison 
+    return hist_clim, target_clim, ref_hist_comparison, qq_obs_comparison 
+
+
+def spatial_std_data(da_hist, da_target):
+    """Get climatology data for spatial plots."""
+
+    hist_std = da_hist.std('time', keep_attrs=True)
+    target_std = da_target.std('time', keep_attrs=True)
+    hist_attrs = hist_std.attrs
+    hist_std = hist_std.compute()
+    target_std = target_std.compute()
+
+    regridder = xe.Regridder(hist_std, target_std, "bilinear")
+    hist_std = regridder(hist_std)
+    hist_std = hist_std.compute()
+    hist_std.attrs = hist_attrs
+    
+    return hist_std, target_std
 
 
 def bias_spatial_plot(
-    hist_clim,
-    target_clim,
-    clim_cmap,
+    hist_agg,
+    target_agg,
+    agg_cmap,
     diff_cmap,
-    clim_levels,
+    agg_levels,
     diff_levels,
+    agg='mean',
     mask=None,
     city_lat_lon={}
 ):
     """Spatial plot of observed climatology, historical climatology and difference."""
     
     if mask is not None:
-        hist_clim = hist_clim.where(mask)
-        target_clim = target_clim.where(mask)
-    
+        hist_agg = hist_agg.where(mask)
+        target_agg = target_agg.where(mask)
+
+    if agg == 'mean':
+        title_agg = 'climatology'
+    elif agg == 'std':
+        title_agg = 'standard deviation'    
+
     fig = plt.figure(figsize=[24, 6])
 
     ax1 = fig.add_subplot(131, projection=ccrs.PlateCarree())
-    hist_clim.plot(
+    hist_agg.plot(
         ax=ax1,
         transform=ccrs.PlateCarree(),
-        cmap=clim_cmap,
-        levels=clim_levels,
+        cmap=agg_cmap,
+        levels=agg_levels,
         extend='max'
     )
-    ax1.set_title('historical (model) climatology')
+    ax1.set_title(f'historical (model) {title_agg}')
     
     ax2 = fig.add_subplot(132, projection=ccrs.PlateCarree())
-    target_clim.plot(
+    target_agg.plot(
         ax=ax2,
         transform=ccrs.PlateCarree(),
-        cmap=clim_cmap,
-        levels=clim_levels,
+        cmap=agg_cmap,
+        levels=agg_levels,
         extend='max'
     )
-    ax2.set_title('observed climatology')
+    ax2.set_title(f'observed {title_agg}')
 
     difference = hist_clim - target_clim
     difference.attrs = hist_clim.attrs
@@ -177,7 +194,7 @@ def bias_spatial_plot(
     ymin, ymax = ax3.get_ylim()
     ax1.set_extent([xmin, xmax, ymin, ymax], crs=ccrs.PlateCarree())
     ax2.set_extent([xmin, xmax, ymin, ymax], crs=ccrs.PlateCarree())
-    plt.suptitle('Model bias')
+    plt.suptitle(f'Model bias ({title_agg})')
     plt.show()
 
 
