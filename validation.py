@@ -78,13 +78,13 @@ def spatial_mean_data(da_hist, da_ref, da_target, da_qq, scaling):
     if scaling == 'additive':
         ref_hist_comparison = ref_clim - hist_clim
     elif scaling == 'multiplicative':
-        ref_hist_comparison = (ref_clim / hist_clim) * 100
+        ref_hist_comparison = ((ref_clim - hist_clim) / hist_clim) * 100
     ref_hist_comparison = ref_hist_comparison.compute()
     
     if scaling == 'additive':
         qq_obs_comparison = qq_clim - target_clim
     elif scaling == 'multiplicative':
-        qq_obs_comparison = (qq_clim / target_clim) * 100
+        qq_obs_comparison = ((qq_clim - target_clim) / target_clim) * 100
     qq_obs_comparison = qq_obs_comparison.compute()
     
     regridder = xe.Regridder(ref_hist_comparison, qq_obs_comparison, "bilinear")
@@ -126,12 +126,13 @@ def bias_spatial_plot(
     hist_agg,
     target_agg,
     agg_cmap,
-    diff_cmap,
+    comparison_cmap,
     agg_levels,
-    diff_levels,
+    comparison_levels,
     agg='mean',
     mask=None,
-    city_lat_lon={}
+    city_lat_lon={},
+    comparison_method='difference'
 ):
     """Spatial plot of observed climatology, historical climatology and difference."""
     
@@ -166,17 +167,22 @@ def bias_spatial_plot(
     )
     ax2.set_title(f'observed {title_agg}')
 
-    difference = hist_clim - target_clim
-    difference.attrs = hist_clim.attrs
+    if comparison_method == 'difference':
+        comparison = hist_agg - target_agg
+        title_op = '-'
+    elif comparison_method == 'pct':
+        comparison = ((hist_agg - target_agg) / target_agg) * 100
+        title_op = '/'
+    comparison.attrs = hist_agg.attrs
     ax3 = fig.add_subplot(133, projection=ccrs.PlateCarree())
-    difference.plot(
+    comparison.plot(
         ax=ax3,
         transform=ccrs.PlateCarree(),
-        cmap=diff_cmap,
-        levels=diff_levels,
+        cmap=comparison_cmap,
+        levels=comparison_levels,
         extend='both'
     )
-    ax3.set_title('Difference (historical - observed)')
+    ax3.set_title(f'Comparison (historical {title_op} observed)')
 
     for ax in [ax1, ax2, ax3]:
         ax.coastlines()
