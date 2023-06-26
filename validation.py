@@ -91,7 +91,7 @@ def spatial_mean_data(da_hist, da_ref, da_target, da_qq, scaling):
     ref_hist_comparison = regridder(ref_hist_comparison)
     
     regridder = xe.Regridder(hist_clim, target_clim, "bilinear")
-    hist_agg = regridder(hist_clim)
+    hist_clim = regridder(hist_clim)
     
     hist_clim.attrs = hist_attrs
     ref_hist_comparison.attrs = hist_attrs
@@ -524,6 +524,7 @@ def single_point_analysis(
     pdf_ybounds=None,
     q_xbounds=None,
     months=[],
+    plot_2d_quantiles=True,
     plot_1d_quantiles=True,
     plot_pdfs=True,
 ):
@@ -539,19 +540,20 @@ def single_point_analysis(
     
     print(city.upper())
     
-    plot_quantiles_2d_point(
-        ds_adjust_point['hist_q'],
-        da_ref_point,
-        da_target_point,
-        ds_adjust_point['af'],
-        quantiles,
-        general_cmap,
-        af_cmap,
-        diff_cmap,
-        general_levels,
-        af_levels,
-        diff_levels,
-    )
+    if plot_2d_quantiles:
+        plot_quantiles_2d_point(
+            ds_adjust_point['hist_q'],
+            da_ref_point,
+            da_target_point,
+            ds_adjust_point['af'],
+            quantiles,
+            general_cmap,
+            af_cmap,
+            diff_cmap,
+            general_levels,
+            af_levels,
+            diff_levels,
+        )
     if plot_1d_quantiles:
         plot_quantiles_1d_point(
             da_hist_point,
