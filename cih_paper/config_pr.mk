@@ -4,6 +4,8 @@
 
 METHOD=qdm
 SCALING=multiplicative
+#GROUPING=
+GROUPING=--time_grouping monthly
 OUTPUT_UNITS="mm day-1"
 SSR=--ssr
 MEAN_MATCH_TIMESCALE=monthly
