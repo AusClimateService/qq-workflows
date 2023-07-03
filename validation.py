@@ -66,8 +66,8 @@ def quantile_month_plot(quantiles, ax, cmap, levels, extend='both', point=None, 
         ax.set_title(title)
 
 
-def spatial_mean_data(da_hist, da_ref, da_target, da_qq, scaling):
-    """Get climatology data for spatial plots."""
+def spatial_qdm_data(da_hist, da_ref, da_target, da_qq, scaling):
+    """Get climatology data for QDM spatial plots."""
 
     hist_clim = da_hist.mean('time', keep_attrs=True)
     ref_clim = da_ref.mean('time', keep_attrs=True)
@@ -93,7 +93,6 @@ def spatial_mean_data(da_hist, da_ref, da_target, da_qq, scaling):
     regridder = xe.Regridder(hist_clim, target_clim, "bilinear")
     hist_clim = regridder(hist_clim)
     
-    hist_clim.attrs = hist_attrs
     ref_hist_comparison.attrs = hist_attrs
     qq_obs_comparison.attrs = hist_attrs
     if scaling == 'multiplicative':
@@ -105,21 +104,40 @@ def spatial_mean_data(da_hist, da_ref, da_target, da_qq, scaling):
     return hist_clim, target_clim, ref_hist_comparison, qq_obs_comparison 
 
 
-def spatial_std_data(da_hist, da_target):
-    """Get climatology data for spatial plots."""
+def spatial_ecdfm_data(da_hist, da_ref, da_target, da_qq, scaling):
+    """Get climatology data for eCDFm spatial plots."""
 
-    hist_std = da_hist.std('time', keep_attrs=True)
-    target_std = da_target.std('time', keep_attrs=True)
-    hist_attrs = hist_std.attrs
-    hist_std = hist_std.compute()
-    target_std = target_std.compute()
-
-    regridder = xe.Regridder(hist_std, target_std, "bilinear")
-    hist_std = regridder(hist_std)
-    hist_std = hist_std.compute()
-    hist_std.attrs = hist_attrs
+    hist_clim = da_hist.mean('time', keep_attrs=True).compute()
+    ref_clim = da_ref.mean('time', keep_attrs=True).compute()
+    target_clim = da_target.mean('time', keep_attrs=True).compute()
+    qq_clim = da_qq.mean('time', keep_attrs=True).compute()
+    hist_attrs = hist_clim.attrs
     
-    return hist_std, target_std
+    regridder = xe.Regridder(hist_clim, ref_clim, "bilinear")
+    hist_clim_regridded = regridder(hist_clim)
+    
+    regridder = xe.Regridder(target_clim, qq_clim, "bilinear")
+    target_clim_regridded = regridder(target_clim)
+
+    if scaling == 'additive':
+        ref_hist_comparison = ref_clim - hist_clim_regridded
+    elif scaling == 'multiplicative':
+        ref_hist_comparison = ((ref_clim - hist_clim_regridded) / hist_clim_regridded) * 100
+    ref_hist_comparison = ref_hist_comparison.compute()
+    
+    if scaling == 'additive':
+        qq_target_comparison = qq_clim - target_clim_regridded
+    elif scaling == 'multiplicative':
+        qq_target_comparison = ((qq_clim - target_clim_regridded) / target_clim_regridded) * 100
+    qq_target_comparison = qq_target_comparison.compute()
+        
+    ref_hist_comparison.attrs = hist_attrs
+    qq_target_comparison.attrs = hist_attrs
+    if scaling == 'multiplicative':
+        ref_hist_comparison.attrs['units'] = '% change'
+        qq_target_comparison.attrs['units'] = '% change'
+    
+    return hist_clim, target_clim, ref_hist_comparison, qq_obs_comparison 
 
 
 def bias_spatial_plot(
@@ -290,14 +308,11 @@ def plot_quantiles_2d_point(
     da_ref_q_point = utils.get_quantiles(da_ref_point, quantiles, timescale='monthly')
     da_target_q_point = utils.get_quantiles(da_target_point, quantiles, timescale='monthly')
     
-    fig = plt.figure(figsize=[20, 42])
-    ax1 = fig.add_subplot(711)
-    ax2 = fig.add_subplot(712)
-    ax3 = fig.add_subplot(713)
-    ax4 = fig.add_subplot(714)
-    ax5 = fig.add_subplot(715)
-    ax6 = fig.add_subplot(716)
-    ax7 = fig.add_subplot(717)
+    fig = plt.figure(figsize=[20, 24])
+    ax1 = fig.add_subplot(411)
+    ax2 = fig.add_subplot(412)
+    ax3 = fig.add_subplot(413)
+    ax4 = fig.add_subplot(414)
     
     da_ref_q_point.attrs = da_target_point.attrs
     quantile_month_plot(
@@ -323,7 +338,7 @@ def plot_quantiles_2d_point(
         ax3,
         general_cmap,
         general_levels,
-        title='target (obs) quantiles',
+        title='target quantiles',
         extend='max',
     )
     quantile_month_plot(
@@ -333,43 +348,13 @@ def plot_quantiles_2d_point(
         af_levels,
         title='adjustment factors'
     )
-    model_adjustment = (da_hist_q_point * da_af_point) - da_hist_q_point
-    model_adjustment.attrs = da_target_point.attrs
-    quantile_month_plot(
-        model_adjustment,
-        ax5,
-        diff_cmap,
-        diff_levels,
-        title='model adjustments',
-        extend='both',
-    )
-    qq_adjustment = (da_target_q_point * da_af_point) - da_target_q_point
-    qq_adjustment.attrs = da_target_point.attrs
-    quantile_month_plot(
-        qq_adjustment,
-        ax6,
-        diff_cmap,
-        diff_levels,
-        title='qq adjustments',
-        extend='both',
-    )
-    diff = qq_adjustment - model_adjustment
-    diff.attrs = da_target_point.attrs
-    quantile_month_plot(
-        diff,
-        ax7,
-        diff_cmap,
-        diff_levels,
-        title='qq minus model adjustments',
-        extend='both',
-    )
     plt.show()
     
 
 def plot_pdfs_point(
     da_hist_point, da_ref_point, da_target_point, da_qq_point, xbounds=None, ybounds=None, month=None
 ):
-    """Plot observed, historical and qq-scaled PDFs for a single grid point"""
+    """Plot PDFs for a single grid point"""
 
     hist_point = da_hist_point.copy()
     ref_point = da_ref_point.copy()
@@ -385,11 +370,11 @@ def plot_pdfs_point(
     ax1 = fig.add_subplot(121)
     ax2 = fig.add_subplot(122)
     bins = np.arange(0, 150, 1)
-    target_point.plot.hist(
+    ref_point.plot.hist(
         ax=ax1,
         bins=bins,
         density=True,
-        label='observations',
+        label='reference',
         facecolor='tab:green',
         alpha=0.5,
         rwidth=0.9,
@@ -398,7 +383,7 @@ def plot_pdfs_point(
         ax=ax1,
         bins=bins,
         density=True,
-        label='histotical data',
+        label='histotical',
         facecolor='tab:blue',
         alpha=0.5,
         rwidth=0.9,
@@ -415,7 +400,7 @@ def plot_pdfs_point(
         ax=ax2,
         bins=bins,
         density=True,
-        label='observations',
+        label='target',
         facecolor='tab:green',
         alpha=0.5,
         rwidth=0.9,
@@ -469,22 +454,22 @@ def plot_quantiles_1d_point(
     qq_q_point = utils.get_quantiles(qq_point, quantiles, timescale='annual')
     
     fig = plt.figure(figsize=[15, 5])
-    ax1 = fig.add_subplot(122)
-    ax2 = fig.add_subplot(121)
+    ax1 = fig.add_subplot(121)
+    ax2 = fig.add_subplot(122)
 
-    obs_data = target_q_point.values
+    target_data = target_q_point.values
     qq_data = qq_q_point.values
     hist_data = hist_q_point.values
-    future_data = ref_q_point.values
+    ref_data = ref_q_point.values
 
-    ax1.bar(quantiles * 100, obs_data, alpha=0.5, label='observations')
-    ax1.bar(quantiles * 100, qq_data, alpha=0.5, label='qq-scaled data')
-    ax2.bar(quantiles * 100, hist_data, alpha=0.5, label='historical')
-    ax2.bar(quantiles * 100, future_data, alpha=0.5, label='ssp370')
+    ax1.bar(quantiles * 100, hist_data, alpha=0.5, label='historical')
+    ax1.bar(quantiles * 100, ref_data, alpha=0.5, label='reference')
+    ax2.bar(quantiles * 100, target_data, alpha=0.5, label='target')
+    ax2.bar(quantiles * 100, qq_data, alpha=0.5, label='qq-scaled data')
 
     ylabel = f"""{da_target_point.attrs['long_name']} ({da_target_point.attrs['units']})"""
 
-    ymax = np.max(np.concatenate([obs_data, qq_data, hist_data, future_data])) + 1
+    ymax = np.max(np.concatenate([target_data, qq_data, hist_data, reference_data])) + 1
     if xbounds:
         ax1.set_xlim(xbounds[0], xbounds[1])
     ax1.set_ylim(0, ymax)
@@ -505,12 +490,78 @@ def plot_quantiles_1d_point(
     plt.show()
 
 
+def plot_seasonal_cycle(
+    da_hist_point,
+    da_ref_point,
+    da_target_point,
+    da_qq_point,
+):
+    """Plot seasonal cycle"""
+
+    point_data = {}
+    point_data['hist'] = da_hist_point.copy()
+    point_data['ref'] = da_ref_point.copy()
+    point_data['target'] = da_target_point.copy()
+    point_data['qq'] = da_qq_point.copy()
+
+    xticks = np.arange(1, 13)
+    xtick_labels = [calendar.month_abbr[i] for i in xticks]
+
+    fig = plt.figure(figsize=[15, 10])
+    for label in ['hist', 'ref', 'target', 'qq']:
+        da_point = point_data[label]
+        annual_mean = da_point.data.mean()
+        monthly_anomalies = da_point.groupby('time.month').mean('time') - annual_mean
+        plt.plot(xticks, monthly anomalies, label=label, marker='o')
+
+    plt.title('Monthly climatology')
+    plt.legend()
+    plt.ylabel('monthly mean anomaly (vs annual mean)')
+    plt.xticks(xticks, xtick_labels)
+    plt.grid()
+    plt.show()
+
+
+def plot_seasonal_totals(
+    da_hist_point,
+    da_ref_point,
+    da_target_point,
+    da_qq_point,
+):
+    """Plot rainfall seasonal cycle"""
+
+    point_data = {}
+    point_data['hist'] = da_hist_point.copy()
+    point_data['ref'] = da_ref_point.copy()
+    point_data['target'] = da_target_point.copy()
+    point_data['qq'] = da_qq_point.copy()
+
+    xticks = np.arange(1, 13)
+    xtick_labels = [calendar.month_abbr[i] for i in xticks]
+
+    fig = plt.figure(figsize=[15, 10])
+    for label in ['hist', 'ref', 'target', 'qq']:
+        da_point = point_data[label]
+        annual_total = da_point.data.sum()
+        monthly_totals = da_point.groupby('time.month').sum('time')
+        month_annual_pct = (monthly_totals.values / annual_total) * 100
+        plt.plot(xticks, month_annual_pct, label=label, marker='o')
+
+    plt.title('Rainfall climatology')
+    plt.legend()
+    plt.ylabel('% of annual total')
+    plt.xticks(xticks, xtick_labels)
+    plt.grid()
+    plt.show()
+
+
 def single_point_analysis(
     da_hist,
     da_ref,
     da_target,
     da_qq,
     ds_adjust,
+    variable,
     city,
     lat,
     lon,
@@ -554,6 +605,22 @@ def single_point_analysis(
             af_levels,
             diff_levels,
         )
+
+    if 'pr' in variable:
+        plot_seasonal_totals(
+            da_hist_point,
+            da_ref_point,
+            da_target_point,
+            da_qq_point,
+        )
+    else:
+        plot_seasonal_cycle(
+            da_hist_point,
+            da_ref_point,
+            da_target_point,
+            da_qq_point,
+        )
+
     if plot_1d_quantiles:
         plot_quantiles_1d_point(
             da_hist_point,
@@ -573,6 +640,7 @@ def single_point_analysis(
                 month=month,
                 xbounds=q_xbounds,
             )
+
     if plot_pdfs:
         plot_pdfs_point(
             da_hist_point,
