@@ -66,141 +66,87 @@ def quantile_month_plot(quantiles, ax, cmap, levels, extend='both', point=None, 
         ax.set_title(title)
 
 
-def spatial_qdm_data(da_hist, da_ref, da_target, da_qq, scaling):
-    """Get climatology data for QDM spatial plots."""
+def spatial_comparison_data(da1, da2, scaling):
+    """Compare two spatial fields."""
+    
+    primary_da = da1.copy()
+    secondary_da = da2.copy()
+    primary_attrs = primary_da.attrs
 
-    hist_clim = da_hist.mean('time', keep_attrs=True)
-    ref_clim = da_ref.mean('time', keep_attrs=True)
-    target_clim = da_target.mean('time', keep_attrs=True)
-    qq_clim = da_qq.mean('time', keep_attrs=True)
-    hist_attrs = hist_clim.attrs
-    
-    if scaling == 'additive':
-        ref_hist_comparison = ref_clim - hist_clim
-    elif scaling == 'multiplicative':
-        ref_hist_comparison = ((ref_clim - hist_clim) / hist_clim) * 100
-    ref_hist_comparison = ref_hist_comparison.compute()
-    
-    if scaling == 'additive':
-        qq_obs_comparison = qq_clim - target_clim
-    elif scaling == 'multiplicative':
-        qq_obs_comparison = ((qq_clim - target_clim) / target_clim) * 100
-    qq_obs_comparison = qq_obs_comparison.compute()
-    
-    regridder = xe.Regridder(ref_hist_comparison, qq_obs_comparison, "bilinear")
-    ref_hist_comparison = regridder(ref_hist_comparison)
-    
-    regridder = xe.Regridder(hist_clim, target_clim, "bilinear")
-    hist_clim = regridder(hist_clim)
-    
-    ref_hist_comparison.attrs = hist_attrs
-    qq_obs_comparison.attrs = hist_attrs
-    if scaling == 'multiplicative':
-        ref_hist_comparison.attrs['units'] = '% change'
-        qq_obs_comparison.attrs['units'] = '% change'
-    hist_clim = hist_clim.compute()
-    target_clim = target_clim.compute()
-    
-    return hist_clim, target_clim, ref_hist_comparison, qq_obs_comparison 
-
-
-def spatial_ecdfm_data(da_hist, da_ref, da_target, da_qq, scaling):
-    """Get climatology data for eCDFm spatial plots."""
-
-    hist_clim = da_hist.mean('time', keep_attrs=True).compute()
-    ref_clim = da_ref.mean('time', keep_attrs=True).compute()
-    target_clim = da_target.mean('time', keep_attrs=True).compute()
-    qq_clim = da_qq.mean('time', keep_attrs=True).compute()
-    hist_attrs = hist_clim.attrs
-    
-    regridder = xe.Regridder(hist_clim, ref_clim, "bilinear")
-    hist_clim_regridded = regridder(hist_clim)
-    
-    regridder = xe.Regridder(target_clim, qq_clim, "bilinear")
-    target_clim_regridded = regridder(target_clim)
+    if len(primary_da['lat']) > len(secondary_da['lat']):
+        regridder = xe.Regridder(secondary_da, primary_da, "bilinear")
+        secondary_da = regridder(secondary_da)
+        secondary_da = secondary_da.compute()
+    elif len(primary_da['lat']) < len(secondary_da['lat']):
+        regridder = xe.Regridder(primary_da, secondary_da, "bilinear")
+        primary_da = regridder(primary_da)
+        primary_da = primary_da.compute()
 
     if scaling == 'additive':
-        ref_hist_comparison = ref_clim - hist_clim_regridded
+        comparison = primary_da - secondary_da
     elif scaling == 'multiplicative':
-        ref_hist_comparison = ((ref_clim - hist_clim_regridded) / hist_clim_regridded) * 100
-    ref_hist_comparison = ref_hist_comparison.compute()
-    
-    if scaling == 'additive':
-        qq_target_comparison = qq_clim - target_clim_regridded
-    elif scaling == 'multiplicative':
-        qq_target_comparison = ((qq_clim - target_clim_regridded) / target_clim_regridded) * 100
-    qq_target_comparison = qq_target_comparison.compute()
+        comparison = ((primary_da - secondary_da) / secondary_da) * 100
         
-    ref_hist_comparison.attrs = hist_attrs
-    qq_target_comparison.attrs = hist_attrs
+    comparison.attrs = primary_attrs
     if scaling == 'multiplicative':
-        ref_hist_comparison.attrs['units'] = '% change'
-        qq_target_comparison.attrs['units'] = '% change'
+        comparison.attrs['units'] = '% difference'
     
-    return hist_clim, target_clim, ref_hist_comparison, qq_obs_comparison 
+    return comparison 
 
 
-def bias_spatial_plot(
-    hist_agg,
-    target_agg,
-    agg_cmap,
-    comparison_cmap,
-    agg_levels,
-    comparison_levels,
-    agg='mean',
+def spatial_comparison_plot(
+    da_clim1,
+    da_clim2,
+    da_comp,
+    clim1_title,
+    clim2_title,
+    clim_cmap,
+    comp_cmap,
+    clim_levels,
+    comp_levels,
+    scaling,
     mask=None,
     city_lat_lon={},
-    comparison_method='difference'
 ):
-    """Spatial plot of observed climatology, historical climatology and difference."""
+    """Spatial plot of two climatologies and their difference."""
     
     if mask is not None:
-        hist_agg = hist_agg.where(mask)
-        target_agg = target_agg.where(mask)
-
-    if agg == 'mean':
-        title_agg = 'climatology'
-    elif agg == 'std':
-        title_agg = 'standard deviation'    
+        da_clim1 = da_clim1.where(mask)
+        da_clim2 = da_clim2.where(mask)
+        da_comp = da_comp.where(mask)
 
     fig = plt.figure(figsize=[24, 6])
 
     ax1 = fig.add_subplot(131, projection=ccrs.PlateCarree())
-    hist_agg.plot(
+    da_clim1.plot(
         ax=ax1,
         transform=ccrs.PlateCarree(),
-        cmap=agg_cmap,
-        levels=agg_levels,
+        cmap=clim_cmap,
+        levels=clim_levels,
         extend='max'
     )
-    ax1.set_title(f'historical (model) {title_agg}')
+    ax1.set_title(clim1_title)
     
     ax2 = fig.add_subplot(132, projection=ccrs.PlateCarree())
-    target_agg.plot(
+    da_clim2.plot(
         ax=ax2,
         transform=ccrs.PlateCarree(),
-        cmap=agg_cmap,
-        levels=agg_levels,
+        cmap=clim_cmap,
+        levels=clim_levels,
         extend='max'
     )
-    ax2.set_title(f'observed {title_agg}')
+    ax2.set_title(clim2_title)
 
-    if comparison_method == 'difference':
-        comparison = hist_agg - target_agg
-        title_op = '-'
-    elif comparison_method == 'pct':
-        comparison = ((hist_agg - target_agg) / target_agg) * 100
-        title_op = '/'
-    comparison.attrs = hist_agg.attrs
     ax3 = fig.add_subplot(133, projection=ccrs.PlateCarree())
-    comparison.plot(
+    da_comp.plot(
         ax=ax3,
         transform=ccrs.PlateCarree(),
-        cmap=comparison_cmap,
-        levels=comparison_levels,
+        cmap=comp_cmap,
+        levels=comp_levels,
         extend='both'
     )
-    ax3.set_title(f'Comparison (historical {title_op} observed)')
+    comp_text = 'Difference' if scaling == 'additive' else 'Ratio'
+    ax3.set_title(comp_text)
 
     for ax in [ax1, ax2, ax3]:
         ax.coastlines()
@@ -218,75 +164,6 @@ def bias_spatial_plot(
     ymin, ymax = ax3.get_ylim()
     ax1.set_extent([xmin, xmax, ymin, ymax], crs=ccrs.PlateCarree())
     ax2.set_extent([xmin, xmax, ymin, ymax], crs=ccrs.PlateCarree())
-    plt.suptitle(f'Model bias ({title_agg})')
-    plt.show()
-
-
-def projection_spatial_plot(
-    ref_hist_mean_comparison,
-    qq_obs_mean_comparison,
-    cmap,
-    comparison_levels,
-    diff_levels,
-    mask=None,
-    city_lat_lon={}
-):
-    """Spatial plot of GCM projections, QQ-projections and difference."""
-    
-    if mask is not None:
-        ref_hist_mean_comparison = ref_hist_mean_comparison.where(mask)
-        qq_obs_mean_comparison = qq_obs_mean_comparison.where(mask)
-    
-    fig = plt.figure(figsize=[24, 6])
-
-    ax1 = fig.add_subplot(131, projection=ccrs.PlateCarree())
-    ref_hist_mean_comparison.plot(
-        ax=ax1,
-        transform=ccrs.PlateCarree(),
-        cmap=cmap,
-        levels=comparison_levels,
-        extend='both'
-    )
-    ax1.set_title('ref - hist')
-
-    ax2 = fig.add_subplot(132, projection=ccrs.PlateCarree())
-    qq_obs_mean_comparison.plot(
-        ax=ax2,
-        transform=ccrs.PlateCarree(),
-        cmap=cmap,
-        levels=comparison_levels,
-        extend='both'
-    )
-    ax2.set_title('QQ-scaled - original')
-
-    difference = qq_obs_mean_comparison - ref_hist_mean_comparison
-    ax3 = fig.add_subplot(133, projection=ccrs.PlateCarree())
-    difference.plot(
-        ax=ax3,
-        transform=ccrs.PlateCarree(),
-        cmap=cmap,
-        levels=diff_levels,
-        extend='both'
-    )
-    ax3.set_title('Difference')
-
-    for ax in [ax1, ax2, ax3]:
-        ax.coastlines()
-        for lat, lon in city_lat_lon.values():
-            ax.plot(
-                lon,
-                lat,
-                marker='o',
-                markerfacecolor='lime',
-                markeredgecolor='none',
-                zorder=5,
-                transform=ccrs.PlateCarree()
-            )
-    xmin, xmax = ax3.get_xlim()
-    ymin, ymax = ax3.get_ylim()
-    ax1.set_extent([xmin, xmax, ymin, ymax], crs=ccrs.PlateCarree())
-    ax2.set_extent([xmin, xmax, ymin, ymax], crs=ccrs.PlateCarree())
-    plt.suptitle('Projections')
     plt.show()
 
 
@@ -469,7 +346,7 @@ def plot_quantiles_1d_point(
 
     ylabel = f"""{da_target_point.attrs['long_name']} ({da_target_point.attrs['units']})"""
 
-    ymax = np.max(np.concatenate([target_data, qq_data, hist_data, reference_data])) + 1
+    ymax = np.max(np.concatenate([target_data, qq_data, hist_data, ref_data])) + 1
     if xbounds:
         ax1.set_xlim(xbounds[0], xbounds[1])
     ax1.set_ylim(0, ymax)
@@ -512,7 +389,7 @@ def plot_seasonal_cycle(
         da_point = point_data[label]
         annual_mean = da_point.data.mean()
         monthly_anomalies = da_point.groupby('time.month').mean('time') - annual_mean
-        plt.plot(xticks, monthly anomalies, label=label, marker='o')
+        plt.plot(xticks, monthly_anomalies, label=label, marker='o')
 
     plt.title('Monthly climatology')
     plt.legend()
@@ -527,6 +404,7 @@ def plot_seasonal_totals(
     da_ref_point,
     da_target_point,
     da_qq_point,
+    time_agg='mean',
 ):
     """Plot rainfall seasonal cycle"""
 
@@ -542,14 +420,19 @@ def plot_seasonal_totals(
     fig = plt.figure(figsize=[15, 10])
     for label in ['hist', 'ref', 'target', 'qq']:
         da_point = point_data[label]
-        annual_total = da_point.data.sum()
-        monthly_totals = da_point.groupby('time.month').sum('time')
-        month_annual_pct = (monthly_totals.values / annual_total) * 100
-        plt.plot(xticks, month_annual_pct, label=label, marker='o')
+        if time_agg == 'pct_total':
+            annual_total = da_point.data.sum()
+            monthly_totals = da_point.groupby('time.month').sum('time')
+            monthly_values = (monthly_totals.values / annual_total) * 100
+            ylabel = '% of annual total'
+        elif time_agg == 'mean':
+            monthly_values = da_point.groupby('time.month').mean('time')
+            ylabel = da_hist_point.attrs['units'] 
+        plt.plot(xticks, monthly_values, label=label, marker='o')
 
-    plt.title('Rainfall climatology')
+    plt.title('Climatology')
     plt.legend()
-    plt.ylabel('% of annual total')
+    plt.ylabel(ylabel)
     plt.xticks(xticks, xtick_labels)
     plt.grid()
     plt.show()
@@ -575,6 +458,7 @@ def single_point_analysis(
     pdf_ybounds=None,
     q_xbounds=None,
     months=[],
+    seasonal_agg='mean',
     plot_2d_quantiles=True,
     plot_1d_quantiles=True,
     plot_pdfs=True,
