@@ -1,19 +1,16 @@
 import calendar
 import sys
 
+import geopandas as gp
+from clisops.core.subset import subset_shape
 import matplotlib.pyplot as plt
 import numpy as np
 import cartopy.crs as ccrs
 import xesmf as xe
 import cmdline_provenance as cmdprov
-import dask
-import dask.diagnostics
 
 sys.path.append('/g/data/wp00/shared_code/qqscale')
 import utils
-
-
-#dask.diagnostics.ProgressBar().register()
 
 
 def quantile_spatial_plot(
@@ -53,10 +50,18 @@ def quantile_spatial_plot(
     plt.show()
     
 
-def quantile_month_plot(quantiles, ax, cmap, levels, extend='both', point=None, title=None):
+def quantile_month_plot(quantiles, ax, cmap, levels=None, extend='both', point=None, title=None):
     """Create two dimensional month/quantile plot"""
-            
-    quantiles.transpose('month', 'quantiles').plot(ax=ax, cmap=cmap, extend=extend, levels=levels)
+    
+    kwargs = {}  
+    if levels:
+        kwargs['levels'] = levels
+    else:
+        data_max = np.abs(quantiles).max()
+        kwargs['vmin'] = data_max * -1
+        kwargs['vmax'] = data_max
+    
+    quantiles.transpose('month', 'quantiles').plot(ax=ax, cmap=cmap, extend=extend, **kwargs)
     
     yticks = np.arange(1,13)
     ytick_labels = [calendar.month_abbr[i] for i in yticks]
@@ -106,6 +111,7 @@ def spatial_comparison_plot(
     comp_levels,
     scaling,
     mask=None,
+    land_only=False,
     city_lat_lon={},
 ):
     """Spatial plot of two climatologies and their difference."""
@@ -114,7 +120,12 @@ def spatial_comparison_plot(
         da_clim1 = da_clim1.where(mask)
         da_clim2 = da_clim2.where(mask)
         da_comp = da_comp.where(mask)
-
+    elif land_only:
+        shape = gp.read_file('/g/data/ia39/aus-ref-clim-data-nci/shapefiles/data/australia/australia.shp')
+        da_clim1 = subset_shape(da_clim1, shape=shape)
+        da_clim2 = subset_shape(da_clim2, shape=shape)
+        da_comp = subset_shape(da_comp, shape=shape)
+        
     fig = plt.figure(figsize=[24, 6])
 
     ax1 = fig.add_subplot(131, projection=ccrs.PlateCarree())
@@ -172,6 +183,7 @@ def plot_quantiles_2d_point(
     da_ref_point,
     da_target_point,
     da_af_point,
+    variable,
     quantiles,
     general_cmap,
     af_cmap,
@@ -184,6 +196,7 @@ def plot_quantiles_2d_point(
     
     da_ref_q_point = utils.get_quantiles(da_ref_point, quantiles, timescale='monthly')
     da_target_q_point = utils.get_quantiles(da_target_point, quantiles, timescale='monthly')
+    extend = 'max' if 'pr' in variable else 'both'
     
     fig = plt.figure(figsize=[20, 24])
     ax1 = fig.add_subplot(411)
@@ -198,7 +211,7 @@ def plot_quantiles_2d_point(
         general_cmap,
         general_levels,
         title='reference quantiles',
-        extend='max',
+        extend=extend,
     )
     da_hist_q_point.attrs = da_target_point.attrs
     quantile_month_plot(
@@ -207,7 +220,7 @@ def plot_quantiles_2d_point(
         general_cmap,
         general_levels,
         title='historical quantiles',
-        extend='max',
+        extend=extend,
     )
     da_target_q_point.attrs = da_target_point.attrs
     quantile_month_plot(
@@ -216,7 +229,7 @@ def plot_quantiles_2d_point(
         general_cmap,
         general_levels,
         title='target quantiles',
-        extend='max',
+        extend=extend,
     )
     quantile_month_plot(
         da_af_point,
@@ -481,6 +494,7 @@ def single_point_analysis(
             da_ref_point,
             da_target_point,
             ds_adjust_point['af'],
+            variable,
             quantiles,
             general_cmap,
             af_cmap,
