@@ -365,17 +365,19 @@ def plot_quantiles_1d_point(
 
     ylabel = f"""{da_target_point.attrs['long_name']} ({da_target_point.attrs['units']})"""
 
+    data_min = np.min(np.concatenate([target_data, qq_data, hist_data, ref_data]))
+    ymin = data_min - 1 if (data_min < 0) else 0
     ymax = np.max(np.concatenate([target_data, qq_data, hist_data, ref_data])) + 1
     if xbounds:
         ax1.set_xlim(xbounds[0], xbounds[1])
-    ax1.set_ylim(0, ymax)
+    ax1.set_ylim(ymin, ymax)
     ax1.grid()
     ax1.legend()
     ax1.set_xlabel('quantile')
 
     if xbounds:
         ax2.set_xlim(xbounds[0], xbounds[1])
-    ax2.set_ylim(0, ymax)
+    ax2.set_ylim(ymin, ymax)
     ax2.grid()
     ax2.legend()
     ax2.set_ylabel(ylabel)
