@@ -408,13 +408,13 @@ def plot_seasonal_cycle(
     fig = plt.figure(figsize=[15, 10])
     for label in ['hist', 'ref', 'target', 'qq']:
         da_point = point_data[label]
-        annual_mean = da_point.data.mean()
-        monthly_anomalies = da_point.groupby('time.month').mean('time') - annual_mean
-        plt.plot(xticks, monthly_anomalies, label=label, marker='o')
+        monthly_means = da_point.groupby('time.month').mean('time')
+        plt.plot(xticks, monthly_means, label=label, marker='o')
 
     plt.title('Monthly climatology')
     plt.legend()
-    plt.ylabel('monthly mean anomaly (vs annual mean)')
+    units = da_hist_point.attrs['units']
+    plt.ylabel(f'monthly mean ({units})')
     plt.xticks(xticks, xtick_labels)
     plt.grid()
     plt.show()
