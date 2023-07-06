@@ -113,6 +113,8 @@ def spatial_comparison_plot(
     mask=None,
     land_only=False,
     city_lat_lon={},
+    clim_extend='max',
+    outfile=None,
 ):
     """Spatial plot of two climatologies and their difference."""
     
@@ -134,7 +136,7 @@ def spatial_comparison_plot(
         transform=ccrs.PlateCarree(),
         cmap=clim_cmap,
         levels=clim_levels,
-        extend='max'
+        extend=clim_extend,
     )
     ax1.set_title(clim1_title)
     
@@ -144,7 +146,7 @@ def spatial_comparison_plot(
         transform=ccrs.PlateCarree(),
         cmap=clim_cmap,
         levels=clim_levels,
-        extend='max'
+        extend=clim_extend,
     )
     ax2.set_title(clim2_title)
 
@@ -175,7 +177,11 @@ def spatial_comparison_plot(
     ymin, ymax = ax3.get_ylim()
     ax1.set_extent([xmin, xmax, ymin, ymax], crs=ccrs.PlateCarree())
     ax2.set_extent([xmin, xmax, ymin, ymax], crs=ccrs.PlateCarree())
-    plt.show()
+    
+    if outfile:
+        plt.savefig(outfile, bbox_inches='tight', facecolor='white', dpi=300)
+    else:
+        plt.show()
 
 
 def plot_quantiles_2d_point(
