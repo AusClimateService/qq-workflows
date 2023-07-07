@@ -31,7 +31,7 @@ ${AF_PATH} :
 ## adjust: Apply adjustment factors to the target data
 adjust : ${QQ_PATH}
 ${QQ_PATH} : ${AF_PATH}
-	${PYTHON} ${CODE_DIR}/adjust.py ${TARGET_DATA} ${TARGET_VAR} $< $@ --time_bounds ${TARGET_START}-01-01 ${TARGET_END}-12-31 --input_units ${TARGET_UNITS} --output_units ${OUTPUT_UNITS} --interp ${INTERP} --ref_time --verbose ${SSR}
+	${PYTHON} ${CODE_DIR}/adjust.py ${TARGET_DATA} ${TARGET_VAR} $< $@ --time_bounds ${TARGET_START}-01-01 ${TARGET_END}-12-31 --input_units ${TARGET_UNITS} --output_units ${OUTPUT_UNITS} --interp ${INTERP} --verbose ${SSR} ${REF_TIME}
 
 ## validation : Create validation notebook
 validation : ${VALIDATION_NOTEBOOK}
