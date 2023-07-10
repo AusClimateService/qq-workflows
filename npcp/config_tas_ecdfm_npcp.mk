@@ -10,23 +10,27 @@ GROUPING=--time_grouping monthly
 SCALING=additive
 
 OUTPUT_UNITS=C
-HIST_VAR=tasmax
+HIST_VAR=tasmin
 HIST_UNITS=C
-REF_VAR=tasmax
+REF_VAR=tasmin
 REF_UNITS=C
-TARGET_VAR=tasmax
+TARGET_VAR=tasmin
 TARGET_UNITS=C
 
 OBS_DATASET=AGCD
-GCM_NAME=CSIRO-ACCESS-ESM1-5
-#ECMWF-ERA5 CSIRO-ACCESS-ESM1-5
-GCM_RUN=r6i1p1f1
-#r1i1p1f1 r6i1p1f1
-RCM_NAME=BOM-BARPA-R
-#BOM-BARPA-R 
 RCM_VERSION=v1
+
+RCM_NAME=UQ-DES-CCAM-2105
+#RCM_NAME=BOM-BARPA-R
+
+#GCM_NAME=ECMWF-ERA5
+#GCM_RUN=r1i1p1f1
+#EXPERIMENT=evaluation
+GCM_NAME=CSIRO-ACCESS-ESM1-5
+GCM_RUN=r6i1p1f1
 EXPERIMENT=ssp370
-#evaluation
+
+## Automatic variables
 
 HIST_PATH=/g/data/ia39/npcp/data/${HIST_VAR}/${GCM_NAME}/${RCM_NAME}/raw/task-reference
 REF_PATH=/g/data/ia39/npcp/data/${REF_VAR}/observations/${OBS_DATASET}/raw/task-reference
@@ -68,8 +72,6 @@ TARGET_DATA := $(sort $(wildcard ${TARGET_PATH}/*day_19?[0,2,4,6,8]*.nc) $(wildc
 TRAINING_DATES=${HIST_START}0101-${HIST_END}1231-odd-years
 TARGET_DATES=${TARGET_START}0101-${TARGET_END}1231-even-years
 endif
-
-## Automatic variables
 
 OUTPUT_HIST_DIR=/g/data/xv83/dbi599/npcp/data/${HIST_VAR}/${GCM_NAME}/${RCM_NAME}/${METHOD}/task-${TASK}
 OUTPUT_REF_DIR=/g/data/xv83/dbi599/npcp/data/${HIST_VAR}/${GCM_NAME}/${RCM_NAME}/${METHOD}/task-${TASK}
