@@ -17,6 +17,6 @@ nsegments=${#target_start[@]}
 
 for (( i=0; i<${nsegments}; i++ ));
 do
-  make adjust -n CONFIG=acs/config_ecdfm_acs.mk TARGET_START=${target_start[$i]} TARGET_END=${target_end[$i]} OUTPUT_START=${output_start[$i]} OUTPUT_END=${output_end[$i]}
+  make adjust CONFIG=acs/config_ecdfm_acs.mk TARGET_START=${target_start[$i]} TARGET_END=${target_end[$i]} OUTPUT_START=${output_start[$i]} OUTPUT_END=${output_end[$i]}
 done
 
