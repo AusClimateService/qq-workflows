@@ -2,7 +2,7 @@
 
 ## User configured variables
 
-TASK=projection
+TASK=xvalidation
 #historical xvalidation projection
 METHOD=ecdfm
 INTERP=nearest
@@ -31,6 +31,10 @@ GCM_RUN=r6i1p1f1
 EXPERIMENT=ssp370
 
 ## Automatic variables
+
+ifeq (${RCM_NAME}, UQ-DES-CCAM-2105)
+NO_LEAP_TRAINING=--no_leap
+endif
 
 HIST_PATH=/g/data/ia39/npcp/data/${HIST_VAR}/${GCM_NAME}/${RCM_NAME}/raw/task-reference
 REF_PATH=/g/data/ia39/npcp/data/${REF_VAR}/observations/${OBS_DATASET}/raw/task-reference
@@ -73,15 +77,15 @@ TRAINING_DATES=${HIST_START}0101-${HIST_END}1231-odd-years
 TARGET_DATES=${TARGET_START}0101-${TARGET_END}1231-even-years
 endif
 
-OUTPUT_HIST_DIR=/g/data/xv83/dbi599/npcp/data/${HIST_VAR}/${GCM_NAME}/${RCM_NAME}/${METHOD}/task-${TASK}
-OUTPUT_REF_DIR=/g/data/xv83/dbi599/npcp/data/${HIST_VAR}/${GCM_NAME}/${RCM_NAME}/${METHOD}/task-${TASK}
-OUTPUT_TARGET_DIR=/g/data/xv83/dbi599/npcp/data/${HIST_VAR}/${GCM_NAME}/${RCM_NAME}/${METHOD}/task-${TASK}
+OUTPUT_AF_DIR=/g/data/xv83/dbi599/npcp/data/${HIST_VAR}/${GCM_NAME}/${RCM_NAME}/${METHOD}/task-${TASK}
+OUTPUT_QQ_DIR=/g/data/ia39/npcp/data/${HIST_VAR}/${GCM_NAME}/${RCM_NAME}/${METHOD}/task-${TASK}
+OUTPUT_VALIDATION_DIR=/g/data/xv83/dbi599/npcp/data/${HIST_VAR}/${GCM_NAME}/${RCM_NAME}/${METHOD}/task-${TASK}
 
 AF_FILE=${REF_VAR}-${METHOD}-${SCALING}-monthly-q100-adjustment-factors_${OBS_DATASET}_NPCP-20i_${GCM_NAME}_${EXPERIMENT}_${GCM_RUN}_${RCM_NAME}_${RCM_VERSION}_day_${TRAINING_DATES}.nc
-AF_PATH=${OUTPUT_REF_DIR}/${AF_FILE}
+AF_PATH=${OUTPUT_AF_DIR}/${AF_FILE}
 
 QQ_BASE=${REF_VAR}_NPCP-20i_${GCM_NAME}_${EXPERIMENT}_${GCM_RUN}_${RCM_NAME}_${RCM_VERSION}_day_${TARGET_DATES}_${METHOD}-${SCALING}-monthly-q100-${INTERP}-${OBS_DATASET}-${TRAINING_DATES}
-QQ_PATH=${OUTPUT_REF_DIR}/${QQ_BASE}.nc
+QQ_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.nc
 
-VALIDATION_NOTEBOOK=${OUTPUT_REF_DIR}/${QQ_BASE}.ipynb
+VALIDATION_NOTEBOOK=${OUTPUT_VALIDATION_DIR}/${QQ_BASE}.ipynb
 

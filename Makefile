@@ -1,9 +1,9 @@
 # Workflow for QDM, EDCDFm or EQCDFm
 #
 #   CONFIG file needs the following variables defined:
-#   - Methods details: METHOD, SCALING, GROUPING, INTERP, SSR
+#   - Methods details: METHOD, SCALING, GROUPING, INTERP, SSR, NO_LEAP_TRAINING
 #   - Paths for files that will be created: AF_PATH, QQ_PATH, VALIDATION_NOTEBOOK 
-#   - Directories that need to be created for those files: OUTPUT_REF_DIR, OUTPUT_TARGET_DIR
+#   - Directories that need to be created for those files: OUTPUT_AF_DIR, OUTPUT_QQ_DIR, OUTPUT_VALIDATION_DIR
 #   - Variables: HIST_VAR, REF_VAR, TARGET_VAR
 #   - Input data: HIST_DATA, REF_DATA, TARGET_DATA
 #   - Time bounds: HIST_START, HIST_END, REF_START, REF_END, TARGET_START, TARGET_END
@@ -25,17 +25,19 @@ TEMPLATE_NOTEBOOK=validation.ipynb
 ## train: Calculate the QQ-scale adjustment factors
 train : ${AF_PATH}
 ${AF_PATH} :
-	mkdir -p ${OUTPUT_REF_DIR}
-	${PYTHON} ${CODE_DIR}/train.py ${HIST_VAR} ${REF_VAR} $@ --hist_files ${HIST_DATA} --ref_files ${REF_DATA} --hist_time_bounds ${HIST_START}-01-01 ${HIST_END}-12-31 --ref_time_bounds ${REF_START}-01-01 ${REF_END}-12-31 --scaling ${SCALING} ${GROUPING} --input_hist_units ${HIST_UNITS} --input_ref_units ${REF_UNITS} --output_units ${OUTPUT_UNITS} --verbose ${SSR}
+	mkdir -p ${OUTPUT_AF_DIR}
+	${PYTHON} ${CODE_DIR}/train.py ${HIST_VAR} ${REF_VAR} $@ --hist_files ${HIST_DATA} --ref_files ${REF_DATA} --hist_time_bounds ${HIST_START}-01-01 ${HIST_END}-12-31 --ref_time_bounds ${REF_START}-01-01 ${REF_END}-12-31 --scaling ${SCALING} ${GROUPING} --input_hist_units ${HIST_UNITS} --input_ref_units ${REF_UNITS} --output_units ${OUTPUT_UNITS} --verbose ${SSR} ${NO_LEAP_TRAINING}
 
 ## adjust: Apply adjustment factors to the target data
 adjust : ${QQ_PATH}
 ${QQ_PATH} : ${AF_PATH}
-	${PYTHON} ${CODE_DIR}/adjust.py ${TARGET_DATA} ${TARGET_VAR} $< $@ --time_bounds ${TARGET_START}-01-01 ${TARGET_END}-12-31 --input_units ${TARGET_UNITS} --output_units ${OUTPUT_UNITS} --interp ${INTERP} --verbose ${SSR} ${REF_TIME}
+	mkdir -p ${OUTPUT_QQ_DIR}
+	${PYTHON} ${CODE_DIR}/adjust.py ${TARGET_DATA} ${TARGET_VAR} $< $@ --time_bounds ${TARGET_START}-01-01 ${TARGET_END}-12-31 --input_units ${TARGET_UNITS} --output_units ${OUTPUT_UNITS} --interp ${INTERP} --verbose ${SSR} ${REF_TIME} ${OUTPUT_TSLICE}
 
 ## validation : Create validation notebook
 validation : ${VALIDATION_NOTEBOOK}
 ${VALIDATION_NOTEBOOK} : ${TEMPLATE_NOTEBOOK} ${AF_PATH} ${QQ_PATH}
+	mkdir -p ${OUTPUT_VALIDATION_DIR}
 	${PAPERMILL} -p adjustment_file $(word 2,$^) -p qq_file $(word 3,$^) -r hist_files "${HIST_DATA}" -r ref_files "${REF_DATA}" -r target_files "${TARGET_DATA}" -r hist_time_bounds "${HIST_START}-01-01 ${HIST_END}-12-31" -r ref_time_bounds "${REF_START}-01-01 ${REF_END}-12-31" -r target_time_bounds "${TARGET_START}-01-01 ${TARGET_END}-12-31" -p hist_units ${HIST_UNITS} -p ref_units ${REF_UNITS} -p target_units ${TARGET_UNITS} -p output_units ${OUTPUT_UNITS} -p hist_var ${HIST_VAR} -p ref_var ${REF_VAR} -p target_var ${TARGET_VAR} -p scaling ${SCALING} -p method ${METHOD} $< $@
 
 ## help : show this message
