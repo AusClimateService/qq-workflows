@@ -6,6 +6,7 @@ METHOD=ecdfm
 INTERP=nearest
 GROUPING=--time_grouping monthly
 SCALING=additive
+OUTPUT_GRID=af
 
 OUTPUT_UNITS=C
 HIST_VAR=tasmin
@@ -44,7 +45,6 @@ REF_DATA := $(wildcard /g/data/xv83/agcd-csiro/${REF_VAR}/daily/*_AGCD-CSIRO_r00
 TARGET_START=2030
 TARGET_END=2059
 TARGET_DATA := $(sort $(wildcard ${HIST_PATH}/*.nc) $(wildcard ${TARGET_PATH}/*.nc))
-#TARGET_DATA := $(sort $(wildcard ${TARGET_PATH}/*day_2069*.nc) $(wildcard ${TARGET_PATH}/*day_20[7,8,9]*.nc))
 OUTPUT_START=2040
 OUTPUT_END=2049
 OUTPUT_TSLICE=--output_tslice ${OUTPUT_START}-01-01 ${OUTPUT_END}-12-31
@@ -61,6 +61,7 @@ AF_FILE=${TARGET_VAR}-${METHOD}-${SCALING}-monthly-q100-adjustment-factors_${OBS
 AF_PATH=${OUTPUT_AF_DIR}/${AF_FILE}
 
 QQ_BASE=${TARGET_VAR}_AUS-05i_${GCM_NAME}_${EXPERIMENT}_${GCM_RUN}_${RCM_NAME}_${RCM_VERSION}_day_${OUTPUT_DATES}-from-${ADJUSTMENT_DATES}_${METHOD}-${SCALING}-monthly-q100-${INTERP}-${OBS_DATASET}-${TRAINING_DATES}
+
 QQ_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.nc
 
 VALIDATION_NOTEBOOK=${OUTPUT_VALIDATION_DIR}/${QQ_BASE}.ipynb

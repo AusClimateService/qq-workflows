@@ -1,7 +1,7 @@
 # Workflow for QDM, EDCDFm or EQCDFm
 #
 #   CONFIG file needs the following variables defined:
-#   - Methods details: METHOD, SCALING, GROUPING, INTERP, SSR, NO_LEAP_TRAINING
+#   - Methods details: METHOD, SCALING, GROUPING, INTERP, SSR, NO_LEAP_TRAINING, OUTPUT_GRID
 #   - Paths for files that will be created: AF_PATH, QQ_PATH, VALIDATION_NOTEBOOK 
 #   - Directories that need to be created for those files: OUTPUT_AF_DIR, OUTPUT_QQ_DIR, OUTPUT_VALIDATION_DIR
 #   - Variables: HIST_VAR, REF_VAR, TARGET_VAR
@@ -32,7 +32,7 @@ ${AF_PATH} :
 adjust : ${QQ_PATH}
 ${QQ_PATH} : ${AF_PATH}
 	mkdir -p ${OUTPUT_QQ_DIR}
-	${PYTHON} ${CODE_DIR}/adjust.py ${TARGET_DATA} ${TARGET_VAR} $< $@ --adjustment_tbounds ${TARGET_START}-01-01 ${TARGET_END}-12-31 --input_units ${TARGET_UNITS} --output_units ${OUTPUT_UNITS} --interp ${INTERP} --verbose ${SSR} ${REF_TIME} ${OUTPUT_TSLICE}
+	${PYTHON} ${CODE_DIR}/adjust.py ${TARGET_DATA} ${TARGET_VAR} $< $@ --adjustment_tbounds ${TARGET_START}-01-01 ${TARGET_END}-12-31 --input_units ${TARGET_UNITS} --output_units ${OUTPUT_UNITS} --spatial_grid ${OUTPUT_GRID} --interp ${INTERP} --verbose ${SSR} ${REF_TIME} ${OUTPUT_TSLICE}
 
 ## validation : Create validation notebook
 validation : ${VALIDATION_NOTEBOOK}
