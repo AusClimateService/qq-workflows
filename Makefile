@@ -9,7 +9,6 @@
 #   - Time bounds: HIST_START, HIST_END, REF_START, REF_END, TARGET_START, TARGET_END
 #   - Units: HIST_UNITS, REF_UNITS, TARGET_UNITS, OUTPUT_UNITS
 #
-#  See config_qdm.mk and config_ecdfm.mk for examples.
 
 .PHONY: help
 
