@@ -8,6 +8,7 @@ METHOD=ecdfm
 INTERP=nearest
 GROUPING=--time_grouping monthly
 SCALING=additive
+OUTPUT_GRID=af
 
 OUTPUT_UNITS=C
 HIST_VAR=tasmin

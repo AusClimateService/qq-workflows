@@ -8,6 +8,7 @@ METHOD=ecdfm
 INTERP=nearest
 GROUPING=--time_grouping monthly
 SCALING=multiplicative
+OUTPUT_GRID=af
 SSR=--ssr
 
 OUTPUT_UNITS="mm day-1"
