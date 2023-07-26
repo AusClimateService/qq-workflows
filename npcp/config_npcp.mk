@@ -1,4 +1,4 @@
-# NPCP precipication bias correction configuration
+# NPCP bias correction configuration
 #
 # The four user defined variables are:
 # - VAR (options: tasmin tasmax pr)
