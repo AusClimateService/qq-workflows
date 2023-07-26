@@ -97,6 +97,7 @@ endif
 
 CORDEX_PATH=/g/data/ia39/australian-climate-service/release/CORDEX-CMIP6/output
 HIST_PATH=${CORDEX_PATH}/AUS-15/${RCM_INSTITUTION}/${GCM_NAME}/${HIST_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${HIST_VAR}
+REF_PATH=/g/data/xv83/agcd-csiro/${REF_VAR}/daily
 TARGET_PATH=${CORDEX_PATH}/AUS-15/${RCM_INSTITUTION}/${GCM_NAME}/${TARGET_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${TARGET_VAR}
 
 HIST_START=1985
@@ -104,7 +105,8 @@ HIST_END=2014
 HIST_DATA := $(sort $(wildcard ${HIST_PATH}/*day_198[5,6,7,8,9]*.nc) $(wildcard ${HIST_PATH}/*day_199*.nc) $(wildcard ${HIST_PATH}/*day_2*.nc))
 REF_START=1985
 REF_END=2014
-REF_DATA := $(wildcard /g/data/xv83/agcd-csiro/${REF_VAR}/daily/*_AGCD-CSIRO_r005_*_daily_space-chunked.zarr)
+#REF_DATA := $(wildcard /g/data/xv83/agcd-csiro/${REF_VAR}/daily/*_AGCD-CSIRO_r005_*_daily_space-chunked.zarr)
+REF_DATA = $(sort $(wildcard ${REF_PATH}/*_198[5,6,7,8,9]*.nc) $(wildcard ${REF_PATH}/*_199*.nc) $(wildcard ${REF_PATH}/*_200*.nc) $(wildcard ${REF_PATH}/*_201[0,1,2,3,4]*.nc))
 TARGET_DATA := $(sort $(wildcard ${HIST_PATH}/*.nc) $(wildcard ${TARGET_PATH}/*.nc))
 OUTPUT_TSLICE=--output_tslice ${OUTPUT_START}-01-01 ${OUTPUT_END}-12-31
 
