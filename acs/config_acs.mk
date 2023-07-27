@@ -1,4 +1,4 @@
-# NPCP bias correction configuration
+# ACS bias correction configuration
 #
 # The four user defined variables are:
 # - VAR (options: tasmin tasmax pr)
@@ -22,13 +22,22 @@
 #                       TARGET_START=2040 TARGET_END=2069 OUTPUT_START=2050 OUTPUT_END=2059
 #
 
-## User configured variables
+## User provided variables
 
-VAR=tasmin
-RCM_NAME=BOM-BARPA-R
-GCM_NAME=ECMWF-ERA5
-TARGET_START=2030
-TARGET_END=2059
+check_defined = \
+    $(strip $(foreach 1,$1, \
+        $(call __check_defined,$1,$(strip $(value 2)))))
+__check_defined = \
+    $(if $(value $1),, \
+      $(error Undefined $1$(if $2, ($2))))
+
+$(call check_defined, VAR)
+$(call check_defined, RCM_NAME)
+$(call check_defined, GCM_NAME)
+$(call check_defined, TARGET_START)
+$(call check_defined, TARGET_END)
+#Optional: OUTPUT_START, OUTPUT_END
+
 OUTPUT_START=${TARGET_START}
 OUTPUT_END=${TARGET_END}
 

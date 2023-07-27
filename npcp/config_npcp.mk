@@ -10,12 +10,19 @@
 #   make [target] [-Bn] CONFIG=npcp/config_npcp.mk VAR=pr TASK=projection RCM_NAME=BOM-BARPA-R GCM_NAME=CSIRO-ACCESS-ESM1-5
 #
 
-## User configured variables
+## User provided variables
 
-VAR=tasmin
-TASK=historical
-RCM_NAME=UQ-DES-CCAM-2105
-GCM_NAME=ECMWF-ERA5
+check_defined = \
+    $(strip $(foreach 1,$1, \
+        $(call __check_defined,$1,$(strip $(value 2)))))
+__check_defined = \
+    $(if $(value $1),, \
+      $(error Undefined $1$(if $2, ($2))))
+
+$(call check_defined, VAR)
+$(call check_defined, TASK)
+$(call check_defined, RCM_NAME)
+$(call check_defined, GCM_NAME)
 
 ## Preset/automatic variables
 
