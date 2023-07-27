@@ -1,9 +1,9 @@
 # ACS bias correction configuration
 #
-# The four user defined variables are:
-# - VAR (options: tasmin tasmax pr)
-# - RCM_NAME (options: BOM-BARPA-R)
-# - GCM_NAME (options:
+# The user defined variables are:
+# - VAR (required; options: tasmin tasmax pr)
+# - RCM_NAME (required; options: BOM-BARPA-R)
+# - GCM_NAME (required; options:
 #               CMCC-CMCC-ESM2
 #               CSIRO-ACCESS-ESM1-5
 #               CSIRO-ARCCSS-ACCESS-CM2
@@ -12,17 +12,15 @@
 #               NCAR-CESM2
 #               NCC-NorESM2-MM
 #             )
-# - TARGET_START (start year for target period)
-# - TARGET_END (end year for target period)
-# - OUTPUT_START (start year for output data - i.e. don't have to output the whole target period)
-# - OUTPUT_END (end year for output data - i.e. don't have to output the whole target period)
+# - TARGET_START (required; start year for target period)
+# - TARGET_END (required; end year for target period)
+# - OUTPUT_START (optional; start year for output data; default=TARGET_START)
+# - OUTPUT_END (optional; end year for output data; default=TARGET_END)
 #
-# To modify the four defaults, run something like this:
+# Example usage:
 #   make [target] [-Bn] CONFIG=acs/config_acs.mk VAR=pr RCM_NAME=BOM-BARPA-R GCM_NAME=CSIRO-ACCESS-ESM1-5
 #                       TARGET_START=2040 TARGET_END=2069 OUTPUT_START=2050 OUTPUT_END=2059
 #
-
-## User provided variables
 
 check_defined = \
     $(strip $(foreach 1,$1, \
@@ -31,23 +29,22 @@ __check_defined = \
     $(if $(value $1),, \
       $(error Undefined $1$(if $2, ($2))))
 
-$(call check_defined, VAR)
-$(call check_defined, RCM_NAME)
-$(call check_defined, GCM_NAME)
-$(call check_defined, TARGET_START)
-$(call check_defined, TARGET_END)
-#Optional: OUTPUT_START, OUTPUT_END
-
-OUTPUT_START=${TARGET_START}
-OUTPUT_END=${TARGET_END}
-
-## Preset/automatic variables
-
+## Method options
 METHOD=ecdfm
 NQUANTILES=100
 GROUPING=--time_grouping monthly
 INTERP=nearest
+HIST_START=1985
+HIST_END=2014
+REF_START=1985
+REF_END=2014
 OUTPUT_GRID=af
+OUTPUT_START=${TARGET_START}
+OUTPUT_END=${TARGET_END}
+OUTPUT_TSLICE=--output_tslice ${OUTPUT_START}-01-01 ${OUTPUT_END}-12-31
+
+## Variable options
+$(call check_defined, VAR)
 
 ifeq (${VAR}, pr)
 SCALING=multiplicative
@@ -79,8 +76,9 @@ REF_UNITS=C
 TARGET_UNITS=K
 endif
 
-OBS_DATASET=AGCD
-RCM_VERSION=v1
+## Model options
+$(call check_defined, GCM_NAME)
+$(call check_defined, RCM_NAME)
 
 ifeq (${GCM_NAME}, ECMWF-ERA5)
 HIST_EXP=evaluation
@@ -104,36 +102,62 @@ else ifeq (${RCM_NAME}, CSIRO-CCAM-2203)
 RCM_INSTITUTION=CSIRO
 endif
 
+OBS_DATASET=AGCD
+RCM_VERSION=v1
+
+## Input data
+$(call check_defined, RCM_INSTITUTION)
+$(call check_defined, GCM_NAME)
+$(call check_defined, GCM_RUN)
+$(call check_defined, HIST_EXP)
+$(call check_defined, TARGET_EXP)
+$(call check_defined, RCM_NAME)
+$(call check_defined, HIST_VAR)
+$(call check_defined, REF_VAR)
+$(call check_defined, TARGET_VAR)
+
 CORDEX_PATH=/g/data/ia39/australian-climate-service/release/CORDEX-CMIP6/output
 HIST_PATH=${CORDEX_PATH}/AUS-15/${RCM_INSTITUTION}/${GCM_NAME}/${HIST_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${HIST_VAR}
 REF_PATH=/g/data/xv83/agcd-csiro/${REF_VAR}/daily
 TARGET_PATH=${CORDEX_PATH}/AUS-15/${RCM_INSTITUTION}/${GCM_NAME}/${TARGET_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${TARGET_VAR}
 
-HIST_START=1985
-HIST_END=2014
 HIST_DATA := $(sort $(wildcard ${HIST_PATH}/*day_198[5,6,7,8,9]*.nc) $(wildcard ${HIST_PATH}/*day_199*.nc) $(wildcard ${HIST_PATH}/*day_2*.nc))
-REF_START=1985
-REF_END=2014
 #REF_DATA := $(wildcard /g/data/xv83/agcd-csiro/${REF_VAR}/daily/*_AGCD-CSIRO_r005_*_daily_space-chunked.zarr)
 REF_DATA = $(sort $(wildcard ${REF_PATH}/*_198[5,6,7,8,9]*.nc) $(wildcard ${REF_PATH}/*_199*.nc) $(wildcard ${REF_PATH}/*_200*.nc) $(wildcard ${REF_PATH}/*_201[0,1,2,3,4]*.nc))
 TARGET_DATA := $(sort $(wildcard ${HIST_PATH}/*.nc) $(wildcard ${TARGET_PATH}/*.nc))
-OUTPUT_TSLICE=--output_tslice ${OUTPUT_START}-01-01 ${OUTPUT_END}-12-31
+
+## Output data
+$(call check_defined, RCM_INSTITUTION)
+$(call check_defined, GCM_NAME)
+$(call check_defined, GCM_RUN)
+$(call check_defined, HIST_EXP)
+$(call check_defined, TARGET_EXP)
+$(call check_defined, RCM_NAME)
+$(call check_defined, TARGET_VAR)
+$(call check_defined, HIST_START)
+$(call check_defined, HIST_END)
+$(call check_defined, REF_START)
+$(call check_defined, REF_END)
+$(call check_defined, TARGET_START)
+$(call check_defined, TARGET_END)
+$(call check_defined, METHOD)
+$(call check_defined, SCALING)
+$(call check_defined, NQUANTILES)
+$(call check_defined, OBS_DATASET)
 
 TRAINING_DATES=${HIST_START}0101-${HIST_END}1231
 ADJUSTMENT_DATES=${TARGET_START}0101-${TARGET_END}1231
 OUTPUT_DATES=${OUTPUT_START}0101-${OUTPUT_END}1231
-
 OUTDIR=/g/data/ia39/australian-climate-service/test-data/CORDEX-CMIP6-ECDFm/output/AUS-05i/${RCM_INSTITUTION}/${GCM_NAME}/${TARGET_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${TARGET_VAR}
-OUTPUT_AF_DIR=${OUTDIR}
-OUTPUT_QQ_DIR=${OUTDIR}
-OUTPUT_VALIDATION_DIR=${OUTDIR}
 
+OUTPUT_AF_DIR=${OUTDIR}
 AF_FILE=${TARGET_VAR}-${METHOD}-${SCALING}-monthly-q${NQUANTILES}-adjustment-factors_${OBS_DATASET}_AUS-05i_${GCM_NAME}_${HIST_EXP}_${GCM_RUN}_${RCM_NAME}_${RCM_VERSION}_day_${TRAINING_DATES}.nc
 AF_PATH=${OUTPUT_AF_DIR}/${AF_FILE}
 
+OUTPUT_QQ_DIR=${OUTDIR}
 QQ_BASE=${TARGET_VAR}_AUS-05i_${GCM_NAME}_${TARGET_EXP}_${GCM_RUN}_${RCM_NAME}_${RCM_VERSION}_day_${OUTPUT_DATES}-from-${ADJUSTMENT_DATES}_${METHOD}-${SCALING}-monthly-q${NQUANTILES}-${INTERP}-${OBS_DATASET}-${TRAINING_DATES}
-
 QQ_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.nc
 
+OUTPUT_VALIDATION_DIR=${OUTDIR}
 VALIDATION_NOTEBOOK=${OUTPUT_VALIDATION_DIR}/${QQ_BASE}.ipynb
 

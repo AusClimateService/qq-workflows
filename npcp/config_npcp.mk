@@ -1,16 +1,14 @@
 # NPCP bias correction configuration
 #
-# The four user defined variables are:
+# The required user defined variables are:
 # - VAR (options: tasmin tasmax pr)
 # - TASK (options: historical xvalidation projection)
 # - RCM_NAME (options: BOM-BARPA-R UQ-DES-CCAM-2105 CSIRO-CCAM-2203)
 # - GCM_NAME (options: ECMWF-ERA5 CSIRO-ACCESS-ESM1-5)
 #
-# To modify the four defaults, run something like this:
+# Example usage:
 #   make [target] [-Bn] CONFIG=npcp/config_npcp.mk VAR=pr TASK=projection RCM_NAME=BOM-BARPA-R GCM_NAME=CSIRO-ACCESS-ESM1-5
 #
-
-## User provided variables
 
 check_defined = \
     $(strip $(foreach 1,$1, \
@@ -19,18 +17,15 @@ __check_defined = \
     $(if $(value $1),, \
       $(error Undefined $1$(if $2, ($2))))
 
-$(call check_defined, VAR)
-$(call check_defined, TASK)
-$(call check_defined, RCM_NAME)
-$(call check_defined, GCM_NAME)
-
-## Preset/automatic variables
-
+## Method options
 METHOD=ecdfm
 NQUANTILES=100
 GROUPING=--time_grouping monthly
 INTERP=nearest
 OUTPUT_GRID=af
+
+## Variable options
+$(call check_defined, VAR)
 
 ifeq (${VAR}, pr)
 SCALING=multiplicative
@@ -48,8 +43,8 @@ HIST_UNITS=${UNITS}
 REF_UNITS=${UNITS}
 TARGET_UNITS=${UNITS}
 
-OBS_DATASET=AGCD
-RCM_VERSION=v1
+## Model options
+$(call check_defined, GCM_NAME)
 
 ifeq (${GCM_NAME}, ECMWF-ERA5)
 GCM_RUN=r1i1p1f1
@@ -58,6 +53,16 @@ else ifeq (${GCM_NAME}, CSIRO-ACCESS-ESM1-5)
 GCM_RUN=r6i1p1f1
 EXPERIMENT=ssp370
 endif
+OBS_DATASET=AGCD
+RCM_VERSION=v1
+
+## Input data
+$(call check_defined, TASK)
+$(call check_defined, HIST_VAR)
+$(call check_defined, REF_VAR)
+$(call check_defined, TARGET_VAR)
+$(call check_defined, RCM_NAME)
+$(call check_defined, OBS_DATASET)
 
 HIST_PATH=/g/data/ia39/npcp/data/${HIST_VAR}/${GCM_NAME}/${RCM_NAME}/raw/task-reference
 REF_PATH=/g/data/ia39/npcp/data/${REF_VAR}/observations/${OBS_DATASET}/raw/task-reference
@@ -100,16 +105,31 @@ TRAINING_DATES=${HIST_START}0101-${HIST_END}1231-odd-years
 TARGET_DATES=${TARGET_START}0101-${TARGET_END}1231-even-years
 endif
 
-OUTDIR=/g/data/ia39/npcp/data/${HIST_VAR}/${GCM_NAME}/${RCM_NAME}/${METHOD}/task-${TASK}
-OUTPUT_AF_DIR=${OUTDIR}
-OUTPUT_QQ_DIR=${OUTDIR}
-OUTPUT_VALIDATION_DIR=${OUTDIR}
+## Output data
+$(call check_defined, TASK)
+$(call check_defined, REF_VAR)
+$(call check_defined, RCM_NAME)
+$(call check_defined, OBS_DATASET)
+$(call check_defined, METHOD)
+$(call check_defined, SCALING)
+$(call check_defined, INTERP)
+$(call check_defined, NQUANTILES)
+$(call check_defined, EXPERIMENT)
+$(call check_defined, TRAINING_DATES)
+$(call check_defined, TARGET_DATES)
+$(call check_defined, GCM_RUN)
+$(call check_defined, RCM_VERSION)
 
+OUTDIR=/g/data/ia39/npcp/data/${HIST_VAR}/${GCM_NAME}/${RCM_NAME}/${METHOD}/task-${TASK}
+
+OUTPUT_AF_DIR=${OUTDIR}
 AF_FILE=${REF_VAR}-${METHOD}-${SCALING}-monthly-q${NQUANTILES}-adjustment-factors_${OBS_DATASET}_NPCP-20i_${GCM_NAME}_${EXPERIMENT}_${GCM_RUN}_${RCM_NAME}_${RCM_VERSION}_day_${TRAINING_DATES}.nc
 AF_PATH=${OUTPUT_AF_DIR}/${AF_FILE}
 
+OUTPUT_QQ_DIR=${OUTDIR}
 QQ_BASE=${REF_VAR}_NPCP-20i_${GCM_NAME}_${EXPERIMENT}_${GCM_RUN}_${RCM_NAME}_${RCM_VERSION}_day_${TARGET_DATES}_${METHOD}-${SCALING}-monthly-q${NQUANTILES}-${INTERP}-${OBS_DATASET}-${TRAINING_DATES}
 QQ_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.nc
 
+OUTPUT_VALIDATION_DIR=${OUTDIR}
 VALIDATION_NOTEBOOK=${OUTPUT_VALIDATION_DIR}/${QQ_BASE}.ipynb
 
