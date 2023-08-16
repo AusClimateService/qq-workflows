@@ -193,10 +193,8 @@ def plot_quantiles_2d_point(
     quantiles,
     general_cmap,
     af_cmap,
-    diff_cmap,
     general_levels,
     af_levels,
-    diff_levels,
 ):
     """Plot historical, reference and target quantiles for a single grid point."""
     
@@ -471,10 +469,8 @@ def single_point_analysis(
     lon,
     general_cmap,
     af_cmap,
-    diff_cmap,
     general_levels,
     af_levels,
-    diff_levels,
     pdf_xbounds=None,
     pdf_ybounds=None,
     q_xbounds=None,
@@ -506,10 +502,8 @@ def single_point_analysis(
             quantiles,
             general_cmap,
             af_cmap,
-            diff_cmap,
             general_levels,
             af_levels,
-            diff_levels,
         )
 
     if 'pr' in variable:
