@@ -10,9 +10,9 @@ PAPERMILL=/g/data/xv83/dbi599/miniconda3/envs/qqscale/bin/papermill
 CODE_DIR=/g/data/wp00/shared_code/qqscale
 
 ## cih-metadata: Apply CIH metadata to the QQ-scaled projection data
-cih-metadata : ${QQ_PATH}
-${QQ_PATH} :
-	${PYTHON} /g/data/wp00/shared_code/attribute-editing/define_attributes.py $@ qqscale-cmip6 /g/data/wp00/shared_code/attribute-editing/global_attributes.yml --del_var_attrs analysis_time analysis_version_number cell_methods frequency length_scale_for_analysis source history bias_adjustment number_of_stations_reporting --del_coord_attrs bounds --keep_attrs history xclim_version > metadata_fix.sh
+cih-metadata : ${QQ_PATH_CIH}
+${QQ_PATH_CIH} : ${QQ_PATH}
+	${PYTHON} /g/data/wp00/shared_code/attribute-editing/define_attributes.py $< qqscale-cmip6 /g/data/wp00/shared_code/attribute-editing/global_attributes.yml --outfile $@ --del_var_attrs analysis_time analysis_version_number cell_methods frequency length_scale_for_analysis source history bias_adjustment number_of_stations_reporting --del_coord_attrs bounds --keep_attrs history xclim > metadata_fix.sh
 	bash metadata_fix.sh
 	rm metadata_fix.sh
 
