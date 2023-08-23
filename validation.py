@@ -110,7 +110,6 @@ def spatial_comparison_plot(
     clim_levels,
     comp_levels,
     scaling,
-    mask=None,
     land_only=False,
     city_lat_lon={},
     clim_extend='max',
@@ -118,11 +117,7 @@ def spatial_comparison_plot(
 ):
     """Spatial plot of two climatologies and their difference."""
     
-    if mask is not None:
-        da_clim1 = da_clim1.where(mask)
-        da_clim2 = da_clim2.where(mask)
-        da_comp = da_comp.where(mask)
-    elif land_only:
+    if land_only:
         shape = gp.read_file('/g/data/ia39/aus-ref-clim-data-nci/shapefiles/data/australia/australia.shp')
         da_clim1 = subset_shape(da_clim1, shape=shape)
         da_clim2 = subset_shape(da_clim2, shape=shape)
@@ -173,10 +168,14 @@ def spatial_comparison_plot(
                 zorder=5,
                 transform=ccrs.PlateCarree()
             )
-    xmin, xmax = ax3.get_xlim()
-    ymin, ymax = ax3.get_ylim()
+
+    xmin = 112.92
+    xmax = 153.63
+    ymin = -43.625
+    ymax = -10.07
     ax1.set_extent([xmin, xmax, ymin, ymax], crs=ccrs.PlateCarree())
     ax2.set_extent([xmin, xmax, ymin, ymax], crs=ccrs.PlateCarree())
+    ax3.set_extent([xmin, xmax, ymin, ymax], crs=ccrs.PlateCarree())
     
     if outfile:
         plt.savefig(outfile, bbox_inches='tight', facecolor='white', dpi=300)
