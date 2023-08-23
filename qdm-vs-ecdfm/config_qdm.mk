@@ -5,7 +5,7 @@
 # - MODEL_TYPE (options: GCM, RCM)
 #
 # Example usage:
-#   make [target] [-Bn] CONFIG=cih/config_qdm.mk
+#   make [target] [-Bn] CONFIG=cih/config_qdm.mk GROUPBY=none MODEL_TYPE=GCM
 
 check_defined = \
     $(strip $(foreach 1,$1, \
@@ -16,7 +16,6 @@ __check_defined = \
 
 ## Method options
 VAR=pr
-MODEL=ACCESS-ESM1-5
 EXPERIMENT=ssp370
 RUN=r6i1p1f1
 REF_START=2070
@@ -32,8 +31,6 @@ HIST_END=2014
 REF_TIME=--ref_time
 
 ## Variable options
-$(call check_defined, VAR)
-
 SCALING=multiplicative
 SSR=--ssr
 HIST_VAR=pr
@@ -44,44 +41,26 @@ HIST_UNITS="kg m-2 s-1"
 REF_UNITS="kg m-2 s-1"
 TARGET_UNITS="mm day-1"
 
-## Model options
-$(call check_defined, MODEL)
+## Input data files
+$(call check_defined, MODEL_TYPE)
 
-ifeq (${MODEL}, ACCESS-ESM1-5)
-HIST_VERSION=v20191115
-REF_VERSION=v20191115
+ifeq (${MODEL_TYPE}, GCM)
+MODEL=ACCESS-ESM1-5
 MODEL_GRID=gn
 NCI_LOC=fs38/publications
+HIST_DATA := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/CMIP/*/${MODEL}/historical/${RUN}/day/${HIST_VAR}/${MODEL_GRID}/latest/*.nc))
+REF_DATA := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/ScenarioMIP/*/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/${MODEL_GRID}/latest/*.nc))
+else ifeq (${MODEL_TYPE}, RCM)
+MODEL=BARPA-R-ACCESS-ESM1-5
+MODEL_GRID=AUS-15
+HIST_DATA := $(sort $(wildcard /g/data/ia39/australian-climate-service/release/CORDEX-CMIP6/output/AUS-15/BOM/CSIRO-ACCESS-ESM1-5/historical/${RUN}/BOM-BARPA-R/v1/day/${REF_VAR}/${REF_VAR}_AUS-15_CSIRO-ACCESS-ESM1-5_historical_r6i1p1f1_BOM-BARPA-R_v1_day_*.nc))
+REF_DATA := $(sort $(wildcard /g/data/ia39/australian-climate-service/release/CORDEX-CMIP6/output/AUS-15/BOM/CSIRO-ACCESS-ESM1-5/ssp370/${RUN}/BOM-BARPA-R/v1/day/${REF_VAR}/pr_AUS-15_CSIRO-ACCESS-ESM1-5_ssp370_r6i1p1f1_BOM-BARPA-R_v1_day_20[7,8,9]*.nc))
 endif
 OBS_DATASET=AGCD
-
-# Input data files
-$(call check_defined, EXPERIMENT)
-$(call check_defined, RUN)
-$(call check_defined, NCI_LOC)
-$(call check_defined, HIST_VAR)
-$(call check_defined, REF_VAR)
-$(call check_defined, TARGET_VAR)
-$(call check_defined, MODEL_GRID)
-$(call check_defined, HIST_VERSION)
-$(call check_defined, REF_VERSION)
-
-HIST_DATA := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/CMIP/*/${MODEL}/historical/${RUN}/day/${HIST_VAR}/${MODEL_GRID}/${HIST_VERSION}/*.nc))
-REF_DATA := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/ScenarioMIP/*/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/${MODEL_GRID}/${REF_VERSION}/*.nc))
 TARGET_DATA := $(wildcard /g/data/xv83/agcd-csiro/${TARGET_VAR}/daily/*_AGCD-CSIRO_r005_*_daily_space-chunked.zarr)
 
 ## Output data files
-$(call check_defined, EXPERIMENT)
-$(call check_defined, RUN)
-$(call check_defined, REF_VAR)
-$(call check_defined, MODEL_GRID)
-$(call check_defined, METHOD)
-$(call check_defined, SCALING)
-$(call check_defined, NQUANTILES)
-$(call check_defined, REF_START)
-$(call check_defined, REF_END)
-$(call check_defined, HIST_START)
-$(call check_defined, HIST_END)
+$(call check_defined, GROUPBY)
 
 ifeq (${GROUPBY}, month)
 GROUPING=--time_grouping monthly
