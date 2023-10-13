@@ -13,6 +13,14 @@ sys.path.append('/g/data/wp00/shared_code/qqscale')
 import utils
 
 
+linestyles = {
+    'hist': 'solid',
+    'ref': 'solid',
+    'target': 'dotted',
+    'qq': 'dotted'
+}
+    
+
 def quantile_spatial_plot(
     da, month, cmap, levels, lat_bounds=None, lon_bounds=None, city_lat_lon={},
 ):
@@ -262,7 +270,7 @@ def plot_pdfs_point(
     fig = plt.figure(figsize=[15, 5])
     ax1 = fig.add_subplot(121)
     ax2 = fig.add_subplot(122)
-    bins = np.arange(0, 150, 1)
+    bins = np.arange(-20, 150, 1)
     ref_point.plot.hist(
         ax=ax1,
         bins=bins,
@@ -406,7 +414,7 @@ def plot_seasonal_cycle(
     for label in ['hist', 'ref', 'target', 'qq']:
         da_point = point_data[label]
         monthly_means = da_point.groupby('time.month').mean('time')
-        plt.plot(xticks, monthly_means, label=label, marker='o')
+        plt.plot(xticks, monthly_means, label=label, linestyle=linestyles[label], marker='o')
 
     plt.title('Monthly climatology')
     plt.legend()
@@ -446,7 +454,7 @@ def plot_seasonal_totals(
         elif time_agg == 'mean':
             monthly_values = da_point.groupby('time.month').mean('time')
             ylabel = da_hist_point.attrs['units'] 
-        plt.plot(xticks, monthly_values, label=label, marker='o')
+        plt.plot(xticks, monthly_values, label=label, linestyle=linestyles[label], marker='o')
 
     plt.title('Climatology')
     plt.legend()
