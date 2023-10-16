@@ -16,7 +16,7 @@ for gcm in "${gcm_list[@]}"; do
         for task in "${task_list[@]}"; do
             for rcm in "${rcm_list[@]}"; do
 
-                echo qsub -v var=${var},task=${task},rcm=${rcm},gcm=${gcm} job_npcp.sh
+                qsub -v var=${var},task=${task},rcm=${rcm},gcm=${gcm} job_npcp.sh
 
             done
         done
