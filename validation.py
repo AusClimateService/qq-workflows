@@ -378,6 +378,7 @@ def plot_quantiles_1d_point(
     ax1.set_ylim(ymin, ymax)
     ax1.grid()
     ax1.legend()
+    ax1.set_ylabel(ylabel)
     ax1.set_xlabel('quantile')
 
     if xbounds:
@@ -385,11 +386,77 @@ def plot_quantiles_1d_point(
     ax2.set_ylim(ymin, ymax)
     ax2.grid()
     ax2.legend()
-    ax2.set_ylabel(ylabel)
     ax2.set_xlabel('quantile')
 
     title = calendar.month_name[month] if month else 'all months'
     plt.suptitle(f'quantiles - {title}')
+    plt.show()
+
+
+def plot_values_1d_point(
+    da_hist_point,
+    da_ref_point,
+    da_target_point,
+    da_qq_point,
+    n_values=50,
+    month=None
+):
+    """Plot 1D values comparisons"""
+    
+    hist_point = da_hist_point.copy()
+    ref_point = da_ref_point.copy()
+    target_point = da_target_point.copy()
+    qq_point = da_qq_point.copy()
+    if month:
+        hist_point = hist_point[hist_point['time'].dt.month == month]
+        ref_point = ref_point[ref_point['time'].dt.month == month]
+        target_point = target_point[target_point['time'].dt.month == month]
+        qq_point = qq_point[qq_point['time'].dt.month == month]
+    
+    hist_point_sorted = np.sort(hist_point.values) 
+    ref_point_sorted = np.sort(ref_point.values)
+    target_args = np.argsort(target_point.values)
+    target_point_sorted = target_point[target_args]
+    qq_point_sorted = qq_point[target_args]
+    ratios = qq_point_sorted / target_point_sorted
+
+    fig = plt.figure(figsize=[15, 5])
+    ax1a = fig.add_subplot(121)
+    ax2a = fig.add_subplot(122)
+
+    all_data = np.concatenate([
+        hist_point_sorted, ref_point_sorted, target_point_sorted, qq_point_sorted
+    ])
+    ymax = np.max(all_data) + 5
+    ylabel = f"""{da_target_point.attrs['long_name']} ({da_target_point.attrs['units']})"""
+
+    xvals = np.arange(len(hist_point_sorted)) + 1
+    ax1a.stem(xvals[-n_values:], hist_point_sorted[-n_values:], label='hist', markerfmt='bo', linefmt='--')
+    ax1a.stem(xvals[-n_values:], ref_point_sorted[-n_values:], label='ref', markerfmt='go', linefmt='--')
+    ax1a.set_ylabel(ylabel)
+    ax1a.set_xlabel('rank')
+    ax1a.set_ylim([-5, ymax])
+    ax1a.legend(loc='center left')
+    ax1a.grid()
+    ax1b = ax1a.twinx()
+    ax1b.plot(xvals[-n_values:], ratios[-n_values:], color='tab:grey', linestyle=':', label='adjustment_factor')
+    ax1b.set_ylabel('adjustment factor')
+    ax1b.legend(loc='upper left')
+
+    xvals = np.arange(len(target_point_sorted)) + 1
+    ax2a.stem(xvals[-n_values:], target_point_sorted[-n_values:], label='target', markerfmt='bo', linefmt='--')
+    ax2a.stem(xvals[-n_values:], qq_point_sorted[-n_values:], label='qq', markerfmt='go', linefmt='--')
+    ax2a.set_xlabel('rank (target)')
+    ax2a.set_ylim([-5, ymax])
+    ax2a.legend(loc='center left')
+    ax2a.grid()
+    ax2b = ax2a.twinx()
+    ax2b.plot(xvals[-n_values:], ratios[-n_values:], color='tab:grey', linestyle=':', label='adjustment_factor')
+    ax2b.set_ylabel('adjustment factor')
+    ax2b.legend(loc='upper left')
+
+    title = calendar.month_name[month] if month else 'all months'
+    plt.suptitle(f'highest values - {title}')
     plt.show()
 
 
@@ -481,10 +548,12 @@ def single_point_analysis(
     pdf_xbounds=None,
     pdf_ybounds=None,
     q_xbounds=None,
+    n_values=50,
     months=[],
     seasonal_agg='mean',
     plot_2d_quantiles=True,
     plot_1d_quantiles=True,
+    plot_1d_values=True,
     plot_pdfs=True,
 ):
     """Plots for a single grid point"""
@@ -546,6 +615,24 @@ def single_point_analysis(
                 quantiles,
                 month=month,
                 xbounds=q_xbounds,
+            )
+
+    if plot_1d_values:
+        plot_values_1d_point(
+            da_hist_point,
+            da_ref_point,
+            da_target_point,
+            da_qq_point,
+            n_values=n_values
+        )
+        for month in months:
+            plot_values_1d_point(
+                da_hist_point,
+                da_ref_point,
+                da_target_point,
+                da_qq_point,
+                month=month,
+                n_values=n_values,
             )
 
     if plot_pdfs:
