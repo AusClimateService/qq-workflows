@@ -20,4 +20,5 @@ and `-B` forces all steps to be run
 
 Other useful scripts include:
 - `make_qdm_post-processing.mk`: Makefile for applying standard CIH file metadata to QDM data.
--  `bias_correct_timeseries.sh`: Bias correct a long timeseries via sliding window.
+- `bias_correct_timeseries.sh`: Bias correct a long timeseries via sliding window.
+- `npcp_ecdfm.sh` calls `job_npcp.sh` multiple times to process the entire NPCP ECDFm dataset
