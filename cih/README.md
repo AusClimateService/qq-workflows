@@ -1,14 +1,11 @@
-## CIH paper
+## CIH projections data
 
-This directory contains configuration files and other information
-relating to the journal paper assessing the quantile delta mapping technique
-used to produce CIH climate projections data. 
+This directory contains configuration files used to produce CIH climate projections data. 
 
-### Study design
+### Design
 
 - Observations: AGCD
 - Variables: tasmax, tasmin and pr (daily)
-- Spatial domain - Australian land surface
 - CMIP6 models:
   - ACCESS-CM2 (r4)
   - ACCESS-ESM1.5 (r6)
@@ -22,10 +19,3 @@ used to produce CIH climate projections data.
 - CMIP6 future experiment: ssp370
 - CMIP6 future period: 2056-2085 (i.e. 2070)
   - The other time periods used for the CMIP5 projections were 2016-2045 (2030) and 2036-2065 (2050)
-- Methods:
-  - mdc: mean delta change 
-  - qdc: quantile delta change
-    - with no adjustment to match the model mean change
-    - adjusted to match the model monthly mean change
-    - adjusted to match the model annual mean change
-
