@@ -88,6 +88,17 @@ TARGET_START=1980
 TARGET_END=2019
 TARGET_DATA := $(sort $(wildcard ${TARGET_PATH}/*day_19[8,9]*.nc) $(wildcard ${TARGET_PATH}/*day_20[0,1]*.nc))
 else ifeq (${TASK}, xvalidation)
+ifeq (${GCM_NAME}, ECMWF-ERA5)
+HIST_START=1980
+HIST_END=1999
+HIST_DATA := $(sort $(wildcard ${HIST_PATH}/*day_19[8,9]*.nc))
+REF_START=1980
+REF_END=1999
+REF_DATA := $(sort $(wildcard ${REF_PATH}/*day_19[8,9]*.nc))
+TARGET_START=2000
+TARGET_END=2019
+TARGET_DATA := $(sort $(wildcard ${TARGET_PATH}/*day_20[0,1]*.nc))
+else
 HIST_START=1960
 HIST_END=1989
 HIST_DATA := $(sort $(wildcard ${HIST_PATH}/*day_19[6,7,8]*.nc))
@@ -97,6 +108,7 @@ REF_DATA := $(sort $(wildcard ${REF_PATH}/*day_19[6,7,8]*.nc))
 TARGET_START=1990
 TARGET_END=2019
 TARGET_DATA := $(sort $(wildcard ${TARGET_PATH}/*day_199*.nc) $(wildcard ${TARGET_PATH}/*day_20[0,1]*.nc))
+endif
 endif
 TRAINING_DATES=${HIST_START}0101-${HIST_END}1231
 TARGET_DATES=${TARGET_START}0101-${TARGET_END}1231
