@@ -18,8 +18,17 @@ for var in "${var_list[@]}"; do
                 if [[ "${method}" == "ecdfm" ]] ; then
                     task_list+=(historical)
                 fi
-                for task in "${task_list[@]}"; do    
-                    qsub -v method=${method},var=${var},task=${task},rcm=${rcm},gcm=${gcm} job_npcp.sh
+                for task in "${task_list[@]}"; do
+                    if [ "${var}" == "pr" ] && [ "${method}" == "qdm" ] ; then
+                        if [ "${task}" == "xvalidation" ] && [ "${gcm}" == "ECMWF-ERA5" ] ; then
+                            nquantiles=500
+                        else
+                            nquantiles=1000
+                        fi
+                    else
+                        nquantiles=100
+                    fi
+                    qsub -v method=${method},var=${var},task=${task},rcm=${rcm},gcm=${gcm},nquantiles=${nquantiles} job_npcp.sh
                 done
             done
         done
