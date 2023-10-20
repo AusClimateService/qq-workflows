@@ -363,10 +363,11 @@ def plot_quantiles_1d_point(
     hist_data = hist_q_point.values
     ref_data = ref_q_point.values
 
-    ax1.bar(quantiles * 100, hist_data, alpha=0.5, label='historical')
-    ax1.bar(quantiles * 100, ref_data, alpha=0.5, label='reference')
-    ax2.bar(quantiles * 100, target_data, alpha=0.5, label='target')
-    ax2.bar(quantiles * 100, qq_data, alpha=0.5, label='qq-scaled data')
+    width = 80 / len(hist_q_point)
+    ax1.bar(quantiles * 100, hist_data, alpha=0.5, width=width, label='historical')
+    ax1.bar(quantiles * 100, ref_data, alpha=0.5, width=width, label='reference')
+    ax2.bar(quantiles * 100, target_data, alpha=0.5, width=width, label='target')
+    ax2.bar(quantiles * 100, qq_data, alpha=0.5, width=width, label='qq-scaled data')
 
     ylabel = f"""{da_target_point.attrs['long_name']} ({da_target_point.attrs['units']})"""
 
