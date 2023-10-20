@@ -416,8 +416,8 @@ def plot_values_1d_point(
     hist_point_sorted = np.sort(hist_point.values) 
     ref_point_sorted = np.sort(ref_point.values)
     target_args = np.argsort(target_point.values)
-    target_point_sorted = target_point[target_args]
-    qq_point_sorted = qq_point[target_args]
+    target_point_sorted = target_point[target_args].values
+    qq_point_sorted = qq_point[target_args].values
     ratios = qq_point_sorted / target_point_sorted
 
     fig = plt.figure(figsize=[15, 5])
