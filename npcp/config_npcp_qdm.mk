@@ -22,6 +22,7 @@ METHOD=qdm
 NQUANTILES=100
 INTERP=nearest
 OUTPUT_GRID=af
+REF_TIME=--ref_time
 
 ## Variable options
 $(call check_defined, VAR)
