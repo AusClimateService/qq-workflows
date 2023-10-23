@@ -19,7 +19,7 @@ linestyles = {
     'target': 'dotted',
     'qq': 'dotted'
 }
-    
+
 
 def quantile_spatial_plot(
     da, month, cmap, levels, lat_bounds=None, lon_bounds=None, city_lat_lon={},
@@ -399,6 +399,7 @@ def plot_values_1d_point(
     da_ref_point,
     da_target_point,
     da_qq_point,
+    scaling,
     n_values=50,
     month=None
 ):
@@ -408,18 +409,23 @@ def plot_values_1d_point(
     ref_point = da_ref_point.copy()
     target_point = da_target_point.copy()
     qq_point = da_qq_point.copy()
+    assert len(target_point) == len(qq_point), "1D values plot only works if length of target and qq are the same"
+    qq_point['time'] = target_point['time']
     if month:
         hist_point = hist_point[hist_point['time'].dt.month == month]
         ref_point = ref_point[ref_point['time'].dt.month == month]
         target_point = target_point[target_point['time'].dt.month == month]
         qq_point = qq_point[qq_point['time'].dt.month == month]
-    
+
     hist_point_sorted = np.sort(hist_point.values) 
     ref_point_sorted = np.sort(ref_point.values)
     target_args = np.argsort(target_point.values)
     target_point_sorted = target_point[target_args].values
     qq_point_sorted = qq_point[target_args].values
-    ratios = qq_point_sorted / target_point_sorted
+    if scaling == 'multiplicative':
+        adjustments = qq_point_sorted / target_point_sorted
+    else:
+        adjustments = qq_point_sorted - target_point_sorted
 
     fig = plt.figure(figsize=[15, 5])
     ax1a = fig.add_subplot(121)
@@ -431,7 +437,7 @@ def plot_values_1d_point(
     ymax = np.max(all_data) + 5
     ylabel = f"""{da_target_point.attrs['long_name']} ({da_target_point.attrs['units']})"""
 
-    xvals = np.arange(len(hist_point_sorted)) + 1
+    xvals = np.arange(len(target_point)) + 1
     ax1a.stem(xvals[-n_values:], hist_point_sorted[-n_values:], label='hist', markerfmt='bo', linefmt='--')
     ax1a.stem(xvals[-n_values:], ref_point_sorted[-n_values:], label='ref', markerfmt='go', linefmt='--')
     ax1a.set_ylabel(ylabel)
@@ -440,7 +446,7 @@ def plot_values_1d_point(
     ax1a.legend(loc='center left')
     ax1a.grid()
     ax1b = ax1a.twinx()
-    ax1b.plot(xvals[-n_values:], ratios[-n_values:], color='tab:grey', linestyle=':', label='adjustment_factor')
+    ax1b.plot(xvals[-n_values:], adjustments[-n_values:], color='tab:grey', linestyle=':', label='adjustment_factor')
     ax1b.set_ylabel('adjustment factor')
     ax1b.legend(loc='upper left')
 
@@ -452,7 +458,7 @@ def plot_values_1d_point(
     ax2a.legend(loc='center left')
     ax2a.grid()
     ax2b = ax2a.twinx()
-    ax2b.plot(xvals[-n_values:], ratios[-n_values:], color='tab:grey', linestyle=':', label='adjustment_factor')
+    ax2b.plot(xvals[-n_values:], adjustments[-n_values:], color='tab:grey', linestyle=':', label='adjustment_factor')
     ax2b.set_ylabel('adjustment factor')
     ax2b.legend(loc='upper left')
 
@@ -539,6 +545,7 @@ def single_point_analysis(
     da_qq,
     ds_adjust,
     variable,
+    scaling,
     city,
     lat,
     lon,
@@ -624,6 +631,7 @@ def single_point_analysis(
             da_ref_point,
             da_target_point,
             da_qq_point,
+            scaling,
             n_values=n_values
         )
         for month in months:
@@ -632,6 +640,7 @@ def single_point_analysis(
                 da_ref_point,
                 da_target_point,
                 da_qq_point,
+                scaling,
                 month=month,
                 n_values=n_values,
             )
