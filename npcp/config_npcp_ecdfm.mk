@@ -70,44 +70,44 @@ TARGET_PATH=/g/data/ia39/npcp/data/${TARGET_VAR}/${GCM_NAME}/${RCM_NAME}/raw/tas
 ifeq (${TASK}, projection)
 HIST_START=1980
 HIST_END=2019
-HIST_DATA := $(sort $(wildcard ${HIST_PATH}/*day_19[8,9]*.nc) $(wildcard ${HIST_PATH}/*day_20[0,1]*.nc))
+HIST_DATA := $(sort $(wildcard ${HIST_PATH}/${HIST_VAR}*day_19[8,9]*.nc) $(wildcard ${HIST_PATH}/${HIST_VAR}*day_20[0,1]*.nc))
 REF_START=1980
 REF_END=2019
-REF_DATA := $(sort $(wildcard ${REF_PATH}/*day_19[8,9]*.nc) $(wildcard ${REF_PATH}/*day_20[0,1]*.nc))
+REF_DATA := $(sort $(wildcard ${REF_PATH}/${REF_VAR}*day_19[8,9]*.nc) $(wildcard ${REF_PATH}/${REF_VAR}*day_20[0,1]*.nc))
 TARGET_START=2060
 TARGET_END=2099
-TARGET_DATA := $(sort $(wildcard ${TARGET_PATH}/*day_20[6,7,8,9]*.nc))
+TARGET_DATA := $(sort $(wildcard ${TARGET_PATH}/${TARGET_VAR}*day_20[6,7,8,9]*.nc))
 else ifeq (${TASK}, historical)
 HIST_START=1980
 HIST_END=2019
-HIST_DATA := $(sort $(wildcard ${HIST_PATH}/*day_19[8,9]*.nc) $(wildcard ${HIST_PATH}/*day_20[0,1]*.nc))
+HIST_DATA := $(sort $(wildcard ${HIST_PATH}/${HIST_VAR}*day_19[8,9]*.nc) $(wildcard ${HIST_PATH}/${HIST_VAR}*day_20[0,1]*.nc))
 REF_START=1980
 REF_END=2019
-REF_DATA := $(sort $(wildcard ${REF_PATH}/*day_19[8,9]*.nc) $(wildcard ${REF_PATH}/*day_20[0,1]*.nc))
+REF_DATA := $(sort $(wildcard ${REF_PATH}/${REF_VAR}*day_19[8,9]*.nc) $(wildcard ${REF_PATH}/${REF_VAR}*day_20[0,1]*.nc))
 TARGET_START=1980
 TARGET_END=2019
-TARGET_DATA := $(sort $(wildcard ${TARGET_PATH}/*day_19[8,9]*.nc) $(wildcard ${TARGET_PATH}/*day_20[0,1]*.nc))
+TARGET_DATA := $(sort $(wildcard ${TARGET_PATH}/${TARGET_VAR}*day_19[8,9]*.nc) $(wildcard ${TARGET_PATH}/${TARGET_VAR}*day_20[0,1]*.nc))
 else ifeq (${TASK}, xvalidation)
 ifeq (${GCM_NAME}, ECMWF-ERA5)
 HIST_START=1980
 HIST_END=1999
-HIST_DATA := $(sort $(wildcard ${HIST_PATH}/*day_19[8,9]*.nc))
+HIST_DATA := $(sort $(wildcard ${HIST_PATH}/${HIST_VAR}*day_19[8,9]*.nc))
 REF_START=1980
 REF_END=1999
-REF_DATA := $(sort $(wildcard ${REF_PATH}/*day_19[8,9]*.nc))
+REF_DATA := $(sort $(wildcard ${REF_PATH}/${REF_VAR}*day_19[8,9]*.nc))
 TARGET_START=2000
 TARGET_END=2019
-TARGET_DATA := $(sort $(wildcard ${TARGET_PATH}/*day_20[0,1]*.nc))
+TARGET_DATA := $(sort $(wildcard ${TARGET_PATH}/${TARGET_VAR}*day_20[0,1]*.nc))
 else
 HIST_START=1960
 HIST_END=1989
-HIST_DATA := $(sort $(wildcard ${HIST_PATH}/*day_19[6,7,8]*.nc))
+HIST_DATA := $(sort $(wildcard ${HIST_PATH}/${HIST_VAR}*day_19[6,7,8]*.nc))
 REF_START=1960
 REF_END=1989
-REF_DATA := $(sort $(wildcard ${REF_PATH}/*day_19[6,7,8]*.nc))
+REF_DATA := $(sort $(wildcard ${REF_PATH}/${REF_VAR}*day_19[6,7,8]*.nc))
 TARGET_START=1990
 TARGET_END=2019
-TARGET_DATA := $(sort $(wildcard ${TARGET_PATH}/*day_199*.nc) $(wildcard ${TARGET_PATH}/*day_20[0,1]*.nc))
+TARGET_DATA := $(sort $(wildcard ${TARGET_PATH}/${TARGET_VAR}*day_199*.nc) $(wildcard ${TARGET_PATH}/${TARGET_VAR}*day_20[0,1]*.nc))
 endif
 endif
 TRAINING_DATES=${HIST_START}0101-${HIST_END}1231
