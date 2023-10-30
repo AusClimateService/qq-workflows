@@ -2,15 +2,14 @@
 #
 # The required user defined variables are:
 # - VAR (options: tasmin tasmax pr)
-# - MODEL (options: ACCESS-ESM1-5 ACCESS-CM2)
+# - MODEL (options: ACCESS-CM2 ACCESS-ESM1-5 CMCC-ESM2 CESM2 EC-Earth3 NorESM2-MM)
 # - EXPERIMENT (options: any ScenarioMIP e.g. ssp370)
-# - RUN (e.g. r1i1p1f1)
 # - REF_START (start of reference/future time period)
 # - REF_END (end of reference/future time period)
 #
 # Example usage:
 #   make [target] [-Bn] CONFIG=cih/config_cih.mk VAR=pr MODEL=ACCESS-ESM1-5
-#                       EXPERIMENT=ssp370 RUN=r1i1p1f1 REF_START=2056 REF_END=2085
+#                       EXPERIMENT=ssp370 REF_START=2056 REF_END=2085
 #
 
 check_defined = \
@@ -74,16 +73,25 @@ endif
 ## Model options
 $(call check_defined, MODEL)
 
-ifeq (${MODEL}, ACCESS-ESM1-5)
-HIST_VERSION=v20191115
-REF_VERSION=v20191115
-MODEL_GRID=gn
+ifeq (${MODEL}, ACCESS-CM2)
 NCI_LOC=fs38/publications
-else ifeq (${MODEL}, ACCESS-CM2)
-HIST_VERSION=v20210607
-REF_VERSION=v20210712
-MODEL_GRID=gn
+RUN=r4i1p1f1
+else ifeq (${MODEL}, ACCESS-ESM1-5)
 NCI_LOC=fs38/publications
+RUN=r6i1p1f1
+#else ifeq (${MODEL}, CESM2)
+#NCI_LOC=oi10/replicas
+#RUN=r1i1p1f1
+## FIXME: No tasmin on NCI
+else ifeq (${MODEL}, CMCC-ESM2)
+NCI_LOC=oi10/replicas
+RUN=r1i1p1f1
+else ifeq (${MODEL}, EC-Earth3)
+NCI_LOC=oi10/replicas
+RUN=r1i1p1f1
+else ifeq (${MODEL}, NorESM2-MM)
+NCI_LOC=oi10/replicas
+RUN=r1i1p1f1
 endif
 OBS_DATASET=AGCD
 
@@ -94,19 +102,15 @@ $(call check_defined, NCI_LOC)
 $(call check_defined, HIST_VAR)
 $(call check_defined, REF_VAR)
 $(call check_defined, TARGET_VAR)
-$(call check_defined, MODEL_GRID)
-$(call check_defined, HIST_VERSION)
-$(call check_defined, REF_VERSION)
 
-HIST_DATA := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/CMIP/*/${MODEL}/historical/${RUN}/day/${HIST_VAR}/${MODEL_GRID}/${HIST_VERSION}/*.nc))
-REF_DATA := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/ScenarioMIP/*/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/${MODEL_GRID}/${REF_VERSION}/*.nc))
+HIST_DATA := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/CMIP/*/${MODEL}/historical/${RUN}/day/${HIST_VAR}/*/*/*.nc))
+REF_DATA := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/ScenarioMIP/*/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/*/*/*.nc))
 TARGET_DATA := $(wildcard /g/data/xv83/agcd-csiro/${TARGET_VAR}/daily/*_AGCD-CSIRO_r005_*_daily_space-chunked.zarr)
 
 ## Output data files
 $(call check_defined, EXPERIMENT)
 $(call check_defined, RUN)
 $(call check_defined, REF_VAR)
-$(call check_defined, MODEL_GRID)
 $(call check_defined, METHOD)
 $(call check_defined, SCALING)
 $(call check_defined, NQUANTILES)
@@ -115,11 +119,11 @@ $(call check_defined, REF_END)
 $(call check_defined, HIST_START)
 $(call check_defined, HIST_END)
 
-OUTPUT_AF_DIR=/g/data/wp00/data/QQ-CMIP6/${MODEL}/historical/${RUN}/day/${REF_VAR}/${REF_VERSION}
-AF_FILE=${REF_VAR}-${METHOD_DESCRIPTION}-adjustment-factors_${MODEL}_${EXPERIMENT}_${RUN}_${MODEL_GRID}_${REF_START}0101-${REF_END}1231_wrt_${HIST_START}0101-${HIST_END}1231.nc
+OUTPUT_AF_DIR=/g/data/wp00/data/QQ-CMIP6/${MODEL}/historical/${RUN}/day/${REF_VAR}
+AF_FILE=${REF_VAR}-${METHOD_DESCRIPTION}-adjustment-factors_${MODEL}_${EXPERIMENT}_${RUN}_gn_${REF_START}0101-${REF_END}1231_wrt_${HIST_START}0101-${HIST_END}1231.nc
 AF_PATH=${OUTPUT_AF_DIR}/${AF_FILE}
 
-OUTPUT_QQ_DIR=/g/data/wp00/data/QQ-CMIP6/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/${REF_VERSION}
+OUTPUT_QQ_DIR=/g/data/wp00/data/QQ-CMIP6/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}
 QQ_BASE=${REF_VAR}_day_${MODEL}_${EXPERIMENT}_${RUN}_AUS-r005_${REF_START}0101-${REF_END}1231_${METHOD_DESCRIPTION}-${INTERP}_${OBS_DATASET}-${TARGET_START}0101-${TARGET_END}1231_historical-${HIST_START}0101-${HIST_END}1231
 QQ_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.nc
 QQ_PATH_CIH=${OUTPUT_QQ_DIR}/${QQ_BASE}_cih.nc
