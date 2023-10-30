@@ -17,9 +17,8 @@ include ${CONFIG}
 #PYTHON=/g/data/wp00/users/dbi599/miniconda3/envs/cih/bin/python
 PYTHON=/g/data/xv83/dbi599/miniconda3/envs/qqscale/bin/python
 PAPERMILL=/g/data/xv83/dbi599/miniconda3/envs/qqscale/bin/papermill
-#CODE_DIR=/g/data/wp00/shared_code/qqscale
-CODE_DIR=/home/599/dbi599/qqscale
-TEMPLATE_NOTEBOOK=validation.ipynb
+CODE_DIR=~/qqscale
+TEMPLATE_NOTEBOOK=~/qq-workflows/validation.ipynb
 
 
 check_defined = \
