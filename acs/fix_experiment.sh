@@ -1,5 +1,6 @@
 #
-# Bash script for separating bias corrected data into single years
+# Bash script for fixing the experiment metadata in bias corrected data
+# that has been separated into single years
 #
 # Usage: bash fix_experiment.sh {full/path/to/file1.nc ... full/path/to/fileN.nc }
 #
