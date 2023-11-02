@@ -1,7 +1,7 @@
 # CIH quantile delta mapping configuration
 #
 # The required user defined variables are:
-# - VAR (options: tasmin tasmax pr)
+# - VAR (options: tasmin tasmax pr rsds)
 # - MODEL (options: ACCESS-CM2 ACCESS-ESM1-5 CMCC-ESM2 CESM2 EC-Earth3 NorESM2-MM)
 # - EXPERIMENT (options: any ScenarioMIP e.g. ssp370)
 # - REF_START (start of reference/future time period)
@@ -23,10 +23,10 @@ __check_defined = \
 METHOD=qdm
 INTERP=nearest
 OUTPUT_GRID=input
-TARGET_START=1985
-TARGET_END=2014
-HIST_START=1985
-HIST_END=2014
+TARGET_START=1990
+TARGET_END=2019
+HIST_START=1990
+HIST_END=2019
 REF_TIME=--ref_time
 
 ## Variable options
@@ -68,6 +68,18 @@ OUTPUT_UNITS=C
 HIST_UNITS=K
 REF_UNITS=K
 TARGET_UNITS=C
+else ifeq (${VAR}, rsds)
+SCALING=additive
+NQUANTILES=100
+GROUPING=--time_grouping monthly
+METHOD_DESCRIPTION=${METHOD}-${SCALING}-monthly-q${NQUANTILES}
+HIST_VAR=rsds
+REF_VAR=rsds
+TARGET_VAR=dailyExposure
+OUTPUT_UNITS="W m-2"
+HIST_UNITS="W m-2"
+REF_UNITS="W m-2"
+TARGET_UNITS="MJ m-2"
 endif
 
 ## Model options
@@ -103,9 +115,9 @@ $(call check_defined, HIST_VAR)
 $(call check_defined, REF_VAR)
 $(call check_defined, TARGET_VAR)
 
-HIST_DATA := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/CMIP/*/${MODEL}/historical/${RUN}/day/${HIST_VAR}/*/*/*.nc))
-REF_DATA := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/ScenarioMIP/*/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/*/*/*.nc))
-TARGET_DATA := $(wildcard /g/data/xv83/agcd-csiro/${TARGET_VAR}/daily/*_AGCD-CSIRO_r005_*_daily_space-chunked.zarr)
+HIST_DATA := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/CMIP/*/${MODEL}/historical/${RUN}/day/${HIST_VAR}/*/v*/*.nc) $(wildcard /g/data/${NCI_LOC}/CMIP6/ScenarioMIP/*/${MODEL}/ssp245/${RUN}/day/${HIST_VAR}/*/v*/*.nc))
+REF_DATA := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/ScenarioMIP/*/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/*/v*/*.nc))
+TARGET_DATA := $(sort $(wildcard /g/data/xv83/agcd-csiro/${TARGET_VAR}/daily/*_AGCD-CSIRO_r005_199*_daily.nc) $(wildcard /g/data/xv83/agcd-csiro/${TARGET_VAR}/daily/*_AGCD-CSIRO_r005_20[0,1]*_daily.nc))
 
 ## Output data files
 $(call check_defined, EXPERIMENT)
