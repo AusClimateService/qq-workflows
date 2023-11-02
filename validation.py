@@ -567,11 +567,11 @@ def single_point_analysis(
     """Plots for a single grid point"""
     
     point_selection = {'lat': lat, 'lon': lon}
-    da_hist_point = da_hist.sel(point_selection, method='nearest')
-    da_ref_point = da_ref.sel(point_selection, method='nearest')
-    da_target_point = da_target.sel(point_selection, method='nearest')
-    da_qq_point = da_qq.sel(point_selection, method='nearest')
-    ds_adjust_point = ds_adjust.sel(point_selection, method='nearest')
+    da_hist_point = da_hist.sel(point_selection, method='nearest').compute()
+    da_ref_point = da_ref.sel(point_selection, method='nearest').compute()
+    da_target_point = da_target.sel(point_selection, method='nearest').compute()
+    da_qq_point = da_qq.sel(point_selection, method='nearest').compute()
+    ds_adjust_point = ds_adjust.sel(point_selection, method='nearest').compute()
     quantiles = ds_adjust['quantiles'].data
     
     print(city.upper())
