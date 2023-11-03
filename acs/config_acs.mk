@@ -92,6 +92,8 @@ ifeq (${GCM_NAME}, CSIRO-ACCESS-ESM1-5)
 GCM_RUN=r6i1p1f1
 else ifeq (${GCM_NAME}, CSIRO-ARCCSS-ACCESS-CM2)
 GCM_RUN=r4i1p1f1
+else ifeq (${GCM_NAME}, NCAR-CESM2)
+GCM_RUN=r11i1p1f1
 else
 GCM_RUN=r1i1p1f1
 endif
