@@ -16,12 +16,8 @@ for infile in "$@"; do
            outfile=`echo ${outfile} | sed s:${experiment}:historical:g`
         fi
         outdir=`dirname ${outfile}`
-        mkdir -p ${outdir} 
-        command="cdo seldate,${year}-01-01,${year}-12-31 ${infile} ${outfile}"
-        jobfile=split-by-year-job-${year}.sh
-        cp split-by-year-job.sh ${jobfile}
-        echo ${command} >> ${jobfile}
-        qsub ${jobfile}  
+        mkdir -p ${outdir}
+        qsub -v year=${year},infile=${infile},outfile=${outfile} split-by-year-job.sh
     done
 done
 
