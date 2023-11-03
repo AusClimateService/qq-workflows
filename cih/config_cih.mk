@@ -44,6 +44,7 @@ OUTPUT_UNITS="mm day-1"
 HIST_UNITS="kg m-2 s-1"
 REF_UNITS="kg m-2 s-1"
 TARGET_UNITS="mm day-1"
+OBS_DATASET=AGCD
 else ifeq (${VAR}, tasmin)
 SCALING=additive
 NQUANTILES=100
@@ -56,6 +57,7 @@ OUTPUT_UNITS=C
 HIST_UNITS=K
 REF_UNITS=K
 TARGET_UNITS=C
+OBS_DATASET=AGCD
 else ifeq (${VAR}, tasmax)
 SCALING=additive
 NQUANTILES=100
@@ -68,6 +70,7 @@ OUTPUT_UNITS=C
 HIST_UNITS=K
 REF_UNITS=K
 TARGET_UNITS=C
+OBS_DATASET=AGCD
 else ifeq (${VAR}, rsds)
 SCALING=additive
 NQUANTILES=100
@@ -75,11 +78,12 @@ GROUPING=--time_grouping monthly
 METHOD_DESCRIPTION=${METHOD}-${SCALING}-monthly-q${NQUANTILES}
 HIST_VAR=rsds
 REF_VAR=rsds
-TARGET_VAR=dailyExposure
+TARGET_VAR=radiation
 OUTPUT_UNITS="W m-2"
 HIST_UNITS="W m-2"
 REF_UNITS="W m-2"
 TARGET_UNITS="MJ m-2"
+OBS_DATASET=SILO
 endif
 
 ## Model options
@@ -105,7 +109,6 @@ else ifeq (${MODEL}, NorESM2-MM)
 NCI_LOC=oi10/replicas
 RUN=r1i1p1f1
 endif
-OBS_DATASET=AGCD
 
 # Input data files
 $(call check_defined, EXPERIMENT)
@@ -114,10 +117,11 @@ $(call check_defined, NCI_LOC)
 $(call check_defined, HIST_VAR)
 $(call check_defined, REF_VAR)
 $(call check_defined, TARGET_VAR)
+$(call check_defined, OBS_DATASET)
 
 HIST_DATA := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/CMIP/*/${MODEL}/historical/${RUN}/day/${HIST_VAR}/*/v*/*.nc) $(wildcard /g/data/${NCI_LOC}/CMIP6/ScenarioMIP/*/${MODEL}/ssp245/${RUN}/day/${HIST_VAR}/*/v*/*.nc))
 REF_DATA := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/ScenarioMIP/*/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/*/v*/*.nc))
-TARGET_DATA := $(sort $(wildcard /g/data/xv83/agcd-csiro/${TARGET_VAR}/daily/*_AGCD-CSIRO_r005_199*_daily.nc) $(wildcard /g/data/xv83/agcd-csiro/${TARGET_VAR}/daily/*_AGCD-CSIRO_r005_20[0,1]*_daily.nc))
+TARGET_DATA := $(sort $(wildcard /g/data/xv83/*-csiro/${TARGET_VAR}/daily/*_${OBS_DATASET}-CSIRO_r005_199*_daily.nc) $(wildcard /g/data/xv83/*-csiro/${TARGET_VAR}/daily/*_${OBS_DATASET}-CSIRO_r005_20[0,1]*_daily.nc))
 
 ## Output data files
 $(call check_defined, EXPERIMENT)
