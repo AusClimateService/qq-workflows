@@ -21,7 +21,7 @@ __check_defined = \
 
 ## Method options
 METHOD=qdm
-INTERP=nearest
+INTERP=linear
 OUTPUT_GRID=input
 TARGET_START=1990
 TARGET_END=2019
