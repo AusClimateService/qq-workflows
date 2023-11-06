@@ -2,13 +2,15 @@
 #
 # The user defined variables are:
 # - VAR (required; options: tasmin tasmax pr)
-# - RCM_NAME (required; options: BOM-BARPA-R)
+# - RCM_NAME (required; options: BOM-BARPA-R CSIRO-CCAM-2203)
 # - GCM_NAME (required; options:
 #               CMCC-CMCC-ESM2
+#               CNRM-CERFACS-CNRM-ESM2-1
 #               CSIRO-ACCESS-ESM1-5
 #               CSIRO-ARCCSS-ACCESS-CM2
 #               EC-Earth-Consortium-EC-Earth3
 #               ECMWF-ERA5
+#               MPI-M-MPI-ESM1-2-HR
 #               NCAR-CESM2
 #               NCC-NorESM2-MM
 #             )
@@ -94,6 +96,8 @@ else ifeq (${GCM_NAME}, CSIRO-ARCCSS-ACCESS-CM2)
 GCM_RUN=r4i1p1f1
 else ifeq (${GCM_NAME}, NCAR-CESM2)
 GCM_RUN=r11i1p1f1
+else ifeq (${GCM_NAME}, CNRM-CERFACS-CNRM-ESM2-1)
+GCM_RUN=r1i1p1f2
 else
 GCM_RUN=r1i1p1f1
 endif
@@ -118,11 +122,10 @@ TARGET_DATA := $(sort $(wildcard ${HIST_PATH}/*.nc) $(wildcard ${TARGET_PATH}/*.
 else ifeq (${RCM_NAME}, CSIRO-CCAM-2203)
 RCM_INSTITUTION=CSIRO
 HIST_PATH=drs_cordex/CORDEX-CMIP6/output/AUS-10i/${RCM_INSTITUTION}/${GCM_NAME}/${HIST_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${HIST_VAR}
-HIST_DATA := $(sort $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${HIST_PATH}/*day_198[5,6,7,8,9]*.nc) $(wildcard /g/data/xv83/mxt599/ccam_*_historical_aus-10i_12km/${HIST_PATH}/*day_199*.nc) $(wildcard /g/data/xv83/mxt599/ccam_*_historical_aus-10i_12km/${HIST_PATH}/*day_2*.nc))
+HIST_DATA := $(sort $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${HIST_PATH}/*day_198[5,6,7,8,9]*.nc) $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${HIST_PATH}/*day_199*.nc) $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${HIST_PATH}/*day_2*.nc))
 TARGET_PATH=drs_cordex/CORDEX-CMIP6/output/AUS-10i/${RCM_INSTITUTION}/${GCM_NAME}/${HIST_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${TARGET_VAR}
 TARGET_DATA := $(sort $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${HIST_PATH}/*.nc) $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${TARGET_PATH}/*.nc))
 endif
-
 OBS_DATASET=AGCD
 RCM_VERSION=v1
 REF_PATH=/g/data/xv83/agcd-csiro/${REF_VAR}/daily
