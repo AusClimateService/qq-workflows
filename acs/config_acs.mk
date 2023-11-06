@@ -98,17 +98,7 @@ else
 GCM_RUN=r1i1p1f1
 endif
 
-ifeq (${RCM_NAME}, BOM-BARPA-R)
-RCM_INSTITUTION=BOM
-else ifeq (${RCM_NAME}, CSIRO-CCAM-2203)
-RCM_INSTITUTION=CSIRO
-endif
-
-OBS_DATASET=AGCD
-RCM_VERSION=v1
-
 ## Input data
-$(call check_defined, RCM_INSTITUTION)
 $(call check_defined, GCM_NAME)
 $(call check_defined, GCM_RUN)
 $(call check_defined, HIST_EXP)
@@ -118,15 +108,26 @@ $(call check_defined, HIST_VAR)
 $(call check_defined, REF_VAR)
 $(call check_defined, TARGET_VAR)
 
+ifeq (${RCM_NAME}, BOM-BARPA-R)
+RCM_INSTITUTION=BOM
 CORDEX_PATH=/g/data/ia39/australian-climate-service/release/CORDEX-CMIP6/output
 HIST_PATH=${CORDEX_PATH}/AUS-15/${RCM_INSTITUTION}/${GCM_NAME}/${HIST_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${HIST_VAR}
-REF_PATH=/g/data/xv83/agcd-csiro/${REF_VAR}/daily
-TARGET_PATH=${CORDEX_PATH}/AUS-15/${RCM_INSTITUTION}/${GCM_NAME}/${TARGET_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${TARGET_VAR}
-
 HIST_DATA := $(sort $(wildcard ${HIST_PATH}/*day_198[5,6,7,8,9]*.nc) $(wildcard ${HIST_PATH}/*day_199*.nc) $(wildcard ${HIST_PATH}/*day_2*.nc))
-#REF_DATA := $(wildcard /g/data/xv83/agcd-csiro/${REF_VAR}/daily/*_AGCD-CSIRO_r005_*_daily_space-chunked.zarr)
-REF_DATA = $(sort $(wildcard ${REF_PATH}/*_198[5,6,7,8,9]*.nc) $(wildcard ${REF_PATH}/*_199*.nc) $(wildcard ${REF_PATH}/*_200*.nc) $(wildcard ${REF_PATH}/*_201[0,1,2,3,4]*.nc))
+TARGET_PATH=${CORDEX_PATH}/AUS-15/${RCM_INSTITUTION}/${GCM_NAME}/${TARGET_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${TARGET_VAR}
 TARGET_DATA := $(sort $(wildcard ${HIST_PATH}/*.nc) $(wildcard ${TARGET_PATH}/*.nc))
+else ifeq (${RCM_NAME}, CSIRO-CCAM-2203)
+RCM_INSTITUTION=CSIRO
+HIST_PATH=drs_cordex/CORDEX-CMIP6/output/AUS-10i/${RCM_INSTITUTION}/${GCM_NAME}/${HIST_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${HIST_VAR}
+HIST_DATA := $(sort $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${HIST_PATH}/*day_198[5,6,7,8,9]*.nc) $(wildcard /g/data/xv83/mxt599/ccam_*_historical_aus-10i_12km/${HIST_PATH}/*day_199*.nc) $(wildcard /g/data/xv83/mxt599/ccam_*_historical_aus-10i_12km/${HIST_PATH}/*day_2*.nc))
+TARGET_PATH=drs_cordex/CORDEX-CMIP6/output/AUS-10i/${RCM_INSTITUTION}/${GCM_NAME}/${HIST_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${TARGET_VAR}
+TARGET_DATA := $(sort $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${HIST_PATH}/*.nc) $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${TARGET_PATH}/*.nc))
+endif
+
+OBS_DATASET=AGCD
+RCM_VERSION=v1
+REF_PATH=/g/data/xv83/agcd-csiro/${REF_VAR}/daily
+REF_DATA = $(sort $(wildcard ${REF_PATH}/*_198[5,6,7,8,9]*.nc) $(wildcard ${REF_PATH}/*_199*.nc) $(wildcard ${REF_PATH}/*_200*.nc) $(wildcard ${REF_PATH}/*_201[0,1,2,3,4]*.nc))
+
 
 ## Output data
 $(call check_defined, RCM_INSTITUTION)
