@@ -10,15 +10,18 @@ is available for the following GCM/RCM combinations.
 
 |  | BOM-BARPA-R | CSIRO-CCAM-2203 | 
 | ---  | :-:     | :-:             |
-| CMCC-CMCC-ESM2 | :green_circle: | :white_circle: |
-| CNRM-CERFACS-CNRM-ESM2-1 | | :white_circle: |
-| CSIRO-ACCESS-ESM1-5 | :green_circle: | :white_circle: | 
-| CSIRO-ACCESS-CM2 | :green_circle: | :white_circle: | 
+| CMCC-CMCC-ESM2 | :green_circle: | :green_circle: |
+| CNRM-CERFACS-CNRM-ESM2-1 | | :green_circle: |
+| CSIRO-ACCESS-ESM1-5 | :green_circle: | :green_circle: | 
+| CSIRO-ACCESS-CM2 | :green_circle: | :green_circle: | 
 | EC-Earth-Consortium-EC-Earth3 | :green_circle: | :white_circle: | 
 | ECMWF-ERA5 | :green_circle: | :white_circle: |
 | MPI-M-MPI-ESM1-2-HR | :white_circle: | |
-| NCAR-CESM2 | :green_circle: | :white_circle: | 
+| NCAR-CESM2 | :green_circle: | :green_circle: | 
 | NCC-NorESM2-MM | :green_circle: | :white_circle: | 
+
+:green_circle: = data is available  
+:white_circle: = modelling groups haven't provided the final CORDEX-compliant data yet
 
 The bias correction method was trained on the 1985-2014 period and a bias corrected timeseries
 for the 1960-2100 period has been produced (for the historical/ssp370 experiment).
