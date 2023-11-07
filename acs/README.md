@@ -13,11 +13,11 @@ is available for the following GCM/RCM combinations.
 | CMCC-CMCC-ESM2 | :green_circle: | :green_circle: |
 | CNRM-CERFACS-CNRM-ESM2-1 | | :green_circle: |
 | CSIRO-ACCESS-ESM1-5 | :green_circle: | :green_circle: | 
-| CSIRO-ACCESS-CM2 | :green_circle: | :green_circle: | 
+| CSIRO-ACCESS-CM2 | :green_circle: | :white_circle: | 
 | EC-Earth-Consortium-EC-Earth3 | :green_circle: | :white_circle: | 
 | ECMWF-ERA5 | :green_circle: | :white_circle: |
 | MPI-M-MPI-ESM1-2-HR | :white_circle: | |
-| NCAR-CESM2 | :green_circle: | :green_circle: | 
+| NCAR-CESM2 | :green_circle: | :white_circle: | 
 | NCC-NorESM2-MM | :green_circle: | :white_circle: | 
 
 :green_circle: = data is available  

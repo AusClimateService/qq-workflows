@@ -123,7 +123,7 @@ else ifeq (${RCM_NAME}, CSIRO-CCAM-2203)
 RCM_INSTITUTION=CSIRO
 HIST_PATH=drs_cordex/CORDEX-CMIP6/output/AUS-10i/${RCM_INSTITUTION}/${GCM_NAME}/${HIST_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${HIST_VAR}
 HIST_DATA := $(sort $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${HIST_PATH}/*day_198[5,6,7,8,9]*.nc) $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${HIST_PATH}/*day_199*.nc) $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${HIST_PATH}/*day_2*.nc))
-TARGET_PATH=drs_cordex/CORDEX-CMIP6/output/AUS-10i/${RCM_INSTITUTION}/${GCM_NAME}/${HIST_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${TARGET_VAR}
+TARGET_PATH=drs_cordex/CORDEX-CMIP6/output/AUS-10i/${RCM_INSTITUTION}/${GCM_NAME}/${TARGET_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${TARGET_VAR}
 TARGET_DATA := $(sort $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${HIST_PATH}/*.nc) $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${TARGET_PATH}/*.nc))
 endif
 OBS_DATASET=AGCD
