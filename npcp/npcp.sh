@@ -5,7 +5,7 @@
 
 method_list=(ecdfm qdm)
 var_list=(tasmax tasmin pr)
-rcm_list=(BOM-BARPA-R UQ-DES-CCAM-2105 CSIRO-CCAM-2203)
+rcm_list=(BOM-BARPA-R UQ-DES-CCAM-2105 CSIRO-CCAM-2203 GCM)
 gcm_list=(ECMWF-ERA5 CSIRO-ACCESS-ESM1-5)
 for var in "${var_list[@]}"; do
     for rcm in "${rcm_list[@]}"; do 

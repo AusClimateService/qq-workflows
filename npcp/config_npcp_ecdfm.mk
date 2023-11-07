@@ -3,7 +3,7 @@
 # The required user defined variables are:
 # - VAR (options: tasmin tasmax pr)
 # - TASK (options: historical xvalidation projection)
-# - RCM_NAME (options: BOM-BARPA-R UQ-DES-CCAM-2105 CSIRO-CCAM-2203)
+# - RCM_NAME (options: BOM-BARPA-R UQ-DES-CCAM-2105 CSIRO-CCAM-2203 GCM)
 # - GCM_NAME (options: ECMWF-ERA5 CSIRO-ACCESS-ESM1-5)
 #
 # Example usage:
@@ -46,12 +46,16 @@ TARGET_UNITS=${UNITS}
 ## Model options
 $(call check_defined, GCM_NAME)
 
+ONE_GCM_FILE=False
 ifeq (${GCM_NAME}, ECMWF-ERA5)
 GCM_RUN=r1i1p1f1
 EXPERIMENT=evaluation
 else ifeq (${GCM_NAME}, CSIRO-ACCESS-ESM1-5)
 GCM_RUN=r6i1p1f1
 EXPERIMENT=ssp370
+ifeq (${RCM_NAME}, GCM)
+ONE_GCM_FILE=True
+endif
 endif
 OBS_DATASET=AGCD
 RCM_VERSION=v1
@@ -70,46 +74,60 @@ TARGET_PATH=/g/data/ia39/npcp/data/${TARGET_VAR}/${GCM_NAME}/${RCM_NAME}/raw/tas
 ifeq (${TASK}, projection)
 HIST_START=1980
 HIST_END=2019
-HIST_DATA := $(sort $(wildcard ${HIST_PATH}/${HIST_VAR}*day_19[8,9]*.nc) $(wildcard ${HIST_PATH}/${HIST_VAR}*day_20[0,1]*.nc))
 REF_START=1980
 REF_END=2019
-REF_DATA := $(sort $(wildcard ${REF_PATH}/${REF_VAR}*day_19[8,9]*.nc) $(wildcard ${REF_PATH}/${REF_VAR}*day_20[0,1]*.nc))
 TARGET_START=2060
 TARGET_END=2099
+ifeq (${ONE_GCM_FILE}, False)
+HIST_DATA := $(sort $(wildcard ${HIST_PATH}/${HIST_VAR}*day_19[8,9]*.nc) $(wildcard ${HIST_PATH}/${HIST_VAR}*day_20[0,1]*.nc))
 TARGET_DATA := $(sort $(wildcard ${TARGET_PATH}/${TARGET_VAR}*day_20[6,7,8,9]*.nc))
+endif
+REF_DATA := $(sort $(wildcard ${REF_PATH}/${REF_VAR}*day_19[8,9]*.nc) $(wildcard ${REF_PATH}/${REF_VAR}*day_20[0,1]*.nc))
 else ifeq (${TASK}, historical)
 HIST_START=1980
 HIST_END=2019
-HIST_DATA := $(sort $(wildcard ${HIST_PATH}/${HIST_VAR}*day_19[8,9]*.nc) $(wildcard ${HIST_PATH}/${HIST_VAR}*day_20[0,1]*.nc))
 REF_START=1980
 REF_END=2019
-REF_DATA := $(sort $(wildcard ${REF_PATH}/${REF_VAR}*day_19[8,9]*.nc) $(wildcard ${REF_PATH}/${REF_VAR}*day_20[0,1]*.nc))
 TARGET_START=1980
 TARGET_END=2019
+ifeq (${ONE_GCM_FILE}, False)
+HIST_DATA := $(sort $(wildcard ${HIST_PATH}/${HIST_VAR}*day_19[8,9]*.nc) $(wildcard ${HIST_PATH}/${HIST_VAR}*day_20[0,1]*.nc))
 TARGET_DATA := $(sort $(wildcard ${TARGET_PATH}/${TARGET_VAR}*day_19[8,9]*.nc) $(wildcard ${TARGET_PATH}/${TARGET_VAR}*day_20[0,1]*.nc))
+endif
+REF_DATA := $(sort $(wildcard ${REF_PATH}/${REF_VAR}*day_19[8,9]*.nc) $(wildcard ${REF_PATH}/${REF_VAR}*day_20[0,1]*.nc))
 else ifeq (${TASK}, xvalidation)
 ifeq (${GCM_NAME}, ECMWF-ERA5)
 HIST_START=1980
 HIST_END=1999
-HIST_DATA := $(sort $(wildcard ${HIST_PATH}/${HIST_VAR}*day_19[8,9]*.nc))
 REF_START=1980
 REF_END=1999
-REF_DATA := $(sort $(wildcard ${REF_PATH}/${REF_VAR}*day_19[8,9]*.nc))
 TARGET_START=2000
 TARGET_END=2019
+ifeq (${ONE_GCM_FILE}, False)
+HIST_DATA := $(sort $(wildcard ${HIST_PATH}/${HIST_VAR}*day_19[8,9]*.nc))
 TARGET_DATA := $(sort $(wildcard ${TARGET_PATH}/${TARGET_VAR}*day_20[0,1]*.nc))
+endif
+REF_DATA := $(sort $(wildcard ${REF_PATH}/${REF_VAR}*day_19[8,9]*.nc))
 else
 HIST_START=1960
 HIST_END=1989
-HIST_DATA := $(sort $(wildcard ${HIST_PATH}/${HIST_VAR}*day_19[6,7,8]*.nc))
 REF_START=1960
 REF_END=1989
-REF_DATA := $(sort $(wildcard ${REF_PATH}/${REF_VAR}*day_19[6,7,8]*.nc))
 TARGET_START=1990
 TARGET_END=2019
+ifeq (${ONE_GCM_FILE}, False)
+HIST_DATA := $(sort $(wildcard ${HIST_PATH}/${HIST_VAR}*day_19[6,7,8]*.nc))
 TARGET_DATA := $(sort $(wildcard ${TARGET_PATH}/${TARGET_VAR}*day_199*.nc) $(wildcard ${TARGET_PATH}/${TARGET_VAR}*day_20[0,1]*.nc))
 endif
+REF_DATA := $(sort $(wildcard ${REF_PATH}/${REF_VAR}*day_19[6,7,8]*.nc))
 endif
+endif
+
+ifeq (${ONE_GCM_FILE}, True)
+HIST_DATA := $(wildcard ${HIST_PATH}/${HIST_VAR}*.nc)
+TARGET_DATA := $(wildcard ${TARGET_PATH}/${TARGET_VAR}*.nc)
+endif
+
 TRAINING_DATES=${HIST_START}0101-${HIST_END}1231
 TARGET_DATES=${TARGET_START}0101-${TARGET_END}1231
 
