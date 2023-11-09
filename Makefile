@@ -79,7 +79,7 @@ ${AF_PATH} :
 adjust : ${QQ_PATH}
 ${QQ_PATH} : ${AF_PATH}
 	mkdir -p ${OUTPUT_QQ_DIR}
-	${PYTHON} ${CODE_DIR}/adjust.py ${TARGET_DATA} ${TARGET_VAR} $< $@ --adjustment_tbounds ${TARGET_START}-01-01 ${TARGET_END}-12-31 --input_units ${TARGET_UNITS} --output_units ${OUTPUT_UNITS} --spatial_grid ${OUTPUT_GRID} --interp ${INTERP} --verbose ${SSR} ${OUTPUT_TSLICE} ${CORDEX} ${REF_TIME}
+	${PYTHON} ${CODE_DIR}/adjust.py ${TARGET_DATA} ${TARGET_VAR} $< $@ --adjustment_tbounds ${TARGET_START}-01-01 ${TARGET_END}-12-31 --input_units ${TARGET_UNITS} --output_units ${OUTPUT_UNITS} --spatial_grid ${OUTPUT_GRID} --interp ${INTERP} --verbose ${SSR} ${OUTPUT_TSLICE} ${CORDEX} ${REF_TIME} ${MAX_AF}
 
 ## validation : Create validation notebook
 validation : ${VALIDATION_NOTEBOOK}
