@@ -1,5 +1,5 @@
 #!/bin/bash
-#PBS -P wp00
+#PBS -P xv83
 #PBS -q normal
 #PBS -l walltime=2:00:00
 #PBS -l mem=10GB
