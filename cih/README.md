@@ -17,8 +17,8 @@ The details of the dataset that will be produced are as follows:
   - Daily maximum surface air temperature - tasmax (AGCD)
   - Daily minimum surface air temperature - tasmin (AGCD)
   - Precipitation - pr (AGCD)
-  - Surface downwelling solar radiation - rsds (SILO - see [here](https://github.com/AusClimateService/npcp/issues/22) for discussion)
-  - Surface relative humidity - hurs (TBC - see [here](https://github.com/AusClimateService/npcp/issues/2) for discussion)
+  - Surface downwelling solar radiation - rsds (AGCD? - see [here](https://github.com/AusClimateService/npcp/issues/22) for discussion)
+  - Surface relative humidity - hurs (AGCD? - see [here](https://github.com/AusClimateService/npcp/issues/2) for discussion)
 - CMIP6 models:
   - Models/runs that were downscaled by ACS: 
     - ACCESS-CM2 (r4)
