@@ -3,7 +3,7 @@
 #PBS -q hugemem
 #PBS -l walltime=10:00:00
 #PBS -l mem=200GB
-#PBS -l storage=gdata/xv83+gdata/wp00+gdata/oi10+gdata/fs38
+#PBS -l storage=gdata/xv83+gdata/wp00+gdata/oi10+gdata/fs38+gdata/dk7
 #PBS -l wd
 #PBS -v var,model,experiment,start,end
 

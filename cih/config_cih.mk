@@ -78,12 +78,25 @@ GROUPING=--time_grouping monthly
 METHOD_DESCRIPTION=${METHOD}-${SCALING}-monthly-q${NQUANTILES}
 HIST_VAR=rsds
 REF_VAR=rsds
-TARGET_VAR=radiation
+TARGET_VAR=rsds
 OUTPUT_UNITS="W m-2"
 HIST_UNITS="W m-2"
 REF_UNITS="W m-2"
-TARGET_UNITS="MJ m-2"
-OBS_DATASET=SILO
+TARGET_UNITS="W m-2"
+OBS_DATASET=ERA5
+else ifeq (${VAR}, hurs)
+SCALING=additive
+NQUANTILES=100
+GROUPING=--time_grouping monthly
+METHOD_DESCRIPTION=${METHOD}-${SCALING}-monthly-q${NQUANTILES}
+HIST_VAR=hurs
+REF_VAR=hurs
+TARGET_VAR=hurs
+OUTPUT_UNITS="%"
+HIST_UNITS="%"
+REF_UNITS="%"
+TARGET_UNITS="%"
+OBS_DATASET=ERA5
 endif
 
 ## Model options
@@ -121,7 +134,11 @@ $(call check_defined, OBS_DATASET)
 
 HIST_DATA := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/CMIP/*/${MODEL}/historical/${RUN}/day/${HIST_VAR}/*/v*/*.nc) $(wildcard /g/data/${NCI_LOC}/CMIP6/ScenarioMIP/*/${MODEL}/ssp245/${RUN}/day/${HIST_VAR}/*/v*/*.nc))
 REF_DATA := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/ScenarioMIP/*/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/*/v*/*.nc))
-TARGET_DATA := $(sort $(wildcard /g/data/xv83/*-csiro/${TARGET_VAR}/daily/*_${OBS_DATASET}-CSIRO_r005_199*_daily.nc) $(wildcard /g/data/xv83/*-csiro/${TARGET_VAR}/daily/*_${OBS_DATASET}-CSIRO_r005_20[0,1]*_daily.nc))
+ifeq (${OBS_DATASET}, AGCD)
+TARGET_DATA := $(sort $(wildcard /g/data/xv83/agcd-csiro/${TARGET_VAR}/daily/*_${OBS_DATASET}-CSIRO_r005_199*_daily.nc) $(wildcard /g/data/xv83/agcd-csiro/${TARGET_VAR}/daily/*_${OBS_DATASET}-CSIRO_r005_20[0,1]*_daily.nc))
+else ifeq (${OBS_DATASET}, ERA5)
+TARGET_DATA := $(sort $(wildcard /g/data/dk7/processed/staging/users/cxh599_ua6/GlobalObs_and_Reanalysis/processed/aus0.05/ERA-5/day/${TARGET_VAR}/${TARGET_VAR}_ERA-5_day_aus0.05_199[0,1,2,3,4,5,6,7,8,9].nc) $(wildcard /g/data/dk7/processed/staging/users/cxh599_ua6/GlobalObs_and_Reanalysis/processed/aus0.05/ERA-5/day/${TARGET_VAR}/${TARGET_VAR}_ERA-5_day_aus0.05_20[0,1][0,1,2,3,4,5,6,7,8,9].nc
+endif
 
 ## Output data files
 $(call check_defined, EXPERIMENT)
