@@ -17,8 +17,8 @@ The details of the dataset that will be produced are as follows:
   - Daily maximum surface air temperature - tasmax (AGCD)
   - Daily minimum surface air temperature - tasmin (AGCD)
   - Precipitation - pr (AGCD)
-  - Surface downwelling solar radiation - rsds (AGCD? - see [here](https://github.com/AusClimateService/npcp/issues/22) for discussion)
-  - Surface relative humidity - hurs (AGCD? - see [here](https://github.com/AusClimateService/npcp/issues/2) for discussion)
+  - Surface downwelling solar radiation - rsds (ERA5 - see [here](https://github.com/AusClimateService/npcp/issues/22) for discussion)
+  - Surface relative humidity - hurs (ERA5 - see [here](https://github.com/AusClimateService/npcp/issues/2) for discussion)
 - CMIP6 models:
   - Models/runs that were downscaled by ACS: 
     - ACCESS-CM2 (r4)
@@ -30,10 +30,10 @@ The details of the dataset that will be produced are as follows:
     - NorESM2-MM (r1)
   - Additional models:
     - ???
-- Baseline: 1990-2019 ("2005")
+- Baseline: 1985-2014 ("2000")
   - At least 30 years is preferable for quantile detla mapping (to reduce the effect of natural variability)
-  - The limiting factor for the start year is the AGCD solar radiation data (if we go with AGCD as the rsds dataset), which doesn't begin until 1990 (the beginning of the satellite era for solar radiation data)
-  - The CMIP6 historical experiment ends in 2014 so we use the ssp245 experiment for 2015-2019, noting that all SSPs are practically [indistinguishable](https://en.wikipedia.org/wiki/Shared_Socioeconomic_Pathways#/media/File:Atmospheric_CO%E2%82%82_concentrations_by_SSP_across_the_21st_century.svg) prior to the mid 2020s so it doesn't really matter which one we pick  
+  - The CMIP6 historical experiment ends in 2014
+  - 1985-2014 is currently the preferred 30 year base period of the National Partnership for Climate Projections (NPCP)
 - Future period: 2035-2064 ("2050")
 - Experiments: ssp126, ssp245, ssp370, ssp585 (maybe)
 

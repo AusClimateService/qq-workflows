@@ -21,12 +21,12 @@ __check_defined = \
 
 ## Method options
 METHOD=qdm
-INTERP=linear
+INTERP=nearest
 OUTPUT_GRID=input
-TARGET_START=1990
-TARGET_END=2019
-HIST_START=1990
-HIST_END=2019
+TARGET_START=1985
+TARGET_END=2014
+HIST_START=1985
+HIST_END=2014
 REF_TIME=--ref_time
 
 ## Variable options
@@ -132,12 +132,12 @@ $(call check_defined, REF_VAR)
 $(call check_defined, TARGET_VAR)
 $(call check_defined, OBS_DATASET)
 
-HIST_DATA := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/CMIP/*/${MODEL}/historical/${RUN}/day/${HIST_VAR}/*/v*/*.nc) $(wildcard /g/data/${NCI_LOC}/CMIP6/ScenarioMIP/*/${MODEL}/ssp245/${RUN}/day/${HIST_VAR}/*/v*/*.nc))
+HIST_DATA := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/CMIP/*/${MODEL}/historical/${RUN}/day/${HIST_VAR}/*/v*/*.nc))
 REF_DATA := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/ScenarioMIP/*/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/*/v*/*.nc))
 ifeq (${OBS_DATASET}, AGCD)
-TARGET_DATA := $(sort $(wildcard /g/data/xv83/agcd-csiro/${TARGET_VAR}/daily/*_${OBS_DATASET}-CSIRO_r005_199*_daily.nc) $(wildcard /g/data/xv83/agcd-csiro/${TARGET_VAR}/daily/*_${OBS_DATASET}-CSIRO_r005_20[0,1]*_daily.nc))
+TARGET_DATA := $(sort $(wildcard /g/data/xv83/agcd-csiro/${TARGET_VAR}/daily/*_${OBS_DATASET}-CSIRO_r005_198[5,6,7,8,9]*_daily.nc) $(wildcard /g/data/xv83/agcd-csiro/${TARGET_VAR}/daily/*_${OBS_DATASET}-CSIRO_r005_199*_daily.nc) $(wildcard /g/data/xv83/agcd-csiro/${TARGET_VAR}/daily/*_${OBS_DATASET}-CSIRO_r005_200*_daily.nc) $(wildcard /g/data/xv83/agcd-csiro/${TARGET_VAR}/daily/*_${OBS_DATASET}-CSIRO_r005_201[0,1,2,3,4]*_daily.nc))
 else ifeq (${OBS_DATASET}, ERA5)
-TARGET_DATA := $(sort $(wildcard /g/data/dk7/processed/staging/users/cxh599_ua6/GlobalObs_and_Reanalysis/processed/aus0.05/ERA-5/day/${TARGET_VAR}/${TARGET_VAR}_ERA-5_day_aus0.05_199[0,1,2,3,4,5,6,7,8,9].nc) $(wildcard /g/data/dk7/processed/staging/users/cxh599_ua6/GlobalObs_and_Reanalysis/processed/aus0.05/ERA-5/day/${TARGET_VAR}/${TARGET_VAR}_ERA-5_day_aus0.05_20[0,1][0,1,2,3,4,5,6,7,8,9].nc
+TARGET_DATA := $(sort $(wildcard /g/data/dk7/processed/staging/users/cxh599_ua6/GlobalObs_and_Reanalysis/processed/aus0.05/ERA-5/day/${TARGET_VAR}/${TARGET_VAR}_ERA-5_day_aus0.05_198[5,6,7,8,9].nc) $(wildcard /g/data/dk7/processed/staging/users/cxh599_ua6/GlobalObs_and_Reanalysis/processed/aus0.05/ERA-5/day/${TARGET_VAR}/${TARGET_VAR}_ERA-5_day_aus0.05_199[0,1,2,3,4,5,6,7,8,9].nc) $(wildcard /g/data/dk7/processed/staging/users/cxh599_ua6/GlobalObs_and_Reanalysis/processed/aus0.05/ERA-5/day/${TARGET_VAR}/${TARGET_VAR}_ERA-5_day_aus0.05_200[0,1,2,3,4,5,6,7,8,9].nc) $(wildcard /g/data/dk7/processed/staging/users/cxh599_ua6/GlobalObs_and_Reanalysis/processed/aus0.05/ERA-5/day/${TARGET_VAR}/${TARGET_VAR}_ERA-5_day_aus0.05_201[0,1,2,3,4].nc))
 endif
 
 ## Output data files
