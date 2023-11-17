@@ -84,6 +84,7 @@ HIST_UNITS="W m-2"
 REF_UNITS="W m-2"
 TARGET_UNITS="W m-2"
 OBS_DATASET=ERA5
+#TODO: OUTMAX=--outmax_files [files] --outmax_var = rsdscs
 else ifeq (${VAR}, hurs)
 SCALING=additive
 NQUANTILES=100
@@ -97,6 +98,8 @@ HIST_UNITS="%"
 REF_UNITS="%"
 TARGET_UNITS="%"
 OBS_DATASET=ERA5
+OUTMIN=--outmin_value 0
+OUTMAX=--outmax_value 100
 endif
 
 ## Model options
@@ -153,7 +156,7 @@ $(call check_defined, HIST_START)
 $(call check_defined, HIST_END)
 
 OUTPUT_AF_DIR=/g/data/wp00/data/QQ-CMIP6/${MODEL}/historical/${RUN}/day/${REF_VAR}
-AF_FILE=${REF_VAR}-${METHOD_DESCRIPTION}-adjustment-factors_${MODEL}_${EXPERIMENT}_${RUN}_gn_${REF_START}0101-${REF_END}1231_wrt_${HIST_START}0101-${HIST_END}1231.nc
+AF_FILE=${REF_VAR}-${METHOD_DESCRIPTION}-adjustment-factors_${MODEL}_historical_${RUN}_gn_${REF_START}0101-${REF_END}1231_wrt_${HIST_START}0101-${HIST_END}1231.nc
 AF_PATH=${OUTPUT_AF_DIR}/${AF_FILE}
 
 OUTPUT_QQ_DIR=/g/data/wp00/data/QQ-CMIP6/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}
