@@ -401,10 +401,13 @@ def plot_values_1d_point(
     da_qq_point,
     scaling,
     n_values=50,
+    extremes='max',
     month=None
 ):
-    """Plot 1D values comparisons"""
+    """Plot 1D values comparisons."""
     
+    assert extremes in ['min', 'max']
+
     hist_point = da_hist_point.copy()
     ref_point = da_ref_point.copy()
     target_point = da_target_point.copy()
@@ -431,34 +434,51 @@ def plot_values_1d_point(
     ax1a = fig.add_subplot(121)
     ax2a = fig.add_subplot(122)
 
-    all_data = np.concatenate([
-        hist_point_sorted, ref_point_sorted, target_point_sorted, qq_point_sorted
-    ])
-    ymax = np.max(all_data) + 5
     ylabel = f"""{da_target_point.attrs['long_name']} ({da_target_point.attrs['units']})"""
 
-    xvals = np.arange(len(target_point)) + 1
-    ax1a.stem(xvals[-n_values:], hist_point_sorted[-n_values:], label='hist', markerfmt='bo', linefmt='--')
-    ax1a.stem(xvals[-n_values:], ref_point_sorted[-n_values:], label='ref', markerfmt='go', linefmt='--')
+    xvals1 = np.arange(len(target_point)) + 1
+    xvals2 = np.arange(len(target_point_sorted)) + 1
+
+    if extremes == 'max':
+        plot_xvals1 = xvals1[-n_values:]
+        plot_xvals2 = xvals2[-n_values:]     
+        plot_hist = hist_point_sorted[-n_values:]
+        plot_ref = ref_point_sorted[-n_values:]
+        plot_adjustments = adjustments[-n_values:]
+        plot_target = target_point_sorted[-n_values:]
+        plot_qq = qq_point_sorted[-n_values:]
+    elif extremes == 'min':
+        plot_xvals1 = xvals1[0:n_values]
+        plot_xvals2 = xvals2[0:n_values]     
+        plot_hist = hist_point_sorted[0:n_values]
+        plot_ref = ref_point_sorted[0:n_values]
+        plot_adjustments = adjustments[0:n_values]
+        plot_target = target_point_sorted[0:n_values]
+        plot_qq = qq_point_sorted[0:n_values]
+
+    all_data = np.concatenate([plot_hist, plot_ref, plot_target, plot_qq])
+    ymax = np.max(all_data) + 5
+
+    ax1a.stem(plot_xvals1, plot_hist, label='hist', markerfmt='bo', linefmt='--')
+    ax1a.stem(plot_xvals1, plot_ref, label='ref', markerfmt='go', linefmt='--')
     ax1a.set_ylabel(ylabel)
     ax1a.set_xlabel('rank')
     ax1a.set_ylim([-5, ymax])
     ax1a.legend(loc='center left')
     ax1a.grid()
     ax1b = ax1a.twinx()
-    ax1b.plot(xvals[-n_values:], adjustments[-n_values:], color='tab:grey', linestyle=':', label='adjustment_factor')
+    ax1b.plot(plot_xvals1, plot_adjustments, color='tab:grey', linestyle=':', label='adjustment_factor')
     ax1b.set_ylabel('adjustment factor')
     ax1b.legend(loc='upper left')
 
-    xvals = np.arange(len(target_point_sorted)) + 1
-    ax2a.stem(xvals[-n_values:], target_point_sorted[-n_values:], label='target', markerfmt='bo', linefmt='--')
-    ax2a.stem(xvals[-n_values:], qq_point_sorted[-n_values:], label='qq', markerfmt='go', linefmt='--')
+    ax2a.stem(plot_xvals2, plot_target, label='target', markerfmt='bo', linefmt='--')
+    ax2a.stem(plot_xvals2, plot_qq, label='qq', markerfmt='go', linefmt='--')
     ax2a.set_xlabel('rank (target)')
     ax2a.set_ylim([-5, ymax])
     ax2a.legend(loc='center left')
     ax2a.grid()
     ax2b = ax2a.twinx()
-    ax2b.plot(xvals[-n_values:], adjustments[-n_values:], color='tab:grey', linestyle=':', label='adjustment_factor')
+    ax2b.plot(plot_xvals2, plot_adjustments, color='tab:grey', linestyle=':', label='adjustment_factor')
     ax2b.set_ylabel('adjustment factor')
     ax2b.legend(loc='upper left')
 
@@ -559,6 +579,7 @@ def single_point_analysis(
     n_values=50,
     months=[],
     seasonal_agg='mean',
+    extreme_for_values='max',
     plot_2d_quantiles=True,
     plot_1d_quantiles=True,
     plot_1d_values=True,
@@ -632,6 +653,7 @@ def single_point_analysis(
             da_target_point,
             da_qq_point,
             scaling,
+            extremes=extreme_for_values,
             n_values=n_values
         )
         for month in months:
@@ -642,6 +664,7 @@ def single_point_analysis(
                 da_qq_point,
                 scaling,
                 month=month,
+                extremes=extreme_for_values,
                 n_values=n_values,
             )
 
