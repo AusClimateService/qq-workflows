@@ -111,13 +111,16 @@ RUN=r4i1p1f1
 else ifeq (${MODEL}, ACCESS-ESM1-5)
 NCI_LOC=fs38/publications
 RUN=r6i1p1f1
-#else ifeq (${MODEL}, CESM2)
-#NCI_LOC=oi10/replicas
-#RUN=r1i1p1f1
-## FIXME: No tasmin on NCI
+else ifeq (${MODEL}, CESM2)
+NCI_LOC=oi10/replicas
+RUN=r11i1p1f1
+## FIXME: No tasmin or tasmax on NCI
 else ifeq (${MODEL}, CMCC-ESM2)
 NCI_LOC=oi10/replicas
 RUN=r1i1p1f1
+else ifeq (${MODEL}, CNRM-ESM2-1)
+NCI_LOC=oi10/replicas
+RUN=r1i1p1f2
 else ifeq (${MODEL}, EC-Earth3)
 NCI_LOC=oi10/replicas
 RUN=r1i1p1f1
@@ -155,8 +158,8 @@ $(call check_defined, REF_END)
 $(call check_defined, HIST_START)
 $(call check_defined, HIST_END)
 
-OUTPUT_AF_DIR=/g/data/wp00/data/QQ-CMIP6/${MODEL}/historical/${RUN}/day/${REF_VAR}
-AF_FILE=${REF_VAR}-${METHOD_DESCRIPTION}-adjustment-factors_${MODEL}_historical_${RUN}_gn_${REF_START}0101-${REF_END}1231_wrt_${HIST_START}0101-${HIST_END}1231.nc
+OUTPUT_AF_DIR=/g/data/wp00/data/QQ-CMIP6/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}
+AF_FILE=${REF_VAR}-${METHOD_DESCRIPTION}-adjustment-factors_${MODEL}_${EXPERIMENT}_${RUN}_gn_${REF_START}0101-${REF_END}1231_wrt_${HIST_START}0101-${HIST_END}1231.nc
 AF_PATH=${OUTPUT_AF_DIR}/${AF_FILE}
 
 OUTPUT_QQ_DIR=/g/data/wp00/data/QQ-CMIP6/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}

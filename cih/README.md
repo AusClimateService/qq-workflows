@@ -21,13 +21,13 @@ The details of the dataset that will be produced are as follows:
   - Surface relative humidity - hurs (ERA5 - see [here](https://github.com/AusClimateService/npcp/issues/2) for discussion)
 - CMIP6 models:
   - Models/runs that were downscaled by ACS: 
-    - ACCESS-CM2 (r4)
-    - ACCESS-ESM1.5 (r6)
-    - CESM2 (r1)
-    - CMCC-ESM2 (r1)
-    - CNRM-ESM2-1 (r1)
-    - EC-Earth3 (r1)
-    - NorESM2-MM (r1)
+    - ACCESS-CM2 (r4i1p1f1)
+    - ACCESS-ESM1.5 (r6i1p1f1)
+    - CESM2 (r11i1p1f1)
+    - CMCC-ESM2 (r1i1p1f1)
+    - CNRM-ESM2-1 (r1i1p1f2)
+    - EC-Earth3 (r1i1p1f1)
+    - NorESM2-MM (r1i1p1f1)
   - Additional models:
     - ???
 - Baseline: 1985-2014 ("2000")
