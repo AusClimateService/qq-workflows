@@ -55,13 +55,13 @@ Here's a summary of what preliminary data is currently available:
 | ACCESS-CM2 | r4i1p1f1 | ssp245 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
 | ACCESS-CM2 | r4i1p1f1 | ssp370 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
 | ACCESS-CM2 | r4i1p1f1 | ssp585 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
-| ACCESS-ESM1.5 | r6i1p1f1 | ssp126 | :green_circle: | :green_circle: | :white_circle: | :green_circle: | :white_circle: |
+| ACCESS-ESM1.5 | r6i1p1f1 | ssp126 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
 | ACCESS-ESM1.5 | r6i1p1f1 | ssp245 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
 | ACCESS-ESM1.5 | r6i1p1f1 | ssp370 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
-| ACCESS-ESM1.5 | r6i1p1f1 | ssp585 | :green_circle: | :green_circle: | :white_circle: | :green_circle: | :white_circle: |
+| ACCESS-ESM1.5 | r6i1p1f1 | ssp585 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
 | CESM2 | r11i1p1f1 | ssp126 | | | :green_circle: | :green_circle: | :white_circle: |
-| CESM2 | r11i1p1f1 | ssp245 | | | :white_circle: | :green_circle: | :white_circle: |
-| CESM2 | r11i1p1f1 | ssp370 | | | :white_circle: | :green_circle: | :white_circle: |
+| CESM2 | r11i1p1f1 | ssp245 | | | :green_circle: | :green_circle: | :white_circle: |
+| CESM2 | r11i1p1f1 | ssp370 | | | :green_circle: | :green_circle: | :white_circle: |
 | CESM2 | r11i1p1f1 | ssp585 | | | :green_circle: | :green_circle: | :white_circle: |
 | CMCC-ESM2 | r1i1p1f1 | ssp126 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
 | CMCC-ESM2 | r1i1p1f1 | ssp245 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
@@ -76,7 +76,7 @@ Here's a summary of what preliminary data is currently available:
 | EC-Earth3 | r1i1p1f1 | ssp370 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
 | EC-Earth3 | r1i1p1f1 | ssp585 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
 | NorESM2-MM | r1i1p1f1 | ssp126 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
-| NorESM2-MM | r1i1p1f1 | ssp245 | :green_circle: | :white_circle: | :green_circle: | :green_circle: | :white_circle: |
+| NorESM2-MM | r1i1p1f1 | ssp245 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
 | NorESM2-MM | r1i1p1f1 | ssp370 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
 | NorESM2-MM | r1i1p1f1 | ssp585 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
 
