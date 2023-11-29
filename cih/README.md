@@ -11,7 +11,10 @@ should and need to look like in 2050 to be productive, resilient and sustainable
 
 The Climate Innovation Hub will provide application-ready climate projections data
 for the Ag2050 project using the [Quantile Delta Mapping](https://github.com/climate-innovation-hub/qqscale/blob/master/docs/method_qdm.md) method.
-The details of the dataset that will be produced are as follows:
+
+#### Dataset details
+
+The details of the application ready dataset that will be produced are as follows:
 - Timescale: Daily
 - Variables (observational dataset):
   - Daily maximum surface air temperature - tasmax (AGCD)
@@ -20,20 +23,53 @@ The details of the dataset that will be produced are as follows:
   - Surface downwelling solar radiation - rsds (ERA5 - see [here](https://github.com/AusClimateService/npcp/issues/22) for discussion)
   - Surface relative humidity - hurs (ERA5 - see [here](https://github.com/AusClimateService/npcp/issues/2) for discussion)
 - CMIP6 models:
-  - Models/runs that were downscaled by ACS: 
-    - ACCESS-CM2 (r4i1p1f1)
-    - ACCESS-ESM1.5 (r6i1p1f1)
-    - CESM2 (r11i1p1f1)
-    - CMCC-ESM2 (r1i1p1f1)
-    - CNRM-ESM2-1 (r1i1p1f2)
-    - EC-Earth3 (r1i1p1f1)
-    - NorESM2-MM (r1i1p1f1)
-  - Additional models:
-    - ??? (the complete list of GCMs downscaled by CORDEX-CMIP6 is [here](https://opus.nci.org.au/display/CMIP/CMIP6-CORDEX+datasets))
+  - For a start, the 7 models downscaled by the CSIRO CCAM team for the Australian Climate Service
+  - Additional models could be processed later on
+  - The complete list of GCMs downscaled by CORDEX-CMIP6 is [here](https://opus.nci.org.au/display/CMIP/CMIP6-CORDEX+datasets))
 - Baseline: 1985-2014 ("2000")
   - At least 30 years is preferable for quantile detla mapping (to reduce the effect of natural variability)
   - The CMIP6 historical experiment ends in 2014
-  - 1985-2014 is currently the preferred 30 year base period of the National Partnership for Climate Projections (NPCP)
+  - 1985-2014 is currently the preferred 30 year base period of the National Partnership for Climate Projections
 - Future period: 2035-2064 ("2050")
-- Experiments: ssp126, ssp245, ssp370, ssp585 (maybe)
+- Experiments: ssp126, ssp245, ssp370, ssp585
 
+#### Data availability
+
+The table below summarises the availability of preliminary data
+(i.e. application ready data that has been produced but has not undergone
+the Climate Innovation Hub quality checking and metadata standardisation process).
+   
+| model | run | experiment | tasmax | tasmin | pr | hurs | rsds | 
+| ---   | --- | ---        | :-:    | :-:    | :-:| :-:  | :-:  |
+| ACCESS-CM2 | r4i1p1f1 | ssp126 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
+| ACCESS-CM2 | r4i1p1f1 | ssp245 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
+| ACCESS-CM2 | r4i1p1f1 | ssp370 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
+| ACCESS-CM2 | r4i1p1f1 | ssp585 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
+| ACCESS-ESM1.5 | r6i1p1f1 | ssp126 | :green_circle: | :green_circle: |  | :green_circle: | :white_circle: |
+| ACCESS-ESM1.5 | r6i1p1f1 | ssp245 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
+| ACCESS-ESM1.5 | r6i1p1f1 | ssp370 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
+| ACCESS-ESM1.5 | r6i1p1f1 | ssp585 | :green_circle: | :green_circle: |  | :green_circle: | :white_circle: |
+| CESM2 | r11i1p1f1 | ssp126 | | | :green_circle: | :green_circle: | :white_circle: |
+| CESM2 | r11i1p1f1 | ssp245 | | | | :green_circle: | :white_circle: |
+| CESM2 | r11i1p1f1 | ssp370 | | | | :green_circle: | :white_circle: |
+| CESM2 | r11i1p1f1 | ssp585 | | | :green_circle: | :green_circle: | :white_circle: |
+| CMCC-ESM2 | r1i1p1f1 | ssp126 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
+| CMCC-ESM2 | r1i1p1f1 | ssp245 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
+| CMCC-ESM2 | r1i1p1f1 | ssp370 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
+| CMCC-ESM2 | r1i1p1f1 | ssp585 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | ssp126 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | ssp245 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | ssp370 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | ssp585 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
+| EC-Earth3 | r1i1p1f1 | ssp126 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
+| EC-Earth3 | r1i1p1f1 | ssp245 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
+| EC-Earth3 | r1i1p1f1 | ssp370 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
+| EC-Earth3 | r1i1p1f1 | ssp585 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
+| NorESM2-MM | r1i1p1f1 | ssp126 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
+| NorESM2-MM | r1i1p1f1 | ssp245 | :green_circle: |  | :green_circle: | :green_circle: | :white_circle: |
+| NorESM2-MM | r1i1p1f1 | ssp370 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
+| NorESM2-MM | r1i1p1f1 | ssp585 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
+
+:green_circle: = application ready data is available  
+:white_circle: = CMIP6 data is available on NCI but hasn't been processed yet  
+blank = CMIP6 data does not exist on NCI
