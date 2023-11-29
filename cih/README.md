@@ -35,10 +35,20 @@ The details of the application ready dataset that will be produced are as follow
 
 #### Data availability
 
-The table below summarises the availability of preliminary data
-(i.e. application ready data that has been produced but has not undergone
-the Climate Innovation Hub quality checking and metadata standardisation process).
-   
+Preliminary data that have not yet undergone
+the Climate Innovation Hub quality checking and metadata standardisation process
+are available from project [wp00](https://my.nci.org.au/mancini/project/wp00) on NCI.
+An example file path is as follows:
+```
+/g/data/wp00/data/QQ-CMIP6/ACCESS-CM2/ssp126/r4i1p1f1/day/tasmax/tasmax_day_ACCESS-CM2_ssp126_r4i1p1f1_AUS-r005_20350101-20641231_qdm-additive-monthly-q100-nearest_AGCD-19850101-20141231_historical-19850101-20141231.nc
+```
+That example file contains data for the 2035-2064 period that was produced by
+calcating the quantile changes between the 2035-2064 data from the ssp126 experiment
+and 1985-2014 data from the historical experiment and applying those changes
+to AGCD data from 1985-2014.
+
+Here's a summary of what preliminary data is currently available:
+
 | model | run | experiment | tasmax | tasmin | pr | hurs | rsds | 
 | ---   | --- | ---        | :-:    | :-:    | :-:| :-:  | :-:  |
 | ACCESS-CM2 | r4i1p1f1 | ssp126 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: |
@@ -73,3 +83,4 @@ the Climate Innovation Hub quality checking and metadata standardisation process
 :green_circle: = application ready data is available  
 :white_circle: = CMIP6 data is available on NCI but hasn't been processed yet  
 blank = CMIP6 data does not exist on NCI
+
