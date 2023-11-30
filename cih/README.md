@@ -92,5 +92,5 @@ from project [wp00](https://my.nci.org.au/mancini/project/wp00) on NCI at the fo
 /g/data/wp00/data/observations/AGCD/
 /g/data/wp00/data/observations/ERA5/
 ```
-Those datasets typically end sometime during 2022,
-but can be updated to the end of 2022 or even to the present day if required.
+The timespan of those datasets typically ends sometime during 2022,
+but they can be updated to the end of 2022 or even to the present day if required.
