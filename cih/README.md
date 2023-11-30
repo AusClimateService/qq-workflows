@@ -25,7 +25,7 @@ The details of the application ready dataset that will be produced are as follow
 - CMIP6 models:
   - For a start, the 7 models downscaled by the CSIRO CCAM team for the Australian Climate Service
   - Additional models could be processed later on
-  - The complete list of GCMs downscaled by CORDEX-CMIP6 is [here](https://opus.nci.org.au/display/CMIP/CMIP6-CORDEX+datasets))
+  - The complete list of GCMs downscaled by CORDEX-CMIP6 is [here](https://opus.nci.org.au/display/CMIP/CMIP6-CORDEX+datasets)
 - Baseline: 1985-2014 ("2000")
   - At least 30 years is preferable for quantile detla mapping (to reduce the effect of natural variability)
   - The CMIP6 historical experiment ends in 2014
