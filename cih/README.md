@@ -43,11 +43,11 @@ An example file path is as follows:
 /g/data/wp00/data/QQ-CMIP6/ACCESS-CM2/ssp126/r4i1p1f1/day/tasmax/tasmax_day_ACCESS-CM2_ssp126_r4i1p1f1_AUS-r005_20350101-20641231_qdm-additive-monthly-q100-nearest_AGCD-19850101-20141231_historical-19850101-20141231.nc
 ```
 That example file contains data for the 2035-2064 period that was produced by
-calcating the quantile changes between the 2035-2064 data from the ssp126 experiment
+calculating the quantile changes between the 2035-2064 data from the ssp126 experiment
 and 1985-2014 data from the historical experiment and applying those changes
 to AGCD data from 1985-2014.
 
-Here's a summary of what preliminary data is currently available:
+Here's a summary of what preliminary data are currently available:
 
 | model | run | experiment | tasmax | tasmin | pr | hurs | rsds | 
 | ---   | --- | ---        | :-:    | :-:    | :-:| :-:  | :-:  |
