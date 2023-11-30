@@ -33,7 +33,7 @@ The details of the application ready dataset that will be produced are as follow
 - Future period: 2035-2064 ("2050")
 - Experiments: ssp126, ssp245, ssp370, ssp585
 
-#### Data availability
+#### Model data availability
 
 Preliminary data that have not yet undergone
 the Climate Innovation Hub quality checking and metadata standardisation process
@@ -84,3 +84,13 @@ Here's a summary of what preliminary data is currently available:
 :white_circle: = CMIP6 data is available on NCI but hasn't been processed yet  
 blank = CMIP6 data does not exist on NCI
 
+#### Observational data availability
+
+The AGCD and ERA5 observational data is also available
+from project [wp00](https://my.nci.org.au/mancini/project/wp00) on NCI at the following directories:
+```
+/g/data/wp00/data/observations/AGCD/
+/g/data/wp00/data/observations/ERA5/
+```
+Those datasets typically end sometime during 2022,
+but can be updated to the end of 2022 or even to the present day if required.
