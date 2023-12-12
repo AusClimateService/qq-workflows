@@ -21,7 +21,7 @@ The details of the application ready dataset that will be produced are as follow
   - Daily minimum surface air temperature - tasmin (AGCD)
   - Precipitation - pr (AGCD)
   - Surface downwelling solar radiation - rsds (ERA5 - see [here](https://github.com/AusClimateService/npcp/issues/22) for discussion)
-  - Surface relative humidity - hurs (ERA5 - see [here](https://github.com/AusClimateService/npcp/issues/2) for discussion)
+  - Surface relative humidity - hurs and maybe hursmin, hursmax (ERA5 - see [here](https://github.com/AusClimateService/npcp/issues/2) for discussion)
 - CMIP6 models:
   - For a start, the 7 models downscaled by the CSIRO CCAM team for the Australian Climate Service
   - Additional models could be processed later on
@@ -49,40 +49,40 @@ to AGCD data from 1985-2014.
 
 Here's a summary of what preliminary data are currently available:
 
-| model | run | experiment | tasmax | tasmin | pr | hurs | rsds | 
-| ---   | --- | ---        | :-:    | :-:    | :-:| :-:  | :-:  |
-| ACCESS-CM2 | r4i1p1f1 | ssp126 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
-| ACCESS-CM2 | r4i1p1f1 | ssp245 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
-| ACCESS-CM2 | r4i1p1f1 | ssp370 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
-| ACCESS-CM2 | r4i1p1f1 | ssp585 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
-| ACCESS-ESM1.5 | r6i1p1f1 | ssp126 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
-| ACCESS-ESM1.5 | r6i1p1f1 | ssp245 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
-| ACCESS-ESM1.5 | r6i1p1f1 | ssp370 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
-| ACCESS-ESM1.5 | r6i1p1f1 | ssp585 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
-| CESM2 | r11i1p1f1 | ssp126 | | | :green_circle: | :green_circle: | :green_circle: |
-| CESM2 | r11i1p1f1 | ssp245 | | | :green_circle: | :green_circle: | :green_circle: |
-| CESM2 | r11i1p1f1 | ssp370 | | | :green_circle: | :green_circle: | :green_circle: |
-| CESM2 | r11i1p1f1 | ssp585 | | | :green_circle: | :green_circle: | :green_circle: |
-| CMCC-ESM2 | r1i1p1f1 | ssp126 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
-| CMCC-ESM2 | r1i1p1f1 | ssp245 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
-| CMCC-ESM2 | r1i1p1f1 | ssp370 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
-| CMCC-ESM2 | r1i1p1f1 | ssp585 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
-| CNRM-ESM2-1 | r1i1p1f2 | ssp126 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
-| CNRM-ESM2-1 | r1i1p1f2 | ssp245 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
-| CNRM-ESM2-1 | r1i1p1f2 | ssp370 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
-| CNRM-ESM2-1 | r1i1p1f2 | ssp585 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
-| EC-Earth3 | r1i1p1f1 | ssp126 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
-| EC-Earth3 | r1i1p1f1 | ssp245 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
-| EC-Earth3 | r1i1p1f1 | ssp370 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
-| EC-Earth3 | r1i1p1f1 | ssp585 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
-| NorESM2-MM | r1i1p1f1 | ssp126 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
-| NorESM2-MM | r1i1p1f1 | ssp245 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
-| NorESM2-MM | r1i1p1f1 | ssp370 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
-| NorESM2-MM | r1i1p1f1 | ssp585 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| model | run | experiment | tasmax | tasmin | pr | hurs | hursmin | hursmax | rsds | 
+| ---   | --- | ---        | :-:    | :-:    | :-:| :-:  | :-:     | :-:     | :-:  |
+| ACCESS-CM2 | r4i1p1f1 | ssp126 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| ACCESS-CM2 | r4i1p1f1 | ssp245 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| ACCESS-CM2 | r4i1p1f1 | ssp370 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| ACCESS-CM2 | r4i1p1f1 | ssp585 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| ACCESS-ESM1.5 | r6i1p1f1 | ssp126 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| ACCESS-ESM1.5 | r6i1p1f1 | ssp245 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| ACCESS-ESM1.5 | r6i1p1f1 | ssp370 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| ACCESS-ESM1.5 | r6i1p1f1 | ssp585 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| CESM2 | r11i1p1f1 | ssp126 | | | :green_circle: | :green_circle: | :white_circle: | :white_circle: | :green_circle: |
+| CESM2 | r11i1p1f1 | ssp245 | | | :green_circle: | :green_circle: | :white_circle: | :white_circle: | :green_circle: |
+| CESM2 | r11i1p1f1 | ssp370 | | | :green_circle: | :green_circle: | :white_circle: | :white_circle: |:green_circle: |
+| CESM2 | r11i1p1f1 | ssp585 | | | :green_circle: | :green_circle: | :white_circle: | :white_circle: |:green_circle: |
+| CMCC-ESM2 | r1i1p1f1 | ssp126 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: | :white_circle: | :green_circle: |
+| CMCC-ESM2 | r1i1p1f1 | ssp245 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: | :white_circle: | :green_circle: |
+| CMCC-ESM2 | r1i1p1f1 | ssp370 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: | :white_circle: | :green_circle: |
+| CMCC-ESM2 | r1i1p1f1 | ssp585 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: | :white_circle: | :green_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | ssp126 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: | :white_circle: | :green_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | ssp245 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: | :white_circle: | :green_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | ssp370 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: | :white_circle: | :green_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | ssp585 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: | :white_circle: | :green_circle: |
+| EC-Earth3 | r1i1p1f1 | ssp126 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: | :white_circle: | :green_circle: |
+| EC-Earth3 | r1i1p1f1 | ssp245 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: | :white_circle: | :green_circle: |
+| EC-Earth3 | r1i1p1f1 | ssp370 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: | :white_circle: | :green_circle: |
+| EC-Earth3 | r1i1p1f1 | ssp585 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: | :white_circle: | :green_circle: |
+| NorESM2-MM | r1i1p1f1 | ssp126 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: | :white_circle: | :green_circle: |
+| NorESM2-MM | r1i1p1f1 | ssp245 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: | :white_circle: | :green_circle: |
+| NorESM2-MM | r1i1p1f1 | ssp370 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: | :white_circle: | :green_circle: |
+| NorESM2-MM | r1i1p1f1 | ssp585 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :white_circle: | :white_circle: | :green_circle: |
 
 :green_circle: = application ready data is available  
-:white_circle: = CMIP6 data is available on NCI but hasn't been processed yet  
-blank = CMIP6 data does not exist on NCI
+:white_circle: = CMIP6 data is available on NCI (or the ESGF) but hasn't been processed yet  
+blank = CMIP6 data does not exist on NCI or the ESGF
 
 #### Observational data availability
 
