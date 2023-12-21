@@ -78,13 +78,12 @@ GROUPING=--time_grouping monthly
 METHOD_DESCRIPTION=${METHOD}-${SCALING}-monthly-q${NQUANTILES}
 HIST_VAR=rsds
 REF_VAR=rsds
-TARGET_VAR=rsds
+TARGET_VAR=ssrd
 OUTPUT_UNITS="W m-2"
 HIST_UNITS="W m-2"
 REF_UNITS="W m-2"
 TARGET_UNITS="W m-2"
 OBS_DATASET=ERA5
-#TODO: OUTMAX=--outmax_files [files] --outmax_var rsdscs
 else ifeq (${VAR}, hurs)
 SCALING=additive
 NQUANTILES=100
@@ -188,16 +187,22 @@ $(call check_defined, REF_END)
 $(call check_defined, HIST_START)
 $(call check_defined, HIST_END)
 
-OUTPUT_AF_DIR=/g/data/wp00/data/QQ-CMIP6/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}
+OUTPUT_AF_DIR=/g/data/wp00/users/dbi599/data/QQ-CMIP6/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}
 AF_FILE=${REF_VAR}-${METHOD_DESCRIPTION}-adjustment-factors_${MODEL}_${EXPERIMENT}_${RUN}_gn_${REF_START}0101-${REF_END}1231_wrt_${HIST_START}0101-${HIST_END}1231.nc
 AF_PATH=${OUTPUT_AF_DIR}/${AF_FILE}
 
-OUTPUT_QQ_DIR=/g/data/wp00/data/QQ-CMIP6/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}
+OUTPUT_QQ_DIR=/g/data/wp00/users/dbi599/data/QQ-CMIP6/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}
 QQ_BASE=${REF_VAR}_day_${MODEL}_${EXPERIMENT}_${RUN}_AUS-r005_${REF_START}0101-${REF_END}1231_${METHOD_DESCRIPTION}-${INTERP}_${OBS_DATASET}-${TARGET_START}0101-${TARGET_END}1231_historical-${HIST_START}0101-${HIST_END}1231
 QQ_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.nc
-QQ_PATH_CIH=${OUTPUT_QQ_DIR}/${QQ_BASE}_cih.nc
 
 OUTPUT_VALIDATION_DIR=${OUTPUT_QQ_DIR}
 VALIDATION_NOTEBOOK=${OUTPUT_VALIDATION_DIR}/${QQ_BASE}.ipynb
 
+ifeq (${VAR}, rsds)
+MAX_DIR=/g/data/wp00/data/observations/ERA5/ssrdc/daily
+MAX_DATA := $(sort $(wildcard ${MAX_DIR}/ssrdc_ERA-5_day_aus0.05_198[5,6,7,8,9].nc) $(wildcard ${MAX_DIR}/ssrdc_ERA-5_day_aus0.05_199*.nc) $(wildcard ${MAX_DIR}/ssrdc_ERA-5_day_aus0.05_200*.nc) $(wildcard ${MAX_DIR}/ssrdc_ERA-5_day_aus0.05_201[0,1,2,3,4].nc))
+MAX_VAR=ssrdc
+QQCLIPPED_BASE=${REF_VAR}_day_${MODEL}_${EXPERIMENT}_${RUN}_AUS-r005_${REF_START}0101-${REF_END}1231_${METHOD_DESCRIPTION}-${INTERP}-ssrdc-clipped_${OBS_DATASET}-${TARGET_START}0101-${TARGET_END}1231_historical-${HIST_START}0101-${HIST_END}1231
+QQCLIPPED_PATH=${OUTPUT_QQ_DIR}/${QQCLIPPED_BASE}.nc
+endif
 

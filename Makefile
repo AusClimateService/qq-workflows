@@ -81,6 +81,11 @@ ${QQ_PATH} : ${AF_PATH}
 	mkdir -p ${OUTPUT_QQ_DIR}
 	${PYTHON} ${CODE_DIR}/adjust.py ${TARGET_DATA} ${TARGET_VAR} $< $@ --adjustment_tbounds ${TARGET_START}-01-01 ${TARGET_END}-12-31 --input_units ${TARGET_UNITS} --output_units ${OUTPUT_UNITS} --spatial_grid ${OUTPUT_GRID} --interp ${INTERP} --verbose ${SSR} ${OUTPUT_TSLICE} ${CORDEX} ${REF_TIME} ${MAX_AF} ${VALID_MIN} ${VALID_MAX}
 
+## clipmax: Clip the quantile scaled data to a given upper bound
+clipmax : ${QQCLIPPED_PATH}
+${QQCLIPPED_PATH} : ${QQ_PATH}
+	${PYTHON} ${CODE_DIR}/clipmax.py $< ${TARGET_VAR} $@ --maxfiles ${MAX_DATA} --maxvar ${MAX_VAR} 
+
 ## validation : Create validation notebook
 validation : ${VALIDATION_NOTEBOOK}
 ${VALIDATION_NOTEBOOK} : ${TEMPLATE_NOTEBOOK} ${AF_PATH} ${QQ_PATH}
