@@ -558,6 +558,18 @@ def plot_seasonal_totals(
     plt.show()
 
 
+def plot_clipped(da_qq_point, da_qq_clipped_point):
+    """Plot first year of clipped data"""
+
+    fig = plt.figure(figsize=[15, 10])
+    da_qq_point[0:365].plot(color='tab:orange', label='QQ data')
+    da_qq_clipped_point[0:365].plot(color='tab:blue', label='QQ clipped data')
+    plt.title('Clipping check - first year of daily data')
+    plt.legend()
+    plt.grid()
+    plt.show()
+
+
 def single_point_analysis(
     da_hist,
     da_ref,
@@ -573,6 +585,7 @@ def single_point_analysis(
     af_cmap,
     general_levels,
     af_levels,
+    da_qq_clipped=None,
     pdf_xbounds=None,
     pdf_ybounds=None,
     q_xbounds=None,
@@ -592,6 +605,8 @@ def single_point_analysis(
     da_ref_point = da_ref.sel(point_selection, method='nearest').compute()
     da_target_point = da_target.sel(point_selection, method='nearest').compute()
     da_qq_point = da_qq.sel(point_selection, method='nearest').compute()
+    if da_qq_clipped is not None:
+        da_qq_clipped_point = da_qq_clipped.sel(point_selection, method='nearest').compute()
     ds_adjust_point = ds_adjust.sel(point_selection, method='nearest').compute()
     quantiles = ds_adjust['quantiles'].data
     
@@ -687,3 +702,7 @@ def single_point_analysis(
                 xbounds=pdf_xbounds,
                 ybounds=pdf_ybounds,
         )
+
+    if da_qq_clipped is not None:
+        plot_clipped(da_qq_point, da_qq_clipped_point)
+        
