@@ -97,3 +97,36 @@ from project [wp00](https://my.nci.org.au/mancini/project/wp00) on NCI at the fo
 ```
 The timespan of those datasets typically ends sometime during 2022,
 but they can be updated to the end of 2022 or even to the present day if required.
+
+#### Observational data rationale
+
+###### Solar radiation
+
+The observational data options for downwelling solar radiation are
+AGCD,
+[SILO](https://www.longpaddock.qld.gov.au/silo/),
+ERA5 or
+[MSWX](https://www.gloh2o.org/mswx/).
+
+AGCD is only available in the satellite era (1990 onwards).
+The early years in the dataset (pre 2007) have missing values, up to 60 days per year in some cases.
+It might be possible to replace those missing values with a climatological mean value
+(that's what AWRA does before feeding the AGCD data into their model) but it's less than ideal.
+The missing value issue coupled with the fact that the data aren't available back to the beginning of our base period (1985)
+means we decided against AGCD.
+
+SILO uses an blended data method (that doesn't use satellite data)
+to go further back in time to 1959 ([Zajaczkowski et al 2013](https://doi.org/10.1016/j.envsoft.2013.06.013)).
+While this fixes the base period issue,
+it's likely that products that include satellite data are better quality,
+hence we decided against SILO.
+
+The ERA5 data goes back to 1959, assimilates satellite data and has no missing values.
+It also provides a clear sky radiation variable which can be used to clip our quantile scaled data
+to ensure the projections data doesn't exceed physical solar radiation limits.
+For these reasons, we selected ERA5.
+
+The MSWX downward shortwave radiation reference climatology was produced by bilinearly interpolating the ERA5 climatology (1979–2019) on a monthly basis,
+and rescaling the long-term mean to match the Global Solar Atlas (GSA) global horizontal insolation climatology.
+They find basically no improvement on the ERA5 downward shortwave radiation ([Beck et al 2022](https://doi.org/10.1175/BAMS-D-21-0145.1)).
+The lack of improvement is likely attributable to the small influence that the improved climatology has on the day-to-day variability.
