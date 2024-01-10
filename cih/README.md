@@ -23,7 +23,7 @@ The details of the application ready dataset that will be produced are as follow
   - Daily maximum surface air temperature - tasmax (AGCD)
   - Daily minimum surface air temperature - tasmin (AGCD)
   - Precipitation - pr (AGCD)
-  - Surface downwelling solar radiation - rsds (ERA5 - see [here](https://github.com/AusClimateService/npcp/issues/22) for discussion)
+  - Surface downwelling solar radiation - rsds (ERA5)
   - Surface relative humidity - hurs and maybe hursmin, hursmax (ERA5 - see [here](https://github.com/AusClimateService/npcp/issues/2) for discussion)
 - CMIP6 models:
   - For a start, the 7 models downscaled by the CSIRO CCAM team for the Australian Climate Service
@@ -106,7 +106,8 @@ The observational data options for downwelling solar radiation are
 AGCD,
 [SILO](https://www.longpaddock.qld.gov.au/silo/),
 ERA5 or
-[MSWX](https://www.gloh2o.org/mswx/).
+[MSWX](https://www.gloh2o.org/mswx/)
+(see [here](https://github.com/AusClimateService/npcp/issues/22) for detailed discussion).
 
 AGCD is only available in the satellite era (1990 onwards).
 The early years in the dataset (pre 2007) have missing values, up to 60 days per year in some cases.
