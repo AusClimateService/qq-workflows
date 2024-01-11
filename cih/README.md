@@ -146,7 +146,7 @@ The complication is that AGCD doesn't provide a daily mean, maximum or minimum v
 but instead the 9am and 3pm values. 
 
 In terms of approaches to combining the 9am and 3pm vapour pressure values to get an estimate of the daily mean,
-the AWRA modelling group use a weighted average as the input to their model to reflect the average daily value
+the AWRA modelling group use a weighted average as the input to their model to reflect the average daily value;
 [Frost & Shokri, 2021](https://awo.bom.gov.au/assets/notes/publications/AWRA-Lv7_Model_Description_Report.pdf)).
 The weight is a new parameter for AWRA v7 with an optimum value found to be 0.2 for the 9:00 am and 0.8 for the 3:00 pm values.
 In order to estimate the daily average temperature
@@ -176,6 +176,6 @@ which can be converted to hourly relative humidity values
 from which the daily mean, maximum or minimum can be calculated.
 Given the limitations of the AGCD and SILO datasets,
 this was the approach we went with.
-According to [Beck et al (2022)]((https://doi.org/10.1175/BAMS-D-21-0145.1)),
+According to [Beck et al (2022)](https://doi.org/10.1175/BAMS-D-21-0145.1),
 the MSWX relative humidity data is essentially just ERA5 data that has been interpolated to a finer grid,
 so there was no reason to use MSWX over ERA5.
