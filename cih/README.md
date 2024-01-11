@@ -112,7 +112,9 @@ ERA5 or
 AGCD is only available in the satellite era (1990 onwards).
 The early years in the dataset (pre 2007) have missing values, up to 60 days per year in some cases.
 It might be possible to replace those missing values with a climatological mean value
-(that's what AWRA does before feeding the AGCD data into their model) but it's less than ideal.
+(that's what the AWRA modelling team does before feeding the AGCD data into their model;
+[Frost & Shokri, 2021](https://awo.bom.gov.au/assets/notes/publications/AWRA-Lv7_Model_Description_Report.pdf))
+but it's less than ideal.
 The missing value issue coupled with the fact that the data aren't available back to the beginning of our base period (1985)
 means we decided against AGCD.
 
