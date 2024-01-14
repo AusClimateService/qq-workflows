@@ -23,6 +23,7 @@ NQUANTILES=100
 GROUPING=--time_grouping monthly
 INTERP=nearest
 OUTPUT_GRID=af
+COMPRESSION=--compress
 
 ## Variable options
 $(call check_defined, VAR)
@@ -30,7 +31,7 @@ $(call check_defined, VAR)
 ifeq (${VAR}, pr)
 SCALING=multiplicative
 SSR=--ssr
-MAX_AF=--max_af 1.5
+#MAX_AF=--max_af 1.5
 UNITS="mm day-1"
 else
 SCALING=additive
@@ -53,6 +54,12 @@ GCM_RUN=r1i1p1f1
 EXPERIMENT=evaluation
 else ifeq (${GCM_NAME}, CSIRO-ACCESS-ESM1-5)
 GCM_RUN=r6i1p1f1
+EXPERIMENT=ssp370
+ifeq (${RCM_NAME}, GCM)
+ONE_GCM_FILE=True
+endif
+else ifeq (${GCM_NAME}, EC-Earth-Consortium-EC-Earth3)
+GCM_RUN=r1i1p1f1
 EXPERIMENT=ssp370
 ifeq (${RCM_NAME}, GCM)
 ONE_GCM_FILE=True
@@ -155,8 +162,11 @@ AF_PATH=${OUTPUT_AF_DIR}/${AF_FILE}
 
 OUTPUT_QQ_DIR=${OUTDIR}
 QQ_BASE=${REF_VAR}_NPCP-20i_${GCM_NAME}_${EXPERIMENT}_${GCM_RUN}_${RCM_NAME}_${RCM_VERSION}_day_${TARGET_DATES}_${METHOD}-${SCALING}-monthly-q${NQUANTILES}-${INTERP}-${OBS_DATASET}-${TRAINING_DATES}
-QQ_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}_maxaf50pct.nc
+QQ_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.nc
+#_maxaf50pct.nc
 
 OUTPUT_VALIDATION_DIR=${OUTDIR}
-VALIDATION_NOTEBOOK=${OUTPUT_VALIDATION_DIR}/${QQ_BASE}_maxaf50pct.ipynb
+VALIDATION_NOTEBOOK=${OUTPUT_VALIDATION_DIR}/${QQ_BASE}.ipynb
+#_maxaf50pct.ipynb
+FINAL_QQ_PATH=${QQ_PATH}
 

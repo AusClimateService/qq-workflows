@@ -4,15 +4,20 @@
 #             
 
 method_list=(ecdfm qdm)
-var_list=(tasmax tasmin pr)
-rcm_list=(BOM-BARPA-R UQ-DES-CCAM-2105 CSIRO-CCAM-2203 GCM)
-gcm_list=(ECMWF-ERA5 CSIRO-ACCESS-ESM1-5)
+# ecdfm qdm
+var_list=(pr)
+# tasmax tasmin pr
+rcm_list=(BOM-BARPA-R CSIRO-CCAM-2203 GCM)
+# BOM-BARPA-R UQ-DES-CCAM-2105 CSIRO-CCAM-2203 GCM
+gcm_list=(EC-Earth-Consortium-EC-Earth3)
+# ECMWF-ERA5 CSIRO-ACCESS-ESM1-5 EC-Earth-Consortium-EC-Earth3
+
 for var in "${var_list[@]}"; do
     for rcm in "${rcm_list[@]}"; do 
         for gcm in "${gcm_list[@]}"; do
             for method in "${method_list[@]}"; do
                 task_list=(xvalidation)
-                if [[ "${gcm}" == "CSIRO-ACCESS-ESM1-5" ]] ; then
+                if ! [[ "${gcm}" == "ECMWF-ERA5" ]] ; then
                     task_list+=(projection)
                 fi
                 if [[ "${method}" == "ecdfm" ]] ; then

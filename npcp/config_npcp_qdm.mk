@@ -23,6 +23,7 @@ NQUANTILES=100
 INTERP=nearest
 OUTPUT_GRID=af
 REF_TIME=--ref_time
+COMPRESSION=--compress
 
 ## Variable options
 $(call check_defined, VAR)
@@ -55,6 +56,12 @@ GCM_RUN=r1i1p1f1
 EXPERIMENT=evaluation
 else ifeq (${GCM_NAME}, CSIRO-ACCESS-ESM1-5)
 GCM_RUN=r6i1p1f1
+EXPERIMENT=ssp370
+ifeq (${RCM_NAME}, GCM)
+ONE_GCM_FILE=True
+endif
+else ifeq (${GCM_NAME}, EC-Earth-Consortium-EC-Earth3)
+GCM_RUN=r1i1p1f1
 EXPERIMENT=ssp370
 ifeq (${RCM_NAME}, GCM)
 ONE_GCM_FILE=True
@@ -148,4 +155,5 @@ QQ_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.nc
 
 OUTPUT_VALIDATION_DIR=${OUTDIR}
 VALIDATION_NOTEBOOK=${OUTPUT_VALIDATION_DIR}/${QQ_BASE}.ipynb
+FINAL_QQ_PATH=${QQ_PATH}
 
