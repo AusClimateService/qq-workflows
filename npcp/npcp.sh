@@ -7,10 +7,10 @@ method_list=(ecdfm qdm)
 # ecdfm qdm
 var_list=(pr)
 # tasmax tasmin pr
-rcm_list=(BOM-BARPA-R CSIRO-CCAM-2203 GCM)
+rcm_list=(CSIRO-CCAM-2203)
 # BOM-BARPA-R UQ-DES-CCAM-2105 CSIRO-CCAM-2203 GCM
-gcm_list=(EC-Earth-Consortium-EC-Earth3)
-# ECMWF-ERA5 CSIRO-ACCESS-ESM1-5 EC-Earth-Consortium-EC-Earth3
+gcm_list=(NCAR-CESM2)
+# ECMWF-ERA5 CSIRO-ACCESS-ESM1-5 EC-Earth-Consortium-EC-Earth3 NCAR-CESM2
 
 for var in "${var_list[@]}"; do
     for rcm in "${rcm_list[@]}"; do 

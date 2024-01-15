@@ -66,6 +66,12 @@ EXPERIMENT=ssp370
 ifeq (${RCM_NAME}, GCM)
 ONE_GCM_FILE=True
 endif
+else ifeq (${GCM_NAME}, NCAR-CESM2)
+GCM_RUN=r11i1p1f1
+EXPERIMENT=ssp370
+ifeq (${RCM_NAME}, GCM)
+ONE_GCM_FILE=True
+endif
 endif
 OBS_DATASET=AGCD
 RCM_VERSION=v1
