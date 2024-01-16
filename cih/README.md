@@ -85,7 +85,7 @@ Here's a summary of what preliminary data are currently available:
 
 :green_circle: = application ready data is available  
 :white_circle: = CMIP6 data is available on NCI (or the ESGF) but hasn't been processed yet  
-blank = CMIP6 data does not exist on NCI or the ESGF
+blank = CMIP6 data does not exist on NCI or the ESGF  
 *solar radiation is abbreviated as `ssrd` in the ERA5 dataset as opposed to `rsds` (which is the CMIP convention)  
 
 #### Observational data availability
