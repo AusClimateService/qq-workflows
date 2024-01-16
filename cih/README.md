@@ -43,16 +43,16 @@ the Climate Innovation Hub quality checking and metadata standardisation process
 are available from project [wp00](https://my.nci.org.au/mancini/project/wp00) on NCI.
 An example file path is as follows:
 ```
-/g/data/wp00/data/QQ-CMIP6/ACCESS-CM2/ssp126/r4i1p1f1/day/tasmax/tasmax_day_ACCESS-CM2_ssp126_r4i1p1f1_AUS-r005_20350101-20641231_qdm-additive-monthly-q100-nearest_AGCD-19850101-20141231_historical-19850101-20141231.nc
+/g/data/wp00/data/QQ-CMIP6/ACCESS-CM2/ssp126/r4i1p1f1/day/tasmax/tasmax_day_ACCESS-CM2_ssp126_r4i1p1f1_AUS-r005_20440101-20441231_qdm-additive-monthly-q100-nearest_AGCD-19850101-20141231_historical-19850101-20141231.nc
 ```
-That example file contains data for the 2035-2064 period that was produced by
+That example file contains data for the yar 2044 that was produced by
 calculating the quantile changes between the 2035-2064 data from the ssp126 experiment
 and 1985-2014 data from the historical experiment and applying those changes
 to AGCD data from 1985-2014.
 
 Here's a summary of what preliminary data are currently available:
 
-| model | run | experiment | tasmax | tasmin | pr | hurs | hursmin | hursmax | rsds | 
+| model | run | experiment | tasmax | tasmin | pr | hurs | hursmin | hursmax | rsds* | 
 | ---   | --- | ---        | :-:    | :-:    | :-:| :-:  | :-:     | :-:     | :-:  |
 | ACCESS-CM2 | r4i1p1f1 | ssp126 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
 | ACCESS-CM2 | r4i1p1f1 | ssp245 | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
@@ -86,6 +86,7 @@ Here's a summary of what preliminary data are currently available:
 :green_circle: = application ready data is available  
 :white_circle: = CMIP6 data is available on NCI (or the ESGF) but hasn't been processed yet  
 blank = CMIP6 data does not exist on NCI or the ESGF
+*solar radiation is abbreviated as `ssrd` in the ERA5 dataset as opposed to `rsds` (which is the CMIP convention)  
 
 #### Observational data availability
 
