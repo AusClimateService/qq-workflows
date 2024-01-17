@@ -17,7 +17,7 @@ for infile in "$@"; do
         outfile=`echo ${infile} | sed s:_${start}:_${year}:g | sed s:${end}:${year}:g`
         outdir=`dirname ${outfile}`
         mkdir -p ${outdir}
-        qsub -v year=${year},infile=${infile},outfile=${outfile} /home/599/dbi599/qq-workflows/cih/split-by-year-job.sh
+        qsub -v year=${year},infile=${infile},outfile=${outfile} /home/599/dbi599/qq-workflows/cihp13/split-by-year-job.sh
     done
 done
 

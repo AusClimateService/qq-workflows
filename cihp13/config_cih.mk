@@ -28,7 +28,7 @@ TARGET_END=2014
 HIST_START=1985
 HIST_END=2014
 REF_TIME=--ref_time
-SPLIT_SCRIPT=/home/599/dbi599/qq-workflows/cih/split-by-year.sh
+SPLIT_SCRIPT=/home/599/dbi599/qq-workflows/cihp13/split-by-year.sh
 
 ## Variable options
 $(call check_defined, VAR)
