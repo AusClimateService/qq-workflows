@@ -114,6 +114,8 @@ $(call check_defined, REF_VAR)
 $(call check_defined, TARGET_VAR)
 
 ifeq (${RCM_NAME}, BOM-BARPA-R)
+#ifeq (${RCM_NAME}, BARPA-R)
+#/g/data/py18/BARPA/output/CMIP6/DD/AUS-15/BOM/NorESM2-MM/ssp370/r1i1p1f1/BARPA-R/v1-r1/day/tasmax/v20231001/tasmax_AUS-15_NorESM2-MM_ssp370_r1i1p1f1_BOM_BARPA-R_v1-r1_day_201601-201612.nc
 RCM_INSTITUTION=BOM
 CORDEX_PATH=/g/data/ia39/australian-climate-service/release/CORDEX-CMIP6/output
 HIST_PATH=${CORDEX_PATH}/AUS-15/${RCM_INSTITUTION}/${GCM_NAME}/${HIST_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${HIST_VAR}
@@ -121,6 +123,8 @@ HIST_DATA := $(sort $(wildcard ${HIST_PATH}/*day_198[5,6,7,8,9]*.nc) $(wildcard 
 TARGET_PATH=${CORDEX_PATH}/AUS-15/${RCM_INSTITUTION}/${GCM_NAME}/${TARGET_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${TARGET_VAR}
 TARGET_DATA := $(sort $(wildcard ${HIST_PATH}/*.nc) $(wildcard ${TARGET_PATH}/*.nc))
 else ifeq (${RCM_NAME}, CSIRO-CCAM-2203)
+#else ifeq (${RCM_NAME}, CCAM-v2203-SN)
+#/g/data/hq89/CCAM/output/CMIP6/DD/AUS-10i/CSIRO/ACCESS-CM2/ssp370/r4i1p1f1/CCAM-v2203-SN/v1-r1/day/tasmax/v20231206/tasmax_AUS-10i_ACCESS-CM2_ssp370_r4i1p1f1_CSIRO_CCAM-v2203-SN_v1-r1_day_20980101-20981231.nc
 RCM_INSTITUTION=CSIRO
 HIST_PATH=drs_cordex/CORDEX-CMIP6/output/AUS-10i/${RCM_INSTITUTION}/${GCM_NAME}/${HIST_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${HIST_VAR}
 HIST_DATA := $(sort $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${HIST_PATH}/*day_198[5,6,7,8,9]*.nc) $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${HIST_PATH}/*day_199*.nc) $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${HIST_PATH}/*day_2*.nc))
