@@ -9,6 +9,6 @@
 #PBS -v year,infile,outfile
 
 module load cdo
-command="cdo seldate,${year}-01-01,${year}-12-31 ${infile} ${outfile}"
+command="cdo -z zip_5 -seldate,${year}-01-01,${year}-12-31 ${infile} ${outfile}"
 echo ${command}
 ${command}

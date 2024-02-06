@@ -44,7 +44,7 @@ This sliding window approach prevents strong trends in the data impacting the re
 e.g.
 
 ```
-qsub -v var=tasmax,rcm=BOM-BARPA-R,gcm=CSIRO-ACCESS-ESM1-5 bias_correct_timeseries-job.sh
+qsub -v var=tasmax,obs=AGCD,rcm=BOM-BARPA-R,gcm=CSIRO-ACCESS-ESM1-5 bias_correct_timeseries-job.sh
 ```
 
 #### Step 2: Split data into single years

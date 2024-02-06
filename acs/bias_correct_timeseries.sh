@@ -4,8 +4,9 @@
 #             
 
 function usage {
-    echo "USAGE: bash $0 var rcm gcm [-Bn]"
+    echo "USAGE: bash $0 var obs rcm gcm [-Bn]"
     echo "  var:   variable to process"
+    echo "  obs:   obs dataset to process"
     echo "  rcm:   name of regional climate model"
     echo "  gcm:   name of global climate model"
     echo "  [-Bn]: optional flags for make command"
@@ -26,7 +27,7 @@ nsegments=${#target_start[@]}
 
 for (( i=0; i<${nsegments}; i++ ));
 do
-  command="make ${flags} adjust -f /home/599/dbi599/qq-workflows/Makefile CONFIG=config_acs.mk VAR=${var} RCM_NAME=${rcm} GCM_NAME=${gcm} TARGET_START=${target_start[$i]} TARGET_END=${target_end[$i]} OUTPUT_START=${output_start[$i]} OUTPUT_END=${output_end[$i]}"
+  command="make ${flags} adjust -f /home/599/dbi599/qq-workflows/Makefile CONFIG=config_acs.mk VAR=${var} OBS_DATASET=${obs} RCM_NAME=${rcm} GCM_NAME=${gcm} TARGET_START=${target_start[$i]} TARGET_END=${target_end[$i]} OUTPUT_START=${output_start[$i]} OUTPUT_END=${output_end[$i]}"
   echo ${command}
   ${command}
 done
