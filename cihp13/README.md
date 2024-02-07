@@ -89,6 +89,10 @@ A second dot refers to AGCD.
 | NorESM2-MM | r1i1p1f1 | ssp245 | :white_circle: :green_circle: | :white_circle: :green_circle: | :white_circle: :green_circle: | :white_circle: | :white_circle: | :white_circle: |
 | NorESM2-MM | r1i1p1f1 | ssp370 | :white_circle: :green_circle: | :white_circle: :green_circle: | :white_circle: :green_circle: | :white_circle: | :white_circle: | :white_circle: |
 | NorESM2-MM | r1i1p1f1 | ssp585 | :white_circle: :green_circle: | :white_circle: :green_circle: | :white_circle: :green_circle: | :white_circle: | :white_circle: | :white_circle: |
+| UKESM1-0-LL | r1i1p1f2 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| UKESM1-0-LL | r1i1p1f2 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| UKESM1-0-LL | r1i1p1f2 | ssp370 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| UKESM1-0-LL | r1i1p1f2 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 
 :green_circle: = application ready data is available  
 :white_circle: = CMIP6 data is available on NCI (or the ESGF) but hasn't been processed yet  
