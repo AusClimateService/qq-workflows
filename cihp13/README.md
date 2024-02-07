@@ -3,7 +3,6 @@
 This directory contains configuration files used to produce CIH climate projections data. 
 
 The complete CIH CMIP6 application ready climate projections dataset will be called CIHP-13.
-At the moment an intial subset of data is being produced for the Ag2050 project.
 
 ### Ag2050 project
 
