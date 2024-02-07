@@ -23,6 +23,9 @@ Specifications for the CIHP-13 version 1 dataset:
   - Surface downwelling solar radiation - rsds (BARRA-R2)
   - Surface relative humidity - hurs (BARRA-R2)
   - Surface wind speed - sfcWind (BARRA-R2)
+  - The rationale for processing two observational datasets is that BARRA-R2 (~12km) provides a consistent product across all variables,
+while having AGCD (~5km) available for temperature and precipitation caters to users who don't require consistency across many variables
+and just want the (arguably) superior observational underpinning.
 - CMIP6 models (8):
   - ACCESS-CM2, ACCESS-ESM1.5, CESM2, CMCC-ESM2, CNRM-ESM2-1, EC-Earth3, NorESM2-MM, UKESM1-0-LL
   - These models were selected for downscaling over Australia using a 'sparse matrix' framework ([Grose et al, 2023](https://doi.org/10.1016/j.cliser.2023.100368))
