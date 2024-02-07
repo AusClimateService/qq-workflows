@@ -55,29 +55,44 @@ ifeq (${VAR}, pr)
 SCALING=multiplicative
 SSR=--ssr
 HIST_VAR=pr
+ifeq (${OBS_DATASET}, AGCD)
 REF_VAR=precip
+REF_UNITS="mm day-1"
+else
+REF_VAR=pr
+REF_UNITS="kg m-2 s-1"
+endif
 TARGET_VAR=pr
 OUTPUT_UNITS="mm day-1"
 HIST_UNITS="kg m-2 s-1"
-REF_UNITS="mm day-1"
 TARGET_UNITS="kg m-2 s-1"
 else ifeq (${VAR}, tasmin)
 SCALING=additive
 HIST_VAR=tasmin
+ifeq (${OBS_DATASET}, AGCD)
 REF_VAR=tmin
+REF_UNITS=C
+else
+REF_VAR=tasmin
+REF_UNITS=K
+endif
 TARGET_VAR=tasmin
 OUTPUT_UNITS=C
 HIST_UNITS=K
-REF_UNITS=C
 TARGET_UNITS=K
 else ifeq (${VAR}, tasmax)
 SCALING=additive
 HIST_VAR=tasmax
+ifeq (${OBS_DATASET}, AGCD)
 REF_VAR=tmax
+REF_UNITS=C
+else
+REF_VAR=tasmax
+REF_UNITS=K
+endif
 TARGET_VAR=tasmax
 OUTPUT_UNITS=C
 HIST_UNITS=K
-REF_UNITS=C
 TARGET_UNITS=K
 endif
 
