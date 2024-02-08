@@ -36,6 +36,10 @@ and just want the (arguably) superior observational underpinning.
 - Future periods: 2035-2064 ("2050"), 2070-2099 ("2085")
 - Experiments: ssp126, ssp245, ssp370, ssp585
 
+### Execution
+
+Run `cih.sh` to process data.
+
 ### Observational data availability 
 
 The AGCD and BARRA-R2 observational data are available on NCI at the following directories:
