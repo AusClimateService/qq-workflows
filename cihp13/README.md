@@ -51,7 +51,7 @@ the Climate Innovation Hub quality checking and metadata standardisation process
 are available from project [wp00](https://my.nci.org.au/mancini/project/wp00) on NCI.
 An example file path is as follows:
 ```
-/g/data/wp00/data/QQ-CMIP6/AGCD/ACCESS-CM2/ssp126/r4i1p1f1/day/tasmax/tasmax_day_ACCESS-CM2_ssp126_r4i1p1f1_AUS-r005_20440101-20441231_qdm-additive-monthly-q100-nearest_AGCD-19850101-20141231_historical-19850101-20141231.nc
+/g/data/wp00/data/QDM-CMIP6/AGCD/ACCESS-CM2/ssp126/r4i1p1f1/day/tasmax/2035-2064/tasmax_day_ACCESS-CM2_ssp126_r4i1p1f1_AUS-r005_20440101-20441231_qdm-additive-monthly-q100-nearest_AGCD-19850101-20141231_historical-19850101-20141231.nc
 ```
 That example file contains data for the year 2044 that was produced by
 calculating the quantile changes between the 2035-2064 data from the ssp126 experiment
