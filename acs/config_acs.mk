@@ -52,48 +52,92 @@ SPLIT_SCRIPT=/home/599/dbi599/qq-workflows/cih/split-by-year.sh
 $(call check_defined, VAR)
 
 ifeq (${VAR}, pr)
-SCALING=multiplicative
-SSR=--ssr
-HIST_VAR=pr
-ifeq (${OBS_DATASET}, AGCD)
-REF_VAR=precip
-REF_UNITS="mm day-1"
-else
-REF_VAR=pr
-REF_UNITS="kg m-2 s-1"
-endif
-TARGET_VAR=pr
-OUTPUT_UNITS="mm day-1"
-HIST_UNITS="kg m-2 s-1"
-TARGET_UNITS="kg m-2 s-1"
+  SCALING=multiplicative
+  SSR=--ssr
+  HIST_VAR=pr
+  HIST_UNITS="kg m-2 s-1"
+  ifeq (${OBS_DATASET}, AGCD)
+    REF_VAR=precip
+    REF_UNITS="mm day-1"
+  else
+    REF_VAR=pr
+    REF_UNITS="kg m-2 s-1"
+  endif
+  TARGET_VAR=pr
+  TARGET_UNITS="kg m-2 s-1"
+  OUTPUT_UNITS="mm day-1"
 else ifeq (${VAR}, tasmin)
-SCALING=additive
-HIST_VAR=tasmin
-ifeq (${OBS_DATASET}, AGCD)
-REF_VAR=tmin
-REF_UNITS=C
-else
-REF_VAR=tasmin
-REF_UNITS=K
-endif
-TARGET_VAR=tasmin
-OUTPUT_UNITS=C
-HIST_UNITS=K
-TARGET_UNITS=K
+  SCALING=additive
+  HIST_VAR=tasmin
+  HIST_UNITS=K
+  ifeq (${OBS_DATASET}, AGCD)
+    REF_VAR=tmin
+    REF_UNITS=C
+  else
+    REF_VAR=tasmin
+    REF_UNITS=K
+  endif
+  TARGET_VAR=tasmin
+  TARGET_UNITS=K
+  OUTPUT_UNITS=C
 else ifeq (${VAR}, tasmax)
-SCALING=additive
-HIST_VAR=tasmax
-ifeq (${OBS_DATASET}, AGCD)
-REF_VAR=tmax
-REF_UNITS=C
-else
-REF_VAR=tasmax
-REF_UNITS=K
-endif
-TARGET_VAR=tasmax
-OUTPUT_UNITS=C
-HIST_UNITS=K
-TARGET_UNITS=K
+  SCALING=additive
+  HIST_VAR=tasmax
+  HIST_UNITS=K
+  ifeq (${OBS_DATASET}, AGCD)
+    REF_VAR=tmax
+    REF_UNITS=C
+  else
+    REF_VAR=tasmax
+    REF_UNITS=K
+  endif
+  TARGET_VAR=tasmax
+  TARGET_UNITS=K
+  OUTPUT_UNITS=C
+else ifeq (${VAR}, tasmax)
+  SCALING=additive
+  HIST_VAR=tasmax
+  HIST_UNITS=K
+  ifeq (${OBS_DATASET}, AGCD)
+    REF_VAR=tmax
+    REF_UNITS=C
+  else
+    REF_VAR=tasmax
+    REF_UNITS=K
+  endif
+  TARGET_VAR=tasmax
+  TARGET_UNITS=K
+  OUTPUT_UNITS=C
+else ifeq (${VAR}, rsds)
+  SCALING=additive
+  HIST_VAR=rsds
+  HIST_UNITS="W m-2"
+  REF_VAR=rsds
+  REF_UNITS="W m-2"
+  TARGET_VAR=rsds
+  TARGET_UNITS="W m-2"
+  OUTPUT_UNITS="W m-2"
+else ifeq (${VAR}, hurs)
+  SCALING=additive
+  HIST_VAR=hurs
+  HIST_UNITS="%"
+  REF_VAR=hurs
+  REF_UNITS="%"
+  TARGET_VAR=hurs
+  TARGET_UNITS="%"
+  OUTPUT_UNITS="%"
+  VALID_MIN=--valid_min 0
+  VALID_MAX=--valid_max 100
+else ifeq (${VAR}, sfcWind)
+  SCALING=additive
+  HIST_VAR=sfcWind
+  HIST_UNITS="m s-1"
+  REF_VAR=sfcWind
+  REF_UNITS="m s-1"
+  TARGET_VAR=sfcWind
+  TARGET_UNITS="m s-1"
+  OUTPUT_UNITS="m s-1"
+  VALID_MIN=--valid_min 0
 endif
 
 ## Model options
@@ -101,23 +145,23 @@ $(call check_defined, GCM_NAME)
 $(call check_defined, RCM_NAME)
 
 ifeq (${GCM_NAME}, ECMWF-ERA5)
-HIST_EXP=evaluation
-TARGET_EXP=evaluation
+  HIST_EXP=evaluation
+  TARGET_EXP=evaluation
 else
-HIST_EXP=historical
-TARGET_EXP=ssp370
+  HIST_EXP=historical
+  TARGET_EXP=ssp370
 endif
 
 ifeq (${GCM_NAME}, CSIRO-ACCESS-ESM1-5)
-GCM_RUN=r6i1p1f1
+  GCM_RUN=r6i1p1f1
 else ifeq (${GCM_NAME}, CSIRO-ARCCSS-ACCESS-CM2)
-GCM_RUN=r4i1p1f1
+  GCM_RUN=r4i1p1f1
 else ifeq (${GCM_NAME}, NCAR-CESM2)
-GCM_RUN=r11i1p1f1
+  GCM_RUN=r11i1p1f1
 else ifeq (${GCM_NAME}, CNRM-CERFACS-CNRM-ESM2-1)
-GCM_RUN=r1i1p1f2
+  GCM_RUN=r1i1p1f2
 else
-GCM_RUN=r1i1p1f1
+  GCM_RUN=r1i1p1f1
 endif
 
 ## Input data
@@ -131,34 +175,34 @@ $(call check_defined, REF_VAR)
 $(call check_defined, TARGET_VAR)
 
 ifeq (${RCM_NAME}, BOM-BARPA-R)
-#ifeq (${RCM_NAME}, BARPA-R)
-#/g/data/py18/BARPA/output/CMIP6/DD/AUS-15/BOM/NorESM2-MM/ssp370/r1i1p1f1/BARPA-R/v1-r1/day/tasmax/v20231001/tasmax_AUS-15_NorESM2-MM_ssp370_r1i1p1f1_BOM_BARPA-R_v1-r1_day_201601-201612.nc
-RCM_INSTITUTION=BOM
-CORDEX_PATH=/g/data/ia39/australian-climate-service/release/CORDEX-CMIP6/output
-HIST_PATH=${CORDEX_PATH}/AUS-15/${RCM_INSTITUTION}/${GCM_NAME}/${HIST_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${HIST_VAR}
-HIST_DATA := $(sort $(wildcard ${HIST_PATH}/*day_198[5,6,7,8,9]*.nc) $(wildcard ${HIST_PATH}/*day_199*.nc) $(wildcard ${HIST_PATH}/*day_2*.nc))
-TARGET_PATH=${CORDEX_PATH}/AUS-15/${RCM_INSTITUTION}/${GCM_NAME}/${TARGET_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${TARGET_VAR}
-TARGET_DATA := $(sort $(wildcard ${HIST_PATH}/*.nc) $(wildcard ${TARGET_PATH}/*.nc))
+  #ifeq (${RCM_NAME}, BARPA-R)
+  #/g/data/py18/BARPA/output/CMIP6/DD/AUS-15/BOM/NorESM2-MM/ssp370/r1i1p1f1/BARPA-R/v1-r1/day/tasmax/v20231001/tasmax_AUS-15_NorESM2-MM_ssp370_r1i1p1f1_BOM_BARPA-R_v1-r1_day_201601-201612.nc
+  RCM_INSTITUTION=BOM
+  CORDEX_PATH=/g/data/ia39/australian-climate-service/release/CORDEX-CMIP6/output
+  HIST_PATH=${CORDEX_PATH}/AUS-15/${RCM_INSTITUTION}/${GCM_NAME}/${HIST_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${HIST_VAR}
+  HIST_DATA := $(sort $(wildcard ${HIST_PATH}/*day_198[5,6,7,8,9]*.nc) $(wildcard ${HIST_PATH}/*day_199*.nc) $(wildcard ${HIST_PATH}/*day_2*.nc))
+  TARGET_PATH=${CORDEX_PATH}/AUS-15/${RCM_INSTITUTION}/${GCM_NAME}/${TARGET_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${TARGET_VAR}
+  TARGET_DATA := $(sort $(wildcard ${HIST_PATH}/*.nc) $(wildcard ${TARGET_PATH}/*.nc))
 else ifeq (${RCM_NAME}, CSIRO-CCAM-2203)
-#else ifeq (${RCM_NAME}, CCAM-v2203-SN)
-#/g/data/hq89/CCAM/output/CMIP6/DD/AUS-10i/CSIRO/ACCESS-CM2/ssp370/r4i1p1f1/CCAM-v2203-SN/v1-r1/day/tasmax/v20231206/tasmax_AUS-10i_ACCESS-CM2_ssp370_r4i1p1f1_CSIRO_CCAM-v2203-SN_v1-r1_day_20980101-20981231.nc
-RCM_INSTITUTION=CSIRO
-HIST_PATH=drs_cordex/CORDEX-CMIP6/output/AUS-10i/${RCM_INSTITUTION}/${GCM_NAME}/${HIST_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${HIST_VAR}
-HIST_DATA := $(sort $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${HIST_PATH}/*day_198[5,6,7,8,9]*.nc) $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${HIST_PATH}/*day_199*.nc) $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${HIST_PATH}/*day_2*.nc))
-TARGET_PATH=drs_cordex/CORDEX-CMIP6/output/AUS-10i/${RCM_INSTITUTION}/${GCM_NAME}/${TARGET_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${TARGET_VAR}
-TARGET_DATA := $(sort $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${HIST_PATH}/*.nc) $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${TARGET_PATH}/*.nc))
+  #else ifeq (${RCM_NAME}, CCAM-v2203-SN)
+  #/g/data/hq89/CCAM/output/CMIP6/DD/AUS-10i/CSIRO/ACCESS-CM2/ssp370/r4i1p1f1/CCAM-v2203-SN/v1-r1/day/tasmax/v20231206/tasmax_AUS-10i_ACCESS-CM2_ssp370_r4i1p1f1_CSIRO_CCAM-v2203-SN_v1-r1_day_20980101-20981231.nc
+  RCM_INSTITUTION=CSIRO
+  HIST_PATH=drs_cordex/CORDEX-CMIP6/output/AUS-10i/${RCM_INSTITUTION}/${GCM_NAME}/${HIST_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${HIST_VAR}
+  HIST_DATA := $(sort $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${HIST_PATH}/*day_198[5,6,7,8,9]*.nc) $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${HIST_PATH}/*day_199*.nc) $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${HIST_PATH}/*day_2*.nc))
+  TARGET_PATH=drs_cordex/CORDEX-CMIP6/output/AUS-10i/${RCM_INSTITUTION}/${GCM_NAME}/${TARGET_EXP}/${GCM_RUN}/${RCM_NAME}/v1/day/${TARGET_VAR}
+  TARGET_DATA := $(sort $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${HIST_PATH}/*.nc) $(wildcard /g/data/xv83/mxt599/ccam_*_aus-10i_12km/${TARGET_PATH}/*.nc))
 endif
 RCM_VERSION=v1
 
 ifeq (${OBS_DATASET}, AGCD)
-REF_PATH=/g/data/xv83/agcd-csiro/${REF_VAR}/daily
+  REF_PATH=/g/data/xv83/agcd-csiro/${REF_VAR}/daily
 ifeq (${OUTPUT_GRID}, af)
-OUTPUT_GRID_LABEL=AUS-05i
+  OUTPUT_GRID_LABEL=AUS-05i
 endif
 else ifeq (${OBS_DATASET}, BARRA-R2)
-REF_PATH=/g/data/ob53/BARRA2/output/reanalysis/AUS-11/BOM/ERA5/historical/hres/BARRA-R2/v1/day/${REF_VAR}/v20231001
+  REF_PATH=/g/data/ob53/BARRA2/output/reanalysis/AUS-11/BOM/ERA5/historical/hres/BARRA-R2/v1/day/${REF_VAR}/v20231001
 ifeq (${OUTPUT_GRID}, af)
-OUTPUT_GRID_LABEL=AUS-11i
+  OUTPUT_GRID_LABEL=AUS-11i
 endif
 endif
 REF_DATA = $(sort $(wildcard ${REF_PATH}/*_198[5,6,7,8,9]*.nc) $(wildcard ${REF_PATH}/*_199*.nc) $(wildcard ${REF_PATH}/*_200*.nc) $(wildcard ${REF_PATH}/*_201[0,1,2,3,4]*.nc))

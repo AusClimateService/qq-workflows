@@ -157,6 +157,7 @@ else ifeq (${VAR}, sfcWind)
   TARGET_VAR=sfcWind
   TARGET_UNITS="m s-1"
   OUTPUT_UNITS="m s-1"
+  VALID_MIN=--valid_min 0
 endif
 
 ## Model options
