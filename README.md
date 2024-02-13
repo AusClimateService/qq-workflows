@@ -11,7 +11,7 @@ executed notebooks relating to specific projects.
 The steps involved in using the `Makefile` to build an execute a workflow
 for a particular project (`project/`) are:
 1. Create a configuration makefile (e.g. `project/my_config.mk`) 
-1. Run `make [target] [-nB] CONFIG=project/my_config.mk` to implement either QDM or ECDFm.
+1. Run `make [target] [-nB] CONFIG=project/my_config.mk` to implement either QDC or ECDFm.
 
 The targets are `train`, `adjust` or `validation` (run `make help` for details),
 while `-n` is a dry run (i.e. just print the commands to the screen without running them)
