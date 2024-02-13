@@ -10,9 +10,8 @@ the Climate Innovation Hub will provide application-ready climate projections da
 for the Ag2050 project using the
 [Quantile Delta Change](https://github.com/climate-innovation-hub/qqscale/blob/master/docs/method_qdc.md) method.
 
-#### Dataset details
+## Specifications
 
-The details of the application ready dataset that will be produced are as follows:
 - Timescale: Daily
 - Variables (observational dataset):
   - Daily maximum surface air temperature - tasmax (AGCD)
@@ -31,7 +30,7 @@ The details of the application ready dataset that will be produced are as follow
 - Future period: 2035-2064 ("2050")
 - Experiments: ssp126, ssp245, ssp370, ssp585
 
-#### Model data availability
+## Model data availability
 
 Preliminary data that have not yet undergone
 the Climate Innovation Hub quality checking and metadata standardisation process
@@ -83,7 +82,7 @@ Here's a summary of what preliminary data are currently available:
 blank = CMIP6 data does not exist on NCI or the ESGF  
 *solar radiation is abbreviated as `ssrd` in the ERA5 dataset as opposed to `rsds` (which is the CMIP convention)  
 
-#### Observational data availability
+## Observational data availability
 
 The AGCD and ERA5 observational data is also available
 from project [wp00](https://my.nci.org.au/mancini/project/wp00) on NCI at the following directories:
@@ -94,9 +93,9 @@ from project [wp00](https://my.nci.org.au/mancini/project/wp00) on NCI at the fo
 The timespan of those datasets typically ends sometime during 2022,
 but they can be updated to the end of 2022 or even to the present day if required.
 
-#### Observational data rationale
+### Observational data rationale
 
-###### Solar radiation (ERA5)
+#### Solar radiation (ERA5)
 
 The observational data options for downwelling solar radiation are
 AGCD,
@@ -130,7 +129,7 @@ and rescaling the long-term mean to match the Global Solar Atlas (GSA) global ho
 They find basically no improvement on the ERA5 downward shortwave radiation ([Beck et al 2022](https://doi.org/10.1175/BAMS-D-21-0145.1)).
 The lack of improvement is likely attributable to the small influence that the improved climatology has on the day-to-day variability.
 
-###### Relative humidity (ERA5)
+#### Relative humidity (ERA5)
 
 The observational data options for relative humidity are AGCD, SILO, ERA5 or MSWX
 (see [here](https://github.com/AusClimateService/npcp/issues/2) for a detailed discussion).
