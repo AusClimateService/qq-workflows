@@ -23,14 +23,6 @@ and just want the (arguably) superior observational underpinning.
 - Future periods: 2035-2064 ("2050"), 2070-2099 ("2085")
 - Experiments: ssp126, ssp245, ssp370, ssp585
 
-## Observational data availability 
-
-The AGCD and BARRA-R2 observational data are available on NCI at the following directories:
-```
-/g/data/wp00/data/observations/AGCD/
-/g/data/ob53/BARRA2/output/reanalysis/AUS-11/BOM/ERA5/historical/hres/BARRA-R2/v1/day/
-```
-
 ## Model data availability
 
 Preliminary data that have not yet undergone
@@ -87,3 +79,11 @@ A second dot refers to AGCD.
 :green_circle: = application ready data is available  
 :white_circle: = CMIP6 data is available on NCI (or the ESGF) but hasn't been processed yet  
 blank = CMIP6 data does not exist on NCI or the ESGF   
+
+## Observational data availability 
+
+The AGCD and BARRA-R2 observational data are available on NCI at the following directories:
+```
+/g/data/wp00/data/observations/AGCD/
+/g/data/ob53/BARRA2/output/reanalysis/AUS-11/BOM/ERA5/historical/hres/BARRA-R2/v1/day/
+```
