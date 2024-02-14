@@ -21,7 +21,7 @@ __check_defined = \
       $(error Undefined $1$(if $2, ($2))))
 
 ## Method options
-METHOD=qdm
+METHOD=qdc
 INTERP=linear
 OUTPUT_GRID=input
 TARGET_START=1985
@@ -225,7 +225,7 @@ $(call check_defined, REF_END)
 $(call check_defined, HIST_START)
 $(call check_defined, HIST_END)
 
-OUTPUT_AF_DIR=/g/data/wp00/data/QDM-CMIP6/${OBS_DATASET}/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/${REF_START}-${REF_END}
+OUTPUT_AF_DIR=/g/data/wp00/data/QDC-CMIP6/${OBS_DATASET}/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/${REF_START}-${REF_END}
 AF_FILE=${REF_VAR}-${METHOD_DESCRIPTION}-adjustment-factors_${MODEL}_${EXPERIMENT}_${RUN}_gn_${REF_START}0101-${REF_END}1231_wrt_${HIST_START}0101-${HIST_END}1231.nc
 AF_PATH=${OUTPUT_AF_DIR}/${AF_FILE}
 
