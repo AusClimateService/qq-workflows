@@ -15,7 +15,10 @@ refer to the [NPCP bias correction intercomparison](https://github.com/AusClimat
 
 ## Execution
 
-Run `cih.sh` to process data.
+1. Edit `cih.sh` for the desired models, variables, experiments, time period etc.  
+1. Run `bash cih.sh validation` to produce the data files and corresponding validation notebook.  
+1. Run `bash cih.sh split-by-year` to split and compress the data files.  
+1. Run `bash cih.sh clean-up` to delete the original (not split or compressed) data files and adjustment factor files. 
 
 ## Versions
 
