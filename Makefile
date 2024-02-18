@@ -99,7 +99,7 @@ split-by-year : ${FINAL_QQ_PATH}
 
 ## clean up: remove unneeded files once the split into years process is done
 clean-up : 
-	rm ${AF_PATH} ${QQ_PATH} ${QQCLIPPED_PATH}
+	rm ${QQ_PATH} ${QQCLIPPED_PATH}
 
 ## help : show this message
 help :

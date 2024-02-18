@@ -14,7 +14,7 @@ for infile in "$@"; do
     end=`echo ${dates:9:4}`
     years=($(seq ${start} 1 ${end}))
     for year in "${years[@]}"; do
-        outfile=`echo ${infile} | sed s:_${start}:_${year}:g | sed s:${end}:${year}:g`
+        outfile=`echo ${infile} | sed s:_${start}0101-${end}1231:_${year}0101-${year}1231:g`
         outdir=`dirname ${outfile}`
         mkdir -p ${outdir}
         qsub -v year=${year},infile=${infile},outfile=${outfile} /home/599/dbi599/qq-workflows/cihp13/split-by-year-job.sh
