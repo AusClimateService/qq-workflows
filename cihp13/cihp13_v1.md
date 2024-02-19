@@ -43,7 +43,7 @@ A second dot refers to AGCD.
 
 | model | run | experiment | tasmax | tasmin | pr | hurs | rsds | sfcWind | 
 | ---   | --- | ---        | :-:    | :-:    | :-:| :-:  | :-:  | :-:     |
-| ACCESS-CM2 | r4i1p1f1 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| ACCESS-CM2 | r4i1p1f1 | ssp126 | :green_circle: :white_circle: | :green_circle: :white_circle: | :green_circle: :white_circle: | :green_circle: | :green_circle: | :green_circle: |
 | ACCESS-CM2 | r4i1p1f1 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | 
 | ACCESS-CM2 | r4i1p1f1 | ssp370 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | ACCESS-CM2 | r4i1p1f1 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: |
