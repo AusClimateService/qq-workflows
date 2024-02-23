@@ -2,7 +2,7 @@
 #
 # The user defined variables are:
 # - VAR (required; options: tasmin tasmax pr)
-# - OBS_DATASET (required; options: AGCD BARRA-R2)
+# - OBS_DATASET (required; options: AGCD BARRA-R2 AGCA-AGCD)
 # - RCM_NAME (required; options: BOM-BARPA-R CSIRO-CCAM-2203)
 # - GCM_NAME (required; options:
 #               CMCC-CMCC-ESM2
@@ -87,6 +87,9 @@ else ifeq (${VAR}, tasmax)
   ifeq (${OBS_DATASET}, AGCD)
     REF_VAR=tmax
     REF_UNITS=C
+  else ifeq (${OBS_DATASET}, AGCA-AGCD)
+    REF_VAR=tmax
+    REF_UNITS=C    
   else
     REF_VAR=tasmax
     REF_UNITS=K
@@ -196,16 +199,22 @@ RCM_VERSION=v1
 
 ifeq (${OBS_DATASET}, AGCD)
   REF_PATH=/g/data/xv83/agcd-csiro/${REF_VAR}/daily
-ifeq (${OUTPUT_GRID}, af)
-  OUTPUT_GRID_LABEL=AUS-05i
-endif
+  REF_DATA = $(sort $(wildcard ${REF_PATH}/*_198[5,6,7,8,9]*.nc) $(wildcard ${REF_PATH}/*_199*.nc) $(wildcard ${REF_PATH}/*_200*.nc) $(wildcard ${REF_PATH}/*_201[0,1,2,3,4]*.nc))
+  ifeq (${OUTPUT_GRID}, af)
+    OUTPUT_GRID_LABEL=AUS-05i
+  endif
 else ifeq (${OBS_DATASET}, BARRA-R2)
   REF_PATH=/g/data/ob53/BARRA2/output/reanalysis/AUS-11/BOM/ERA5/historical/hres/BARRA-R2/v1/day/${REF_VAR}/v20231001
-ifeq (${OUTPUT_GRID}, af)
-  OUTPUT_GRID_LABEL=AUS-11i
+  REF_DATA = $(sort $(wildcard ${REF_PATH}/*_198[5,6,7,8,9]*.nc) $(wildcard ${REF_PATH}/*_199*.nc) $(wildcard ${REF_PATH}/*_200*.nc) $(wildcard ${REF_PATH}/*_201[0,1,2,3,4]*.nc))
+  ifeq (${OUTPUT_GRID}, af)
+    OUTPUT_GRID_LABEL=AUS-11i
+  endif
+else ifeq (${OBS_DATASET}, AGCA-AGCD)
+  REF_DATA=/g/data/xv83/ab7412/${REF_VAR}_AGCD_1985_2014.nc
+  ifeq (${OUTPUT_GRID}, af)
+    OUTPUT_GRID_LABEL=AUS-05i
+  endif
 endif
-endif
-REF_DATA = $(sort $(wildcard ${REF_PATH}/*_198[5,6,7,8,9]*.nc) $(wildcard ${REF_PATH}/*_199*.nc) $(wildcard ${REF_PATH}/*_200*.nc) $(wildcard ${REF_PATH}/*_201[0,1,2,3,4]*.nc))
 
 ## Output data
 $(call check_defined, OUTPUT_GRID_LABEL)
@@ -232,7 +241,8 @@ BIAS_ADJUSTMENT=${RCM_VERSION}-${METHOD}-${OBS_DATASET}-${REF_START}-${REF_END}
 TRAINING_DATES=${HIST_START}0101-${HIST_END}1231
 ADJUSTMENT_DATES=${TARGET_START}0101-${TARGET_END}1231
 OUTPUT_DATES=${OUTPUT_START}0101-${OUTPUT_END}1231
-OUTDIR=/g/data/xv83/dbi599/australian-climate-service/test-data/CORDEX-CMIP6/bias-adjusted-output/${OUTPUT_GRID_LABEL}/${RCM_INSTITUTION}/${GCM_NAME}/${TARGET_EXP}/${GCM_RUN}/${RCM_NAME}/${BIAS_ADJUSTMENT}/day/${TARGET_VAR}Adjust
+OUTDIR=/g/data/xv83/dbi599/bennett-postdoc/test-data/CORDEX-CMIP6/bias-adjusted-output/${OUTPUT_GRID_LABEL}/${RCM_INSTITUTION}/${GCM_NAME}/${TARGET_EXP}/${GCM_RUN}/${RCM_NAME}/${BIAS_ADJUSTMENT}/day/${TARGET_VAR}Adjust
+# /g/data/xv83/dbi599/australian-climate-service
 
 OUTPUT_AF_DIR=${OUTDIR}
 AF_FILE=${TARGET_VAR}-${METHOD}-${SCALING}-monthly-q${NQUANTILES}-adjustment-factors_${OBS_DATASET}_${OUTPUT_GRID_LABEL}_${GCM_NAME}_${HIST_EXP}_${GCM_RUN}_${RCM_NAME}_${RCM_VERSION}_day_${TRAINING_DATES}.nc
