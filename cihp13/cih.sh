@@ -9,13 +9,14 @@ target=$1
 #train adjust validation clipmax split-by-year clean-up 
 
 obs=BARRA-R2
-start=2035
+#BARRA-R2 AGCD
+start=2070
 #2035 2070
-end=2065
-#2065 2099
+end=2099
+#2064 2099
 
-var_list=(tasmax)
-#tasmax tasmin pr rsds hurs hursmin hursmax sfcWind
+var_list=(tasmax tasmin pr rsds hurs sfcWind)
+#tasmax tasmin pr rsds hurs sfcWind hursmin hursmax
 model_list=(ACCESS-CM2)
 #ACCESS-CM2 ACCESS-ESM1-5 CMCC-ESM2 CESM2 CNRM-ESM2-1 EC-Earth3 NorESM2-MM UKESM1-0-LL
 exp_list=(ssp126)
