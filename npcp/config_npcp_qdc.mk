@@ -1,4 +1,4 @@
-# NPCP bias correction configuration for QDM
+# NPCP bias correction configuration for QDC
 #
 # The required user defined variables are:
 # - VAR (options: tasmin tasmax pr)
@@ -7,7 +7,7 @@
 # - GCM_NAME (options: ECMWF-ERA5 CSIRO-ACCESS-ESM1-5)
 #
 # Example usage:
-#   make [target] [-Bn] CONFIG=npcp/config_npcp_qdm.mk VAR=pr TASK=projection RCM_NAME=BOM-BARPA-R GCM_NAME=CSIRO-ACCESS-ESM1-5
+#   make [target] [-Bn] CONFIG=npcp/config_npcp_qdc.mk VAR=pr TASK=projection RCM_NAME=BOM-BARPA-R GCM_NAME=CSIRO-ACCESS-ESM1-5
 #
 
 check_defined = \
@@ -18,7 +18,7 @@ __check_defined = \
       $(error Undefined $1$(if $2, ($2))))
 
 ## Method options
-METHOD=qdm
+METHOD=qdc
 NQUANTILES=100
 INTERP=nearest
 OUTPUT_GRID=af
