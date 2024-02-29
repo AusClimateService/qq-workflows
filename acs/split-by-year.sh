@@ -11,10 +11,11 @@ for infile in "$@"; do
     end=`echo ${dates:9:4}`
     years=($(seq ${start} 1 ${end}))
     for year in "${years[@]}"; do
-        outfile=`echo ${infile} | sed s:xv83/dbi599:ia39:g | sed s:${start}:${year}:g | sed s:${end}:${year}:g`
-        if [ ${year} -lt 2015 ]; then
-           outfile=`echo ${outfile} | sed s:${experiment}:historical:g`
-        fi
+        #outfile=`echo ${infile} | sed s:xv83/dbi599:ia39:g | sed s:${start}:${year}:g | sed s:${end}:${year}:g`
+        outfile=`echo ${infile} | sed s:${start}0101:${year}0101:g | sed s:${end}1231:${year}1231:g`
+#        if [ ${year} -lt 2015 ]; then
+#           outfile=`echo ${outfile} | sed s:${experiment}:historical:g`
+#        fi
         outdir=`dirname ${outfile}`
         mkdir -p ${outdir}
         qsub -v year=${year},infile=${infile},outfile=${outfile} split-by-year-job.sh
