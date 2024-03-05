@@ -6,7 +6,7 @@
 # Method: Multiplicative ECDFm
 # 
 
-keep: 
+global_keep:
   - Conventions
   - domain
   - domain_id
@@ -24,9 +24,7 @@ keep:
   - version_realisation
   - variable_id
 
-overwrite:
-#  - activity_id
-#  - license
+global_overwrite:
   - product: bias-adjusted-output
   - project_id: CORDEX-Adjust
   - contact: damien.irving@csiro.au
@@ -38,6 +36,8 @@ overwrite:
   - bc_observation: 'Bureau of Meteorology Atmospheric high-resolution Regional Reanalysis for Australia, version 2;  https://doi.org/10.25914/1X6G-2V48; Su, C.-H., Rennie, S., Dharssi, I., Torrance, J., Smith, A., Le, T., Steinle, P., Stassen, C., Warren, R. A., Wang, C., and Le Marshall, J. (2022), BARRA2 - Development of the next-generation Australian regional atmospheric reanalysis, Bureau Research Report 067, accessed online http://www.bom.gov.au/research/publications/researchreports/BRR-067.pdf'
   - bc_observation_id: BARRA-R2
   - bc_period: 1985-2014 
-  - bc_info: f'ecdfm-BARRA-R2-1985-2014'
+  - bc_info: 'ecdfm-BARRA-R2-1985-2014'
+#  - activity_id
+#  - license
 
 

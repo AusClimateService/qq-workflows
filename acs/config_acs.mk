@@ -46,7 +46,7 @@ OUTPUT_GRID=input
 OUTPUT_START=${TARGET_START}
 OUTPUT_END=${TARGET_END}
 OUTPUT_TSLICE=--output_tslice ${OUTPUT_START}-01-01 ${OUTPUT_END}-12-31
-SPLIT_SCRIPT=/home/599/dbi599/qq-workflows/cih/split-by-year.sh
+SPLIT_SCRIPT=/home/599/dbi599/qq-workflows/acs/split-by-year.sh
 
 ## Variable options
 $(call check_defined, VAR)
@@ -238,7 +238,7 @@ $(call check_defined, SCALING)
 $(call check_defined, NQUANTILES)
 $(call check_defined, OBS_DATASET)
 
-CORDEX=--cordex_attrs ${OBS_DATASET}
+OUTFILE_ATTRIBUTES=--outfile_attrs /home/599/dbi599/qq-workflows/acs/outfile_attributes_${SCALING}_${OBS_DATASET}.yml
 BIAS_ADJUSTMENT=${RCM_VERSION}-${METHOD}-${OBS_DATASET}-${REF_START}-${REF_END}
 TRAINING_DATES=${HIST_START}0101-${HIST_END}1231
 ADJUSTMENT_DATES=${TARGET_START}0101-${TARGET_END}1231
