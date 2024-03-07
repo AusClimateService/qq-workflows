@@ -1,0 +1,91 @@
+# Apply file attributes defined for the QDC scaled CMIP6 data which feeds into CIHP-13.
+#
+# This is for BARRA2 input.
+# metadata that would be nice to add but don't fit this YAML format:
+#  - global:
+#    - date_created
+
+global_keep:
+  - geospatial_lat_min
+  - geospatial_lat_max
+  - geospatial_lon_min 
+  - geospatial_lon_max
+
+global_overwrite:
+  - title: 'QDC-Scaled CMIP6 Application-Ready Climate Projections'
+  - Conventions: 'CF-1.8, ACDD-1.3'
+  - summary: 'Application-ready climate projections are available for daily maximum and minimum temperature, precipitation, solar radiation, relative humidity and wind speed. The data have been created by applying future climate changes simulated by a selection of CMIP6 Global Climate Models to BARRA2 reanalysis data using the QDC scaling method.'
+  - keywords: 'GCMD:Locations>Continent>Australia/New Zealand>Australia, GCMD:Earth Science Services>Models>Coupled Climate Models, GCMD:Earth Science>Atmosphere'
+  - keywords_vocabulary: 'GCMD:GCMD Keywords, Version 17.9'
+  - keywords_reference : 'Global Change Master Directory (GCMD). 2023. GCMD Keywords, Version 17.9, Greenbelt, MD: Earth Science Data and Information System, Earth Science Projects Division, Goddard Space Flight Center, NASA. URL (GCMD Keyword Forum Page): https://forum.earthdata.nasa.gov/app.php/tag/GCMD+Keywords '
+  - acknowledgement: |
+  BARRA2; https://doi.org/10.25914/1x6g-2v48
+  CMIP6; Overview of the Coupled Model Intercomparison Project Phase 6 (CMIP6) experimental design and organization, https://doi.org/10.5194/gmd-9-1937-2016
+  ACCESS-CM2; https://doi.org/10.22033/ESGF/CMIP6.2281
+  ACCESS-ESM1.5; https://doi.org/10.22033/ESGF/CMIP6.2286
+  CESM2; https://doi.org/10.22033/ESGF/CMIP6.2185
+  CMCC-ESM2; https://doi.org/10.22033/ESGF/CMIP6.13164
+  CNRM-ESM2-1; https://doi.org/10.22033/ESGF/CMIP6.1391
+  EC-Earth3; https://doi.org/10.22033/ESGF/CMIP6.181
+  NorESM2-MM; https://doi.org/10.22033/ESGF/CMIP6.506
+  UKESM1-0-LL; https://doi.org/10.22033/ESGF/CMIP6.1569
+  - time_coverage_resolution: PT1440M0S
+  - processing_level: 'Level 1a: Post-processing of output Level 0 scaled data with robust metadata and DRS applied, but no QAQC undertaken.' 
+  - source: 'Data from Bureau of Meteorology Atmospheric high-resolution Regional Reanalysis for Australia - Version 2 (BARRA2), scaled using data from a CMIP6 model as per the file name.'
+  - comment: 'More information on the QDC scaling method can be found in the technical report.'
+  - project: 'Climate Innovation Hub'
+  - project_id: CIHP-13
+  - contact: damien.irving@csiro.au
+  - institution: 'Commonwealth Scientific and Industrial Research Organisation'
+  - institute_id: CSIRO
+  - creator_name: 'CSIRO Climate Innovation Hub'
+  - creator_type: group
+  - creator_institution: 'Commonwealth Scientific and Industrial Research Organisation'
+  - creator_email: 'climateinnovationhub@csiro.au'
+  - publisher_name: 'Commonwealth Scientific and Industrial Research Organisation'
+  - publisher_type: institution
+  - publisher_institution: 'Commonwealth Scientific and Industrial Research Organisation'
+  - publisher_url: 'https://www.csiro.au/'
+  - geospatial_bounds: 'POLYGON((12.98 88.48,12.98 207.39,-57.97 207.39,-57.97 88.48,12.98 88.48))'
+  - geospatial_bounds_crs: 'EPSG:4326'
+#  - activity_id
+#  - license
+
+var_remove:
+  - lat:
+    - bounds
+  - lon:
+    - bounds
+
+var_overwrite:
+  - pr:
+    - coverage_content_type: modelResult
+    - cell_methods: 'time: mean (interval: 1 hour) time: mean (interval: 1 day)'
+    - standard_name: lwe_precipitation_rate
+    - long_name: Precipitation
+    - units: 'mm day-1'
+  - time:
+    - long_name: time
+  - tasmax:
+    - units: deg_C
+    - coverage_content_type: modelResult
+    - cell_methods: 'time: maximum (interval: 1 hour) time: maximum (interval: 1 day)'
+  - tasmin:
+    - units: deg_C
+    - coverage_content_type: modelResult
+    - cell_methods: 'time: minimum (interval: 1 hour) time: minimum (interval: 1 day)'
+  - hurs:
+    - cell_methods: 'time: point (interval: 1 hour) time: mean (interval: 1 day)'
+    - coverage_content_type: modelResult
+  - hursmax:
+    - cell_methods: 'time: point (interval: 1 hour) time: maximum (interval: 1 day)'
+    - coverage_content_type: modelResult
+  - hursmin:
+    - cell_methods: 'time: point (interval: 1 hour) time: minimum (interval: 1 day)'
+    - coverage_content_type: modelResult
+  - rsds:
+    - cell_methods: 'time: mean (interval: 1 hour) time: mean (interval: 1 day)'
+    - coverage_content_type: modelResult
+  - sfcWind:
+    - cell_methods: 'time: point (interval: 1 hour) area: point (comment: bilinear interpolation) time: mean (interval: 1 day)'
+    - coverage_content_type: modelResult
