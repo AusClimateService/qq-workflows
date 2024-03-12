@@ -35,7 +35,6 @@ global_overwrite:
   - source: 'Data from Bureau of Meteorology Atmospheric high-resolution Regional Reanalysis for Australia - Version 2 (BARRA-R2), scaled using data from a CMIP6 model as per the file name.'
 
   - comment: 'More information on the QDC scaling method can be found in the technical report.'
-  - project: 'Climate Innovation Hub'
   - project_id: CIHP-13
   - contact: damien.irving@csiro.au
   - institution: 'Commonwealth Scientific and Industrial Research Organisation'
