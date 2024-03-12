@@ -31,7 +31,8 @@ global_overwrite:
   NorESM2-MM; https://doi.org/10.22033/ESGF/CMIP6.506
   UKESM1-0-LL; https://doi.org/10.22033/ESGF/CMIP6.1569
   - time_coverage_resolution: PT1440M0S
-  - processing_level: 'Level 1a: Post-processing of output Level 0 scaled data with robust metadata and DRS applied, but no QAQC undertaken.' 
+  - processing_level: 'Level 1a: Post-processing of output Level 0 scaled data with robust metadata and data reference syntax applied, but no quality assurance and quality control undertaken.' 
+
   - source: 'Data from Bureau of Meteorology Atmospheric high-resolution Regional Reanalysis for Australia - Version 2 (BARRA-R2), scaled using data from a CMIP6 model as per the file name.'
 
   - comment: 'More information on the QDC scaling method can be found in the technical report.'
