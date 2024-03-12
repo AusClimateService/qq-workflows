@@ -14,7 +14,7 @@ global_keep:
 global_overwrite:
   - title: 'QDC-Scaled CMIP6 Application-Ready Climate Projections'
   - Conventions: 'CF-1.8, ACDD-1.3'
-  - summary: 'Application-ready climate projections are available for daily maximum and minimum temperature, precipitation, solar radiation, relative humidity and wind speed. The data have been created by applying future climate changes simulated by a selection of CMIP6 Global Climate Models to BARRA2 reanalysis data using the QDC scaling method.'
+  - summary: 'Application-ready climate projections. The data have been created by applying future climate changes simulated by a selection of CMIP6 Global Climate Models to BARRA-R2 reanalysis data using the Quantile Delta Change (DC) scaling method.'
   - keywords: 'GCMD:Locations>Continent>Australia/New Zealand>Australia, GCMD:Earth Science Services>Models>Coupled Climate Models, GCMD:Earth Science>Atmosphere'
   - keywords_vocabulary: 'GCMD:GCMD Keywords, Version 17.9'
   - keywords_reference : 'Global Change Master Directory (GCMD). 2023. GCMD Keywords, Version 17.9, Greenbelt, MD: Earth Science Data and Information System, Earth Science Projects Division, Goddard Space Flight Center, NASA. URL (GCMD Keyword Forum Page): https://forum.earthdata.nasa.gov/app.php/tag/GCMD+Keywords '
