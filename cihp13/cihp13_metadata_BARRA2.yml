@@ -19,7 +19,8 @@ global_overwrite:
   - keywords_vocabulary: 'GCMD:GCMD Keywords, Version 17.9'
   - keywords_reference : 'Global Change Master Directory (GCMD). 2023. GCMD Keywords, Version 17.9, Greenbelt, MD: Earth Science Data and Information System, Earth Science Projects Division, Goddard Space Flight Center, NASA. URL (GCMD Keyword Forum Page): https://forum.earthdata.nasa.gov/app.php/tag/GCMD+Keywords '
   - acknowledgement: |
-  BARRA2; https://doi.org/10.25914/1x6g-2v48
+  BARRA-R2; https://doi.org/10.25914/1x6g-2v48
+
   CMIP6; Overview of the Coupled Model Intercomparison Project Phase 6 (CMIP6) experimental design and organization, https://doi.org/10.5194/gmd-9-1937-2016
   ACCESS-CM2; https://doi.org/10.22033/ESGF/CMIP6.2281
   ACCESS-ESM1.5; https://doi.org/10.22033/ESGF/CMIP6.2286
