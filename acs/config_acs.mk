@@ -59,6 +59,9 @@ ifeq (${VAR}, pr)
   ifeq (${OBS_DATASET}, AGCD)
     REF_VAR=precip
     REF_UNITS="mm day-1"
+  else ifeq (${OBS_DATASET}, AGCA-AGCD)
+    REF_VAR=rain
+    REF_UNITS="mm day-1"
   else
     REF_VAR=pr
     REF_UNITS="kg m-2 s-1"
@@ -115,8 +118,13 @@ else ifeq (${VAR}, rsds)
   SCALING=additive
   HIST_VAR=rsds
   HIST_UNITS="W m-2"
-  REF_VAR=rsds
-  REF_UNITS="W m-2"
+  ifeq (${OBS_DATASET}, AGCA-AGCD)
+    REF_VAR=rad
+#    REF_UNITS="MJ m-2"
+  else
+    REF_VAR=rsds
+    REF_UNITS="W m-2"
+  endif
   TARGET_VAR=rsds
   TARGET_UNITS="W m-2"
   OUTPUT_UNITS="W m-2"
@@ -182,8 +190,8 @@ ifeq (${RCM_NAME}, BARPA-R)
   RCM_INSTITUTION=BOM
   RCM_GRID=AUS-15
 else ifeq (${RCM_NAME}, CCAM-v2203-SN)
-  CORDEX_PATH=/g/data/xv83/CCAM/output/CMIP6/DD
-  #CORDEX_PATH=/g/data/hq89/CCAM/output/CMIP6/DD
+  #CORDEX_PATH=/g/data/xv83/CCAM/output/CMIP6/DD
+  CORDEX_PATH=/g/data/hq89/CCAM/output/CMIP6/DD
   RCM_INSTITUTION=CSIRO
   RCM_GRID=AUS-10i
 endif

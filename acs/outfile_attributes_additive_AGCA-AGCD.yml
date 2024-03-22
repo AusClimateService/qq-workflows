@@ -15,6 +15,8 @@ global_keep:
   - driving_source_id
   - driving_variant_label
   - frequency
+  - institution
+  - institution_id
   - mip_era
   - native_resolution
   - source
@@ -29,8 +31,6 @@ global_overwrite:
   - product: bias-adjusted-output
   - project_id: CORDEX-Adjust
   - contact: damien.irving@csiro.au
-  - institution: 'Commonwealth Scientific and Industrial Research Organisation'
-  - institute_id: CSIRO
   - tracking_id: unknown
   - bc_method: 'Equidistant CDF Matching; https://github.com/climate-innovation-hub/qqscale/blob/master/docs/method_ecdfm.md; Li H, Sheffield J, & Wood EF (2010). Bias correction of monthly precipitation and temperature fields from Intergovernmental Panel on Climate Change AR4 models using equidistant quantile matching. Journal of Geophysical Research, 115(D10), D10101. https://doi.org/10.1029/2009JD012882'
   - bc_method_id: ecdfm
