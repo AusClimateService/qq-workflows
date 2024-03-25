@@ -62,8 +62,6 @@ You can then delete the original files:
 bash bias_correct_timeseries.sh clean-up tasmax AGCA BOM-BARPA-R CSIRO-ACCESS-ESM1-5
 ```
 
-
-
 #### (Optional): Fix file metadata
 
 The process of splitting the data into individual years

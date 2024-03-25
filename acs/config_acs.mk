@@ -76,6 +76,9 @@ else ifeq (${VAR}, tasmin)
   ifeq (${OBS_DATASET}, AGCD)
     REF_VAR=tmin
     REF_UNITS=C
+  else ifeq (${OBS_DATASET}, AGCA-AGCD)
+    REF_VAR=tmin
+    REF_UNITS=C  
   else
     REF_VAR=tasmin
     REF_UNITS=K
