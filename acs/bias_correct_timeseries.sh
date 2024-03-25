@@ -4,7 +4,8 @@
 #             
 
 function usage {
-    echo "USAGE: bash $0 var obs rcm gcm [-Bn]"
+    echo "USAGE: bash $0 task var obs rcm gcm [-Bn]"
+    echo "  task:  task to execute (adjust or clean-up) variable to process"
     echo "  var:   variable to process"
     echo "  obs:   obs dataset to process"
     echo "  rcm:   name of regional climate model"
@@ -13,11 +14,12 @@ function usage {
     exit 1
 }
 
-var=$1
-obs=$2
-rcm=$3
-gcm=$4
-flags=$5
+task=$1
+var=$2
+obs=$3
+rcm=$4
+gcm=$5
+flags=$6
 
 if [ "${rcm}" == "BARPA-R" ] ; then
   declare -a target_start=(1960 1970 1980 1990 2000 2010 2020 2030 2040 2050 2060 2070)
@@ -35,7 +37,7 @@ nsegments=${#target_start[@]}
 
 for (( i=0; i<${nsegments}; i++ ));
 do
-  command="make ${flags} adjust -f /home/599/dbi599/qq-workflows/Makefile CONFIG=config_acs.mk VAR=${var} OBS_DATASET=${obs} RCM_NAME=${rcm} GCM_NAME=${gcm} TARGET_START=${target_start[$i]} TARGET_END=${target_end[$i]} OUTPUT_START=${output_start[$i]} OUTPUT_END=${output_end[$i]}"
+  command="make ${flags} ${task} -f /home/599/dbi599/qq-workflows/Makefile CONFIG=config_acs.mk VAR=${var} OBS_DATASET=${obs} RCM_NAME=${rcm} GCM_NAME=${gcm} TARGET_START=${target_start[$i]} TARGET_END=${target_end[$i]} OUTPUT_START=${output_start[$i]} OUTPUT_END=${output_end[$i]}"
   echo ${command}
   ${command}
 done

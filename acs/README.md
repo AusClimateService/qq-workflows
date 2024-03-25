@@ -57,7 +57,14 @@ e.g.
 bash split_by_year.sh /g/data/xv83/dbi599/australian-climate-service/test-data/CORDEX-CMIP6/bias-adjusted-output/AUS-05i/BOM/CSIRO-ACCESS-ESM1-5/ssp370/r6i1p1f1/BOM-BARPA-R/v1-ecdfm-AGCD-1985-2014/day/tasmaxAdjust/tasmaxAdjust_AUS-05i_CSIRO-ACCESS-ESM1-5_ssp370_r6i1p1f1_BOM-BARPA-R_v1-ecdfm-AGCD-1985-2014_day_*.nc
 ```
 
-#### Step 3: Fix file metadata
+You can then delete the original files:
+```
+bash bias_correct_timeseries.sh clean-up tasmax AGCA BOM-BARPA-R CSIRO-ACCESS-ESM1-5
+```
+
+
+
+#### (Optional): Fix file metadata
 
 The process of splitting the data into individual years
 will cause some data files to have incorrect metadata relating to the corresponding CMIP6 experiment.

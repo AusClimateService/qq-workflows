@@ -7,6 +7,6 @@
 #PBS -l wd
 #PBS -v var,obs,rcm,gcm
 
-command="bash bias_correct_timeseries.sh ${var} ${obs} ${rcm} ${gcm}"
+command="bash bias_correct_timeseries.sh adjust ${var} ${obs} ${rcm} ${gcm}"
 echo ${command}
 ${command}

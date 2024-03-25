@@ -4,8 +4,14 @@
 # Usage: bash split-by-year.sh {full/path/to/file1.nc ... full/path/to/fileN.nc }
 #
 
+#module load cdo
+#module load nco
+
 for infile in "$@"; do
+    echo ${infile}
     experiment=`basename ${infile} | cut -d _ -f 4`
+    var_adjust=`basename ${infile} | cut -d _ -f 1`
+    var=`echo ${var_adjust:0:-6}`
     dates=`basename ${infile} | cut -d _ -f 9`
     start=`echo ${dates:0:4}`
     end=`echo ${dates:9:4}`
@@ -18,7 +24,10 @@ for infile in "$@"; do
 #        fi
         outdir=`dirname ${outfile}`
         mkdir -p ${outdir}
-        qsub -v year=${year},infile=${infile},outfile=${outfile} split-by-year-job.sh
+        qsub -v year=${year},var=${var},infile=${infile},outfile=${outfile} split-by-year-job.sh
+        #cdo -z zip_5 -seldate,${year}-01-01,${year}-12-31 ${infile} ${outfile}
+        #ncatted -O -a missing_value,${var},d,, ${outfile}
+        #ncatted -O -a _FillValue,${var},d,, ${outfile}
     done
 done
 
