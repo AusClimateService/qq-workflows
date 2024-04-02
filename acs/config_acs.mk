@@ -123,7 +123,7 @@ else ifeq (${VAR}, rsds)
   HIST_UNITS="W m-2"
   ifeq (${OBS_DATASET}, AGCA-AGCD)
     REF_VAR=rad
-#    REF_UNITS="MJ m-2"
+    REF_UNITS="megajoule/meter2"
   else
     REF_VAR=rsds
     REF_UNITS="W m-2"
