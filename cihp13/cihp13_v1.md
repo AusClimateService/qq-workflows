@@ -14,8 +14,16 @@
 while having AGCD (~5km) available for temperature and precipitation caters to users who don't require consistency across many variables
 and just want the (arguably) superior observational underpinning.
 - CMIP6 models (8):
-  - ACCESS-CM2, ACCESS-ESM1.5, CESM2, CMCC-ESM2, CNRM-ESM2-1, EC-Earth3, NorESM2-MM, UKESM1-0-LL
-  - These models were selected for downscaling over Australia using a 'sparse matrix' framework ([Grose et al, 2023](https://doi.org/10.1016/j.cliser.2023.100368))
+  - ACCESS-CM2
+  - ACCESS-ESM1.5
+  - CESM2
+  - CMCC-ESM2
+  - CNRM-ESM2-1
+  - EC-Earth3
+  - MPI-ESM1-2-HR
+  - NorESM2-MM
+  - These models were selected for dynamical downscaling over Australia by the Australian Climate Service (i.e. the [BARPA-R](https://dx.doi.org/10.25914/z1x6-dq28) and
+[CCAM-v2203-SN](https://dx.doi.org/10.25914/rd73-4m38) data) using a 'sparse matrix' framework ([Grose et al, 2023](https://doi.org/10.1016/j.cliser.2023.100368))
 - Baseline: 1985-2014 ("2000")
   - At least 30 years is preferable for QDM (to reduce the effect of natural variability)
   - The CMIP6 historical experiment ends in 2014
