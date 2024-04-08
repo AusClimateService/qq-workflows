@@ -131,6 +131,24 @@ else ifeq (${VAR}, rsds)
   TARGET_VAR=rsds
   TARGET_UNITS="W m-2"
   OUTPUT_UNITS="W m-2"
+else ifeq (${VAR}, vph09)
+  SCALING=additive
+  HIST_VAR=vph09
+  HIST_UNITS=hPa
+  REF_VAR=vph09
+  REF_UNITS=hPa
+  TARGET_VAR=vph09
+  TARGET_UNITS=hPa
+  OUTPUT_UNITS=hPa
+else ifeq (${VAR}, vph15)
+  SCALING=additive
+  HIST_VAR=vph15
+  HIST_UNITS=hPa
+  REF_VAR=vph15
+  REF_UNITS=hPa
+  TARGET_VAR=vph15
+  TARGET_UNITS=hPa
+  OUTPUT_UNITS=hPa
 else ifeq (${VAR}, hurs)
   SCALING=additive
   HIST_VAR=hurs
@@ -198,10 +216,20 @@ else ifeq (${RCM_NAME}, CCAM-v2203-SN)
   RCM_INSTITUTION=CSIRO
   RCM_GRID=AUS-10i
 endif
-HIST_PATH=${CORDEX_PATH}/${RCM_GRID}/${RCM_INSTITUTION}/${GCM_NAME}/${HIST_EXP}/${GCM_RUN}/${RCM_NAME}/v1-r1/day/${HIST_VAR}
-HIST_DATA := $(sort $(wildcard ${HIST_PATH}/v*/*day_198[5,6,7,8,9]*.nc) $(wildcard ${HIST_PATH}/v*/*day_199*.nc) $(wildcard ${HIST_PATH}/v*/*day_2*.nc))
-TARGET_PATH=${CORDEX_PATH}/${RCM_GRID}/${RCM_INSTITUTION}/${GCM_NAME}/${TARGET_EXP}/${GCM_RUN}/${RCM_NAME}/v1-r1/day/${TARGET_VAR}
-TARGET_DATA := $(sort $(wildcard ${HIST_PATH}/v*/*.nc) $(wildcard ${TARGET_PATH}/v*/*.nc))
+
+ifeq (${VAR}, vph09)
+  HIST_DATA := /g/data/xv83/ab7412/vph09_${GCM_NAME}/vph09_${GCM_NAME}_historical_1951_2014.nc
+  TARGET_DATA := $(sort $(wildcard /g/data/xv83/ab7412/vph09_${GCM_NAME}/*.nc))
+
+else ifeq (${VAR}, vph15)
+  HIST_DATA := /g/data/xv83/ab7412/vph15_${GCM_NAME}/vph15_${GCM_NAME}_historical_1951_2014.nc
+  TARGET_DATA := $(sort $(wildcard /g/data/xv83/ab7412/vph15_${GCM_NAME}/*.nc))
+else
+  HIST_PATH=${CORDEX_PATH}/${RCM_GRID}/${RCM_INSTITUTION}/${GCM_NAME}/${HIST_EXP}/${GCM_RUN}/${RCM_NAME}/v1-r1/day/${HIST_VAR}
+  HIST_DATA := $(sort $(wildcard ${HIST_PATH}/v*/*day_198[5,6,7,8,9]*.nc) $(wildcard ${HIST_PATH}/v*/*day_199*.nc) $(wildcard ${HIST_PATH}/v*/*day_2*.nc))  
+  TARGET_PATH=${CORDEX_PATH}/${RCM_GRID}/${RCM_INSTITUTION}/${GCM_NAME}/${TARGET_EXP}/${GCM_RUN}/${RCM_NAME}/v1-r1/day/${TARGET_VAR}
+  TARGET_DATA := $(sort $(wildcard ${HIST_PATH}/v*/*.nc) $(wildcard ${TARGET_PATH}/v*/*.nc))
+endif
 RCM_VERSION=v1-r1
 
 ifeq (${OBS_DATASET}, AGCD)
