@@ -8,7 +8,7 @@
   - Daily minimum surface air temperature - tasmin (AGCD, BARRA-R2)
   - Precipitation - pr (AGCD, BARRA-R2)
   - Surface downwelling solar radiation - rsds (BARRA-R2)
-  - Surface relative humidity - hurs (BARRA-R2)
+  - Surface relative humidity - hurs, hursmin, hursmax (BARRA-R2; see [known issues](https://opus.nci.org.au/pages/viewpage.action?pageId=264241304))
   - Surface wind speed - sfcWind (BARRA-R2)
   - The rationale for processing two observational datasets is that BARRA-R2 (~12km) provides a consistent product across all variables,
 while having AGCD (~5km) available for temperature and precipitation caters to users who don't require consistency across many variables
@@ -28,8 +28,13 @@ and just want the (arguably) superior observational underpinning.
   - At least 30 years is preferable for QDM (to reduce the effect of natural variability)
   - The CMIP6 historical experiment ends in 2014
   - 1985-2014 is currently the preferred 30 year base period of the National Partnership for Climate Projections
-- Future periods: 2035-2064 ("2050"), 2070-2099 ("2085")
-- Experiments: ssp126, ssp245, ssp370, ssp585
+- Time slice output:
+  - 2035-2064 ("2050" or "mid century")
+  - 2070-2099 ("2085" or "end century")
+  - For all future scenarios (ssp126, ssp245, ssp370, ssp585)
+- Global warming level output:
+  - 1.5, 2.0, 3.0 and 4.0 degC warming levels for the ssp370 scenario 
+  - Data for each level will be 30 years centered on the year (taken from [this table](https://github.com/IPCC-WG1/Atlas/blob/main/warming-levels/CMIP6_Atlas_WarmingLevels.csv)) that particular level of warming is reached  
 
 ## Model data availability
 
