@@ -34,7 +34,7 @@ and just want the (arguably) superior observational underpinning.
   - For all future scenarios (ssp126, ssp245, ssp370, ssp585)
 - Global warming level output:
   - 1.5, 2.0, 3.0 and 4.0 degC warming levels for the ssp370 scenario 
-  - Data for each level will be 30 years centered on the year (taken from [this table](https://github.com/IPCC-WG1/Atlas/blob/main/warming-levels/CMIP6_Atlas_WarmingLevels.csv)) that particular level of warming is reached  
+  - See Issue https://github.com/climate-innovation-hub/qq-workflows/issues/2 for methodological considerations
 
 ## Model data availability
 
