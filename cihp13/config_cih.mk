@@ -1,17 +1,25 @@
-# CIH quantile delta mapping configuration
+# Quantile Delta Change configuration
 #
 # The required user defined variables are:
 # - VAR (options: tasmin tasmax pr rsds hurs hursmin hursmax sfcWind)
 # - OBS_DATASET (options: AGCD BARRA-R2)
 # - MODEL (options: ACCESS-CM2 ACCESS-ESM1-5 CMCC-ESM2 CESM2 EC-Earth3 NorESM2-MM UKESM1-0-LL)
 # - EXPERIMENT (options: any ScenarioMIP e.g. ssp370)
-# - REF_START (start of reference/future time period)
-# - REF_END (end of reference/future time period)
-#
+# - REF_START (start of reference/future model time period)
+# - REF_END (end of reference/future model time period)
+# - HIST_START (start of historical/baseline model time period)
+# - HIST_END (end of historical/baseline model time period)
+# - TARGET_START (start of target/observations time period)
+# - TARGET_END (end of target/observations time period)
+
+# The optional user defined variables are:
+# - BASE_GWL (baseline global warming level; gwl followed by number with no decimal point, e.g. gwl10, gwl12, gwl15, gwl20, gwl30, gwl40)
+# - REF_GWL (reference/future global warming level; gwl15, gwl20, gwl30, gwl40) 
+
 # Example usage:
 #   make [target] [-Bn] CONFIG=cih/config_cih.mk VAR=pr OBS_DATASET=AGCD MODEL=ACCESS-ESM1-5
-#                       EXPERIMENT=ssp370 REF_START=2035 REF_END=2064
-#
+#                       EXPERIMENT=ssp370 REF_START=2035 REF_END=2064 HIST_START=1985 HIST_END=2014 
+#                       TARGET_START=1985 TARGET_END=2014
 
 check_defined = \
     $(strip $(foreach 1,$1, \
@@ -21,13 +29,8 @@ __check_defined = \
       $(error Undefined $1$(if $2, ($2))))
 
 ## Method options
-METHOD=qdc
 INTERP=linear
 OUTPUT_GRID=input
-TARGET_START=1985
-TARGET_END=2014
-HIST_START=1985
-HIST_END=2014
 REF_TIME=--ref_time
 SPLIT_SCRIPT=/home/599/dbi599/qq-workflows/cihp13/split-by-year.sh
 
@@ -37,7 +40,7 @@ $(call check_defined, VAR)
 ifeq (${VAR}, pr)
   SCALING=multiplicative
   NQUANTILES=1000
-  METHOD_DESCRIPTION=${METHOD}-${SCALING}-q${NQUANTILES}
+  METHOD_DESCRIPTION=qdc-${SCALING}-q${NQUANTILES}
   SSR=--ssr
   HIST_VAR=pr
   HIST_UNITS="kg m-2 s-1"
@@ -55,7 +58,7 @@ else ifeq (${VAR}, tasmin)
   SCALING=additive
   NQUANTILES=100
   GROUPING=--time_grouping monthly
-  METHOD_DESCRIPTION=${METHOD}-${SCALING}-monthly-q${NQUANTILES}
+  METHOD_DESCRIPTION=qdc-${SCALING}-monthly-q${NQUANTILES}
   HIST_VAR=tasmin
   HIST_UNITS=K
   REF_VAR=tasmin
@@ -72,7 +75,7 @@ else ifeq (${VAR}, tasmax)
   SCALING=additive
   NQUANTILES=100
   GROUPING=--time_grouping monthly
-  METHOD_DESCRIPTION=${METHOD}-${SCALING}-monthly-q${NQUANTILES}
+  METHOD_DESCRIPTION=qdc-${SCALING}-monthly-q${NQUANTILES}
   HIST_VAR=tasmax
   HIST_UNITS=K  
   REF_VAR=tasmax
@@ -90,7 +93,7 @@ else ifeq (${VAR}, rsds)
   SCALING=additive
   NQUANTILES=100
   GROUPING=--time_grouping monthly
-  METHOD_DESCRIPTION=${METHOD}-${SCALING}-monthly-q${NQUANTILES}
+  METHOD_DESCRIPTION=qdc-${SCALING}-monthly-q${NQUANTILES}
   HIST_VAR=rsds
   HIST_UNITS="W m-2"
   REF_VAR=rsds
@@ -107,7 +110,7 @@ else ifeq (${VAR}, hurs)
   SCALING=additive
   NQUANTILES=100
   GROUPING=--time_grouping monthly
-  METHOD_DESCRIPTION=${METHOD}-${SCALING}-monthly-q${NQUANTILES}
+  METHOD_DESCRIPTION=qdc-${SCALING}-monthly-q${NQUANTILES}
   HIST_VAR=hurs
   HIST_UNITS="%"
   REF_VAR=hurs
@@ -121,7 +124,7 @@ else ifeq (${VAR}, hursmin)
   SCALING=additive
   NQUANTILES=100
   GROUPING=--time_grouping monthly
-  METHOD_DESCRIPTION=${METHOD}-${SCALING}-monthly-q${NQUANTILES}
+  METHOD_DESCRIPTION=qdc-${SCALING}-monthly-q${NQUANTILES}
   HIST_VAR=hursmin
   HIST_UNITS="%"
   REF_VAR=hursmin
@@ -135,7 +138,7 @@ else ifeq (${VAR}, hursmax)
   SCALING=additive
   NQUANTILES=100
   GROUPING=--time_grouping monthly
-  METHOD_DESCRIPTION=${METHOD}-${SCALING}-monthly-q${NQUANTILES}
+  METHOD_DESCRIPTION=qdc-${SCALING}-monthly-q${NQUANTILES}
   HIST_VAR=hursmax
   HIST_UNITS="%"
   REF_VAR=hursmax
@@ -149,7 +152,7 @@ else ifeq (${VAR}, sfcWind)
   SCALING=additive
   NQUANTILES=100
   GROUPING=--time_grouping monthly
-  METHOD_DESCRIPTION=${METHOD}-${SCALING}-monthly-q${NQUANTILES}
+  METHOD_DESCRIPTION=qdc-${SCALING}-monthly-q${NQUANTILES}
   HIST_VAR=sfcWind
   HIST_UNITS="m s-1"
   REF_VAR=sfcWind
@@ -211,13 +214,12 @@ else ifeq (${OBS_DATASET}, BARRA-R2)
   TARGET_DIR=/g/data/ob53/BARRA2/output/reanalysis/AUS-11/BOM/ERA5/historical/hres/BARRA-R2/v1/day/${TARGET_VAR}/v20231001
   OUTPUT_GRID_LABEL=AUS-11
 endif
-TARGET_DATA = $(sort $(wildcard ${TARGET_DIR}/*_198[5,6,7,8,9]*.nc) $(wildcard ${TARGET_DIR}/*_199*.nc) $(wildcard ${TARGET_DIR}/*_200*.nc) $(wildcard ${TARGET_DIR}/*_201[0,1,2,3,4]*.nc))
+TARGET_DATA = $(sort $(wildcard ${TARGET_DIR}/*.nc))
 
 ## Output data files
 $(call check_defined, EXPERIMENT)
 $(call check_defined, RUN)
 $(call check_defined, REF_VAR)
-$(call check_defined, METHOD)
 $(call check_defined, SCALING)
 $(call check_defined, NQUANTILES)
 $(call check_defined, REF_START)
@@ -225,12 +227,26 @@ $(call check_defined, REF_END)
 $(call check_defined, HIST_START)
 $(call check_defined, HIST_END)
 
-OUTPUT_AF_DIR=/g/data/wp00/data/QDC-CMIP6/${OBS_DATASET}/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/${REF_START}-${REF_END}
-AF_FILE=${REF_VAR}-${METHOD_DESCRIPTION}-adjustment-factors_${MODEL}_${EXPERIMENT}_${RUN}_gn_${REF_START}0101-${REF_END}1231_wrt_${HIST_START}0101-${HIST_END}1231.nc
+REF_TBOUNDS=${REF_START}0101-${REF_END}1231
+ifdef REF_GWL
+  REF_TBOUNDS=${REF_GWL}-${REF_TBOUNDS}
+  REF_DIR_LABEL=${REF_GWL}
+else
+  REF_DIR_LABEL=${REF_START}-${REF_END}
+endif
+HIST_TBOUNDS=${HIST_START}0101-${HIST_END}1231
+TARGET_TBOUNDS=${TARGET_START}0101-${TARGET_END}1231
+ifdef BASE_GWL
+  HIST_TBOUNDS=${BASE_GWL}-${HIST_TBOUNDS}
+  TARGET_TBOUNDS=${BASE_GWL}-${TARGET_TBOUNDS}
+endif
+
+OUTPUT_AF_DIR=/g/data/wp00/data/QDC-CMIP6/${OBS_DATASET}/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/${REF_DIR_LABEL}
+AF_FILE=${REF_VAR}-${METHOD_DESCRIPTION}-adjustment-factors_${MODEL}_${EXPERIMENT}_${RUN}_gn_${REF_TBOUNDS}_wrt_${HIST_TBOUNDS}.nc
 AF_PATH=${OUTPUT_AF_DIR}/${AF_FILE}
 
 OUTPUT_QQ_DIR=${OUTPUT_AF_DIR}
-QQ_BASE=${REF_VAR}_day_${MODEL}_${EXPERIMENT}_${RUN}_${OUTPUT_GRID_LABEL}_${REF_START}0101-${REF_END}1231_${METHOD_DESCRIPTION}-${INTERP}_${OBS_DATASET}-${TARGET_START}0101-${TARGET_END}1231_historical-${HIST_START}0101-${HIST_END}1231
+QQ_BASE=${REF_VAR}_day_${MODEL}_${EXPERIMENT}_${RUN}_${OUTPUT_GRID_LABEL}_${REF_TBOUNDS}_${METHOD_DESCRIPTION}-${INTERP}_${OBS_DATASET}-baseline-${TARGET_TBOUNDS}_model-baseline-${HIST_TBOUNDS}
 QQ_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.nc
 
 OUTPUT_VALIDATION_DIR=${OUTPUT_QQ_DIR}
@@ -247,8 +263,8 @@ ifeq (${VAR}, rsds)
   $(call check_defined, MAX_DIR)
   $(call check_defined, MAX_VAR)
 
-  MAX_DATA = $(sort $(wildcard ${MAX_DIR}/*_198[5,6,7,8,9]*.nc) $(wildcard ${MAX_DIR}/*_199*.nc) $(wildcard ${MAX_DIR}/*_200*.nc) $(wildcard ${MAX_DIR}/*_201[0,1,2,3,4]*.nc))
-  QQCLIPPED_BASE=${REF_VAR}_day_${MODEL}_${EXPERIMENT}_${RUN}_${OUTPUT_GRID_LABEL}_${REF_START}0101-${REF_END}1231_${METHOD_DESCRIPTION}-${INTERP}-rsdscs-clipped_${OBS_DATASET}-${TARGET_START}0101-${TARGET_END}1231_historical-${HIST_START}0101-${HIST_END}1231
+  MAX_DATA = $(sort $(wildcard ${MAX_DIR}/*.nc))
+  QQCLIPPED_BASE=${REF_VAR}_day_${MODEL}_${EXPERIMENT}_${RUN}_${OUTPUT_GRID_LABEL}_${REF_TBOUNDS}_${METHOD_DESCRIPTION}-${INTERP}-rsdscs-clipped_${OBS_DATASET}-baseline-${TARGET_TBOUNDS}1231_model-baseline-${HIST_TBOUNDS}
   QQCLIPPED_PATH=${OUTPUT_QQ_DIR}/${QQCLIPPED_BASE}.nc
   CLIP_VALIDATION=-p qq_clipped_file ${QQCLIPPED_PATH}
   FINAL_QQ_PATH=${QQCLIPPED_PATH}
