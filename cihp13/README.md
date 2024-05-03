@@ -29,4 +29,5 @@ refer to the [NPCP bias correction intercomparison](https://github.com/AusClimat
 - Version 1.2 (still to come): Add CORDEX-Australisia downscaled data (see details [here](https://opus.nci.org.au/display/CMIP/CMIP6-CORDEX+datasets)). 
 - Version 2.0 (still to come): Replacement of BARRA-R2 (~12km resolution) with BARRA-C2 (~4.4km)
 
-Additional variables and timescales may also be added along the way as identified by users.
+Additional variables and timescales may also be added along the way as identified by users
+(see https://github.com/climate-innovation-hub/qq-workflows/issues/3 for suggested additions).
