@@ -24,16 +24,18 @@ and just want the (arguably) superior observational underpinning.
   - NorESM2-MM
   - These global climate models were selected for dynamical downscaling over Australia by the Australian Climate Service (i.e. the [BARPA-R](https://dx.doi.org/10.25914/z1x6-dq28) and
 [CCAM-v2203-SN](https://dx.doi.org/10.25914/rd73-4m38) data) using a 'sparse matrix' framework ([Grose et al, 2023](https://doi.org/10.1016/j.cliser.2023.100368))
-- Baseline: 1985-2014 ("2000")
-  - At least 30 years is preferable for QDM (to reduce the effect of natural variability)
-  - The CMIP6 historical experiment ends in 2014
-  - 1985-2014 is currently the preferred 30 year base period of the National Partnership for Climate Projections
 - Time slice output:
-  - 2035-2064 ("2050" or "mid century")
-  - 2070-2099 ("2085" or "end century")
-  - For all future scenarios (ssp126, ssp245, ssp370, ssp585)
-- Global warming level output:
-  - 1.5, 2.0, 3.0 and 4.0 degC warming levels for the ssp370 scenario 
+  - Baseline time slice: 1985-2014 ("2000")
+    - At least 30 years is preferable for QDM (to reduce the effect of natural variability)
+    - The CMIP6 historical experiment ends in 2014
+    - 1985-2014 is currently the preferred 30 year base period of the National Partnership for Climate Projections
+  - Future time slices: 2035-2064 ("2050" or "mid century") and 2070-2099 ("2085" or "end century")
+    - For all future scenarios (ssp126, ssp245, ssp370, ssp585)
+- Global Warming Level (GWL) output:
+  - Baseline GWL: 1.0
+    - In observations this corresponds to 2001-2020 (Table 2.4 of the [latest IPCC report](https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-2/#2.3.1.1#2.3.1.1.3))  
+  - Future GWLs: 1.5, 2.0, 3.0 and 4.0 degC
+  - ssp370 scenario for all GWLs 
   - See Issue https://github.com/climate-innovation-hub/qq-workflows/issues/2 for methodological considerations
 
 ## Model data availability
