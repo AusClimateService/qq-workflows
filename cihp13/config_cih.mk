@@ -5,6 +5,7 @@
 # - OBS_DATASET (options: AGCD BARRA-R2)
 # - MODEL (options: ACCESS-CM2 ACCESS-ESM1-5 CMCC-ESM2 CESM2 EC-Earth3 NorESM2-MM UKESM1-0-LL)
 # - EXPERIMENT (options: any ScenarioMIP e.g. ssp370)
+# - RUN (e.g. r1i1p1f1)
 # - REF_START (start of reference/future model time period)
 # - REF_END (end of reference/future model time period)
 # - HIST_START (start of historical/baseline model time period)
@@ -168,28 +169,10 @@ $(call check_defined, MODEL)
 
 ifeq (${MODEL}, ACCESS-CM2)
   NCI_LOC=fs38/publications
-  RUN=r4i1p1f1
 else ifeq (${MODEL}, ACCESS-ESM1-5)
   NCI_LOC=fs38/publications
-  RUN=r6i1p1f1
-else ifeq (${MODEL}, CESM2)
+else
   NCI_LOC=oi10/replicas
-  RUN=r11i1p1f1
-else ifeq (${MODEL}, CMCC-ESM2)
-  NCI_LOC=oi10/replicas
-  RUN=r1i1p1f1
-else ifeq (${MODEL}, CNRM-ESM2-1)
-  NCI_LOC=oi10/replicas
-  RUN=r1i1p1f2
-else ifeq (${MODEL}, EC-Earth3)
-  NCI_LOC=oi10/replicas
-  RUN=r1i1p1f1
-else ifeq (${MODEL}, NorESM2-MM)
-  NCI_LOC=oi10/replicas
-  RUN=r1i1p1f1
-else ifeq (${MODEL}, UKESM1-0-LL)
-  NCI_LOC=oi10/replicas
-  RUN=r1i1p1f2
 endif
 
 # Input data files
