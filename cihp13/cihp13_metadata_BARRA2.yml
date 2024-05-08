@@ -1,4 +1,3 @@
-# Apply file attributes defined for the QDC scaled CMIP6 data which feeds into CIHP-13.
 #
 # This is for BARRA2 input.
 
@@ -18,7 +17,9 @@ global_overwrite:
   - acknowledgement: 'Overview of the Coupled Model Intercomparison Project Phase 6 (CMIP6) experimental design and organization, https://doi.org/10.5194/gmd-9-1937-2016'
   - time_coverage_resolution: PT1440M0S
   - processing_level: 'Level 1a: Post-processing of output Level 0 scaled data with robust metadata and data reference syntax applied, but no quality assurance and quality control undertaken.' 
-  - source: 'Data from Bureau of Meteorology Atmospheric high-resolution Regional Reanalysis for Australia - Version 2 (BARRA-R2), scaled using data from a CMIP6 model as per the file name.'
+  - source: 
+    - AGCD: 'Data from Australian Gridded Climate Data v1.0.1 (AGCD; https://dx.doi.org/10.25914/hjqj-0x55), scaled using data from a CMIP6 model as per the file name.'
+    - BARRA-R2: 'Data from Bureau of Meteorology Atmospheric high-resolution Regional Reanalysis for Australia - Version 2 (BARRA-R2; https://doi.org/10.25914/1x6g-2v48), scaled using data from a CMIP6 model as per the file name.'
   - comment: 'More information on the Quantile Delta Change (QDC) scaling method can be found in the technical report.'
   - project_id: CIHP-13
   - contact: damien.irving@csiro.au
@@ -80,8 +81,7 @@ var_overwrite:
     - cell_methods: 'time: maximum (interval: 1 hour) area: point (comment: bilinear interpolation) time: maximum (interval: 1 day)'
     - coverage_content_type: modelResult
 
-data_doi:
- - BARRA-R2: https://doi.org/10.25914/1x6g-2v48
+model_doi:
  - ACCESS-CM2: https://doi.org/10.22033/ESGF/CMIP6.2281
  - ACCESS-ESM1.5: https://doi.org/10.22033/ESGF/CMIP6.2286
  - CESM2: https://doi.org/10.22033/ESGF/CMIP6.2185
