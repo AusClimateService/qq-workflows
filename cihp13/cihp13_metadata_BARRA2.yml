@@ -38,6 +38,12 @@ global_overwrite:
   - date_created:
 #  - activity_id
 #  - license
+#  - date_created
+  - cmip6_experiment_id: ssp370
+  - cmip6_variant_label: r4i1p1f1
+  - cmip6_source_id: ACCESS-CM2
+  - cmip6_version: v20210712
+  - code: https://github.com/climate-innovation-hub/qqscale
 
 var_remove:
   - lat:
