@@ -5,7 +5,7 @@ import yaml
 from datetime import datetime
 
 
-model_dois = {
+model_datasets = {
     'ACCESS-CM2': 'https://doi.org/10.22033/ESGF/CMIP6.2281',
     'ACCESS-ESM1.5': 'https://doi.org/10.22033/ESGF/CMIP6.2286',
     'CESM2': 'https://doi.org/10.22033/ESGF/CMIP6.2185',
@@ -13,15 +13,20 @@ model_dois = {
     'CNRM-ESM2-1': 'https://doi.org/10.22033/ESGF/CMIP6.1391',
     'EC-Earth3': 'https://doi.org/10.22033/ESGF/CMIP6.181',
     'NorESM2-MM': 'https://doi.org/10.22033/ESGF/CMIP6.506',
-    'UKESM1-0-LL': 'https://doi.org/10.22033/ESGF/CMIP6.1569'.
+    'UKESM1-0-LL': 'https://doi.org/10.22033/ESGF/CMIP6.1569',
 }
 
-obs_source = {
-    'AGCD': f'Data from Australian Gridded Climate Data v1.0.1 (AGCD; https://dx.doi.org/10.25914/hjqj-0x55), scaled using data from the {model} CMIP6 model.',
-    'BARRA-R2': f'Data from Bureau of Meteorology Atmospheric high-resolution Regional Reanalysis for Australia - Version 2 (BARRA-R2; https://doi.org/10.25914/1x6g-2v48), scaled using data from the {model} CMIP6 model.'
+obs_datasets = {}
+obs_datasets['AGCD'] = {
+    'name': f'Australian Gridded Climate Data v1.0.1 (AGCD; https://dx.doi.org/10.25914/hjqj-0x55)',
+    'geospatial_bounds': 'POLYGON((-10.0 112.0,-10.0 156.2,-44.5 156.2,-44.5 112.0,-10.0 112.0))',
+    'geospatial_bounds_crs': 'EPSG:4326',
+}    
+obs_datasets['BARRA-R2'] = {
+    'name': f'Bureau of Meteorology Atmospheric high-resolution Regional Reanalysis for Australia - Version 2 (BARRA-R2; https://doi.org/10.25914/1x6g-2v48)',
+    'geospatial_bounds': 'POLYGON((12.98 88.48,12.98 207.39,-57.97 207.39,-57.97 88.48,12.98 88.48))',
+    'geospatial_bounds_crs': 'EPSG:4326',  
 }
-
-
 
 var_attrs = {}
 var_attrs['pr'] = {
@@ -60,22 +65,54 @@ var_attrs['sfcWindmax'] = {
     'cell_methods': 'time: maximum (interval: 1 hour) area: point (comment: bilinear interpolation) time: maximum (interval: 1 day)',
 }
 
-method_details = {}
-method_details['qdc'] = {
-    'name': 'Quantile Delta Change (QDC)',
-    'title': 'QDC-Scaled CMIP6 Application-Ready Climate Projections',
-    'summary': f'The data have been created by applying future climate changes simulated by a selection of CMIP6 Global Climate Models to {args.obs} data using the Quantile Delta Change (QDC) scaling method.',
-    'info': 'More information on the Quantile Delta Change (QDC) scaling method can be found in the technical report.'   
-}
 
-
-
+def parse_tbounds(tbounds):
+    """Parse tbounds arguments.
+    
+    e.g. gwl20-20400101-20591231 or 20600101-20891231
+    """
+    
+    components = tbounds.split('-')
+    if len(components) == 3:
+        gwl, start_date, end_date = components
+    else:
+        start_date, end_date = components
+        gwl = None
+    start_year = start_date[0:4]
+    start_month = start_date[4:6]
+    start_day = start_date[6:8]
+    start_string = f'{start_year}-{start_month}-{start_day}'
+    end_year = end_date[0:4]
+    end_month = end_date[4:6]
+    end_day = end_date[6:8]
+    end_string = f'{end_year}-{end_month}-{end_day}'
+    
+    if gwl:
+        assert gwl[0:3] == 'gwl'
+        assert len(gwl) == 5
+        tbound_string = f'Global Warming Level {gwl[3]}.{gwl[4]}degC ({start_string} to {end_string})'
+    else:
+        tbound_string = f'{start_string} to {end_string}'
+        
+    return tbound_string
+    
 
 def main(args):
     """Run the program."""
 
-    output_dict = {}
+    hist_tbounds = parse_tbounds(args.hist_tbounds)
+    ref_tbounds = parse_tbounds(args.ref_tbounds)
+    target_tbounds = parse_tbounds(args.target_tbounds) 
+
+    method_details = {}
+    method_details['qdc'] = {
+        'title': 'QDC-Scaled CMIP6 Application-Ready Climate Projections',
+        'summary': f'The data have been created by applying climate changes simulated between {hist_tbounds} and {ref_tbounds} by the {args.model_name} CMIP6 global climate model to {args.obs} data for {target_tbounds} using the Quantile Delta Change (QDC) scaling method.',
+        'info': 'More information on the Quantile Delta Change (QDC) scaling method can be found in the technical report.'   
+    }
     
+    output_dict = {}
+
     # Global attributes to create/overwrite
     output_dict['global_overwrite'] = {
         'title': method_details[args.method]['title'],
@@ -84,30 +121,28 @@ def main(args):
         'keywords': 'GCMD:Locations>Continent>Australia/New Zealand>Australia, GCMD:Earth Science Services>Models>Coupled Climate Models, GCMD:Earth Science>Atmosphere',
         'keywords_vocabulary': 'GCMD:GCMD Keywords, Version 17.9',
         'keywords_reference': 'Global Change Master Directory (GCMD). 2023. GCMD Keywords, Version 17.9, Greenbelt, MD: Earth Science Data and Information System, Earth Science Projects Division, Goddard Space Flight Center, NASA. URL (GCMD Keyword Forum Page): https://forum.earthdata.nasa.gov/app.php/tag/GCMD+Keywords',
-        'acknowledgement': f'The CMIP6 project (https://doi.org/10.5194/gmd-9-1937-2016) and {args.model} modelling effort ({model_dois[args.model]})',
+        'acknowledgement': f'The Coupled Model Intercomparison Project Phase 6 (CMIP6; https://doi.org/10.5194/gmd-9-1937-2016)',
         'time_coverage_resolution': 'PT1440M0S',
         'processing_level': 'Level 1a: Post-processing of output Level 0 scaled data with robust metadata and data reference syntax applied, but no quality assurance and quality control undertaken.',
-        'source': obs_source[args.obs],
+        'source': 'Data from ' + obs_datasets[args.obs]['name'] + f' and {args.model_name} ({model_datasets[args.model_name]})',
         'comment': method_details[args.method]['info'],
-        'project_id': 'ACS-QDC',
         'contact': 'damien.irving@csiro.au',
         'institution': 'Commonwealth Scientific and Industrial Research Organisation',
         'institute_id': 'CSIRO',
-        'creator_name': 'Commonwealth Scientific and Industrial Research Organisation'  #'Australian Climate Service',
+        'creator_name': 'Australian Climate Service',
         'creator_type': 'group',
         'creator_institution': 'Commonwealth Scientific and Industrial Research Organisation',
-        'creator_email': ,
+        'creator_email': 'acs@acs.gov.au',
         'publisher_name': 'Commonwealth Scientific and Industrial Research Organisation',
         'publisher_type': 'institution',
         'publisher_institution': 'Commonwealth Scientific and Industrial Research Organisation',
-        'publisher_url': 'https://www.csiro.au/',  # https://www.acs.gov.au/
-        'geospatial_bounds': 'POLYGON((12.98 88.48,12.98 207.39,-57.97 207.39,-57.97 88.48,12.98 88.48))'
-        'geospatial_bounds_crs': 'EPSG:4326'
-        'date_created': datetime.now().isoformat(),
+        'publisher_url': 'https://www.csiro.au/',
+        'geospatial_bounds': obs_datasets[args.obs]['geospatial_bounds'],
+        'geospatial_bounds_crs': obs_datasets[args.obs]['geospatial_bounds_crs'],
         'license': 'CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)',
         'cmip6_experiment_id': args.model_experiment,
         'cmip6_variant_label': args.model_run,
-        'cmip6_source_id': args.model,
+        'cmip6_source_id': args.model_name,
         'code': 'https://github.com/climate-innovation-hub/qqscale'
     }
     
@@ -116,8 +151,9 @@ def main(args):
         output_dict['global_keep'] = ['geospatial_lat_min', 'geospatial_lat_max', 'geospatial_lon_min', 'geospatial_lon_max']
 
     # Variable attributes to create or overwrite
-    output_dict['var_overwrite'][args.var] = var_attrs[args.var]
-    output_dict['var_overwrite'][args.var]['coverage_content_type'] = 'modelResult'
+    output_dict['var_overwrite'] = {}
+    output_dict['var_overwrite'][args.variable] = var_attrs[args.variable]
+    output_dict['var_overwrite'][args.variable]['coverage_content_type'] = 'modelResult'
 
     # Variable attributes to remove
     output_dict['var_remove'] = {'lat': 'bounds', 'lon': 'bounds'}
@@ -144,9 +180,20 @@ if __name__ == '__main__':
         type=str,
         help="Output YAML file name"
     )
-    
     parser.add_argument(
-        "--model",
+        "--variable",
+        type=str,
+        choices=('tasmin', 'tasmax', 'pr', 'rsds', 'sfcWind', 'sfcWindmax', 'hurs', 'hursmin', 'hursmax'),
+        help="Variable"
+    )
+    parser.add_argument(
+        "--obs",
+        type=str,
+        choices=('AGCD', 'BARRA-R2'),
+        help="Observational dataset name"
+    )
+    parser.add_argument(
+        "--model_name",
         type=str,
         choices=("ACCESS-CM2", "ACCESS-ESM1-5", "CMCC-ESM2", "CESM2", "EC-Earth3", "NorESM2-MM", "UKESM1-0-LL"),
         help="Climate model name"
@@ -162,16 +209,19 @@ if __name__ == '__main__':
         help="Model run"
     )
     parser.add_argument(
-        "--variable",
+        "--hist_tbounds",
         type=str,
-        choices=('tasmin', 'tasmax', 'pr', 'rsds', 'sfcWind', 'sfcWindmax', 'hurs', 'hursmin', 'hursmax'),
-        help="Variable"
+        help="Time bounds for historical model data (e.g. gwl10-20010101-20201231 or 19850101-20141231)"
     )
     parser.add_argument(
-        "--obs",
+        "--ref_tbounds",
         type=str,
-        choices=('AGCD', 'BARRA-R2')
-        help="Observational dataset name"
+        help="Time bounds for reference data (e.g. gwl20-20400101-20591231 or 20600101-20891231)"
     )
-    
+    parser.add_argument(
+        "--target_tbounds",
+        type=str,
+        help="Time bounds for target data (e.g. gwl10-20010101-20201231 or 19850101-20141231)"
+    )
+    args = parser.parse_args()
     main(args)

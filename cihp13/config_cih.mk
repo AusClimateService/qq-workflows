@@ -1,6 +1,7 @@
 # Quantile Delta Change configuration
 #
 # The required user defined variables are:
+# - METHOD (options: qdm ecdfm)
 # - VAR (options: tasmin tasmax pr rsds hurs hursmin hursmax sfcWind)
 # - OBS_DATASET (options: AGCD BARRA-R2)
 # - MODEL (options: ACCESS-CM2 ACCESS-ESM1-5 CMCC-ESM2 CESM2 EC-Earth3 NorESM2-MM UKESM1-0-LL)
@@ -30,6 +31,7 @@ __check_defined = \
       $(error Undefined $1$(if $2, ($2))))
 
 ## Method options
+METHOD=qdm
 INTERP=linear
 OUTPUT_GRID=input
 REF_TIME=--ref_time
@@ -224,13 +226,14 @@ ifdef BASE_GWL
   TARGET_TBOUNDS=${BASE_GWL}-${TARGET_TBOUNDS}
 endif
 
-OUTPUT_AF_DIR=/g/data/wp00/data/QDC-CMIP6/${OBS_DATASET}/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/${REF_DIR_LABEL}
+OUTPUT_AF_DIR=/g/data/ia39/australian-climate-service/test-data/QDC-CMIP6/${OBS_DATASET}/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/${REF_DIR_LABEL}
 AF_FILE=${REF_VAR}-${METHOD_DESCRIPTION}-adjustment-factors_${MODEL}_${EXPERIMENT}_${RUN}_gn_${REF_TBOUNDS}_wrt_${HIST_TBOUNDS}.nc
 AF_PATH=${OUTPUT_AF_DIR}/${AF_FILE}
 
 OUTPUT_QQ_DIR=${OUTPUT_AF_DIR}
 QQ_BASE=${REF_VAR}_day_${MODEL}_${EXPERIMENT}_${RUN}_${OUTPUT_GRID_LABEL}_${REF_TBOUNDS}_${METHOD_DESCRIPTION}-${INTERP}_${OBS_DATASET}-baseline-${TARGET_TBOUNDS}_model-baseline-${HIST_TBOUNDS}
 QQ_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.nc
+METADATA_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.yaml
 
 OUTPUT_VALIDATION_DIR=${OUTPUT_QQ_DIR}
 VALIDATION_NOTEBOOK=${OUTPUT_VALIDATION_DIR}/${QQ_BASE}.ipynb
