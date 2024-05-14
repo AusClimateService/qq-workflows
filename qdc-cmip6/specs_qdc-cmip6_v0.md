@@ -1,14 +1,12 @@
-# CIHP-13, Version 0
+# QDC-CMIP6, Version 0
 
 Ag2050 is a multi-year program of work funded by CSIRO that will target non-incremental change of Australia’s farming systems
 and provide an evidence-based picture of what Australia’s farming systems could,
 should and need to look like in 2050 to be productive, resilient and sustainable
 (see details [here](https://confluence.csiro.au/pages/viewpage.action?pageId=1706583873)).
 
-As a test run for the development of CIHP-13 (which we're calling Version 0),
-the Climate Innovation Hub will provide application-ready climate projections data
-for the Ag2050 project using the
-[Quantile Delta Change](https://github.com/climate-innovation-hub/qqscale/blob/master/docs/method_qdc.md) method.
+As a test run for the development of QDC-CMIP6 (which we're calling Version 0),
+will provide application-ready climate projections data for the Ag2050 project.
 
 ## Specifications
 
@@ -33,7 +31,7 @@ for the Ag2050 project using the
 ## Model data availability
 
 Preliminary data that have not yet undergone
-the Climate Innovation Hub quality checking and metadata standardisation process
+quality checking and metadata standardisation
 are available from project [wp00](https://my.nci.org.au/mancini/project/wp00) on NCI.
 An example file path is as follows:
 ```
