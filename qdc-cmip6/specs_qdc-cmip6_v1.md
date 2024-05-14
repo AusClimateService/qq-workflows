@@ -1,4 +1,4 @@
-# CIHP-13, Version 1
+# QDC-CMIP6, Version 1
 
 ## Specifications
 
@@ -41,7 +41,7 @@ and just want the (arguably) superior observational underpinning.
 ## Model data availability
 
 Preliminary data that have not yet undergone
-the Climate Innovation Hub quality checking and metadata standardisation process
+quality checking and metadata standardisation process
 are available from project [wp00](https://my.nci.org.au/mancini/project/wp00) on NCI.
 An example file path is as follows:
 ```
