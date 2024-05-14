@@ -12,7 +12,7 @@ and applying those quantile changes to observations in order to produce timeseri
 For information on how the QDC method compares against other alteratives,
 refer to the [NPCP bias correction intercomparison](https://github.com/AusClimateService/npcp) project.
 
-## Execution
+## Workflow Execution
 
 Run the following at the command line:
 
