@@ -172,8 +172,9 @@ def main(args):
         output_dict['global_keep'] = ['geospatial_lat_min', 'geospatial_lat_max', 'geospatial_lon_min', 'geospatial_lon_max']
 
     # Variable attributes to create or overwrite
+    output_dict['var_overwrite'] = {}
+    output_dict['var_overwrite']['time'] = var_attrs['time']
     if args.variable:
-        output_dict['var_overwrite'] = {}
         output_dict['var_overwrite'][args.variable] = var_attrs[args.variable]
     if args.units:
         units = 'deg_C' if args.units in ['C', 'Celsius', 'degC'] else args.units
