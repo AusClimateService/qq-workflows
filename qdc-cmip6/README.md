@@ -24,7 +24,7 @@ Run the following at the command line:
 The various `{options}` (i.e. the variables, models, experiments etc that you want to process)
 can be viewed by running `python run_qdc-cmip6.py -h`.
 
-## Versions
+## Dataset Versions
 
 - [Version 0.0](specs_qdc-cmip6_v0.md): Test data for the Ag2050 project.
 - [Version 1.0](specs_qdc-cmip6_v1.md): All CMIP6 GCMs selected for downscaling by the Australian Climate Service.
