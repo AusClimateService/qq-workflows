@@ -1,4 +1,4 @@
-"""Command line program for running the CIHP13 workflow."""
+"""Command line program for running the QDC-CMIP6 workflow."""
 
 import sys
 import argparse
@@ -60,7 +60,7 @@ def main(args, product):
     """Run the program."""
 
     makefile = '/home/599/dbi599/qq-workflows/Makefile'
-    config = '/home/599/dbi599/qq-workflows/config_cih.mk'
+    config = '/home/599/dbi599/qq-workflows/qdc-cmip6/config_qdc-cmip6.mk'
     target_start, target_end = get_target_tbounds(product)
     for var in args.variables:
         for obs in args.obs:

@@ -30,39 +30,47 @@ obs_datasets['BARRA-R2'] = {
 
 var_attrs = {}
 var_attrs['pr'] = {
-    'cell_methods': 'time: mean (interval: 1 hour) time: mean (interval: 1 day)',
-    'standard_name': 'lwe_precipitation_rate',
+    'standard_name': 'precipitation',
     'long_name': 'Precipitation',
-    'units': 'mm day-1',
 }
 var_attrs['time'] = {
+    'axis': 'T'
     'long_name': 'time',
+    'standard_name': 'time',
 }
 var_attrs['tasmax'] = {
+    'standard_name': 'air_temperature',
+    'long_name': 'Daily Maximum Near-Surface Air Temperature',
     'units': 'deg_C',
-    'cell_methods': 'time: maximum (interval: 1 hour) time: maximum (interval: 1 day)',
 }
 var_attrs['tasmin'] = {
+    'standard_name': 'air_temperature',
+    'long_name': 'Daily Minimum Near-Surface Air Temperature',
     'units': 'deg_C',
-    'cell_methods': 'time: minimum (interval: 1 hour) time: minimum (interval: 1 day)',
 }
 var_attrs['hurs'] = {
-    'cell_methods': 'time: point (interval: 1 hour) time: mean (interval: 1 day)',
+    'standard_name': 'relative_humidity',
+    'long_name': 'Near-Surface Relative Humidity',
 }
 var_attrs['hursmax'] = {
-    'cell_methods': 'time: point (interval: 1 hour) time: maximum (interval: 1 day)',
+    'standard_name': 'relative_humidity',
+    'long_name': 'Daily Maximum Near-Surface Relative Humidity',
 }
 var_attrs['hursmin'] = {
-    'cell_methods': 'time: point (interval: 1 hour) time: minimum (interval: 1 day)',
+    'standard_name': 'relative_humidty',
+    'long_name': 'Daily Minimum Near-Surface Relative Humidity',
 }
 var_attrs['rsds'] = {
-    'cell_methods': 'time: mean (interval: 1 hour) time: mean (interval: 1 day)',
+    'standard_name': 'surface_downwelling_shortwave_flux_in_air',
+    'long_name': 'Surface Downwelling Shortwave Radiation',
 }
 var_attrs['sfcWind'] = {
-    'cell_methods': 'time: point (interval: 1 hour) area: point (comment: bilinear interpolation) time: mean (interval: 1 day)',
+    'standard_name': 'wind_speed',
+    'long_name': 'Daily Mean Near-Surface Wind Speed',
 }
 var_attrs['sfcWindmax'] = {
-    'cell_methods': 'time: maximum (interval: 1 hour) area: point (comment: bilinear interpolation) time: maximum (interval: 1 day)',
+    'standard_name': 'wind_speed',
+    'long_name': 'Daily Maximum Near-Surface Wind Speed',
 }
 
 
@@ -108,7 +116,7 @@ def main(args):
     method_details['qdc'] = {
         'title': 'QDC-Scaled CMIP6 Application-Ready Climate Projections',
         'summary': f'The data have been created by applying climate changes simulated between {hist_tbounds} and {ref_tbounds} by the {args.model_name} CMIP6 global climate model to {args.obs} data for {target_tbounds} using the Quantile Delta Change (QDC) scaling method.',
-        'info': 'More information on the Quantile Delta Change (QDC) scaling method can be found in the technical report.'   
+        'info': 'More information on the Quantile Delta Change (QDC) scaling method can be found at https://github.com/AusClimateService/qqscale/blob/master/docs/method_qdc.md.'   
     }
     
     output_dict = {}
@@ -143,7 +151,7 @@ def main(args):
         'cmip6_experiment_id': args.model_experiment,
         'cmip6_variant_label': args.model_run,
         'cmip6_source_id': args.model_name,
-        'code': 'https://github.com/climate-innovation-hub/qqscale'
+        'code': 'https://github.com/AusClimateService/qqscale'
     }
     
     # Global attributes to keep
@@ -151,10 +159,14 @@ def main(args):
         output_dict['global_keep'] = ['geospatial_lat_min', 'geospatial_lat_max', 'geospatial_lon_min', 'geospatial_lon_max']
 
     # Variable attributes to create or overwrite
-    output_dict['var_overwrite'] = {}
-    output_dict['var_overwrite'][args.variable] = var_attrs[args.variable]
-    output_dict['var_overwrite'][args.variable]['coverage_content_type'] = 'modelResult'
-
+    if args.variable:
+        output_dict['var_overwrite'] = {}
+        output_dict['var_overwrite'][args.variable] = var_attrs[args.variable]
+        output_dict['var_overwrite'][args.variable]['coverage_content_type'] = 'modelResult'
+    if args.units:
+        units = 'deg_C' if args.units in ['C', 'Celsius', 'degC'] else args.units
+        output_dict['var_overwrite'][args.variable]['units'] = units
+        
     # Variable attributes to remove
     output_dict['var_remove'] = {'lat': 'bounds', 'lon': 'bounds'}
 
@@ -184,43 +196,57 @@ if __name__ == '__main__':
         "--variable",
         type=str,
         choices=('tasmin', 'tasmax', 'pr', 'rsds', 'sfcWind', 'sfcWindmax', 'hurs', 'hursmin', 'hursmax'),
+        default=None,
         help="Variable"
+    )
+    parser.add_argument(
+        "--units",
+        type=str,
+        default=None,
+        help="Units for variable"
     )
     parser.add_argument(
         "--obs",
         type=str,
+        required=True,
         choices=('AGCD', 'BARRA-R2'),
         help="Observational dataset name"
     )
     parser.add_argument(
         "--model_name",
         type=str,
+        required=True,
         choices=("ACCESS-CM2", "ACCESS-ESM1-5", "CMCC-ESM2", "CESM2", "EC-Earth3", "NorESM2-MM", "UKESM1-0-LL"),
         help="Climate model name"
     )
     parser.add_argument(
         "--model_experiment",
         type=str,
+        required=True,
         help="Model experiment"
     )
     parser.add_argument(
         "--model_run",
         type=str,
+        required=True,
         help="Model run"
     )
     parser.add_argument(
         "--hist_tbounds",
         type=str,
+        required=True,
         help="Time bounds for historical model data (e.g. gwl10-20010101-20201231 or 19850101-20141231)"
     )
     parser.add_argument(
         "--ref_tbounds",
         type=str,
+        required=True,
         help="Time bounds for reference data (e.g. gwl20-20400101-20591231 or 20600101-20891231)"
     )
     parser.add_argument(
         "--target_tbounds",
         type=str,
+        required=True,
         help="Time bounds for target data (e.g. gwl10-20010101-20201231 or 19850101-20141231)"
     )
     args = parser.parse_args()

@@ -7,6 +7,6 @@
 #PBS -l wd
 #PBS -v target,var,obs,model,experiment,start,end
 
-command="make ${target} -B -f /home/599/dbi599/qq-workflows/Makefile CONFIG=config_cih.mk VAR=${var} OBS_DATASET=${obs} MODEL=${model} EXPERIMENT=${experiment} REF_START=${start} REF_END=${end}"
+command="make ${target} -B -f /home/599/dbi599/qq-workflows/Makefile CONFIG=config_qdc-cmip6.mk VAR=${var} OBS_DATASET=${obs} MODEL=${model} EXPERIMENT=${experiment} REF_START=${start} REF_END=${end}"
 echo ${command}
 ${command}
