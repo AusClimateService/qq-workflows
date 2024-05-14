@@ -2,7 +2,7 @@
 
 This repository contains code used to coordinate workflows
 that use the qq-scaling command line programs at:  
-https://github.com/climate-innovation-hub/qqscale
+https://github.com/AusClimateService/qqscale
 
 Generic makefiles and template notebooks can be found in the top directory.
 Each subdirectory then contains configuration makefiles and
