@@ -5,7 +5,7 @@ This directory contains the configuration files used to produce the QDC-CMIP6 da
 ## Methodology
 
 The QDC-CMIP6 dataset has been produced by applying the
-[Quantile Delta Change](https://github.com/climate-innovation-hub/qqscale/blob/master/docs/method_qdc.md) (QDC) method
+[Quantile Delta Change](https://github.com/AusClimateService/qqscale/blob/master/docs/method_qdc.md) (QDC) method
 to data from the [Coupled Model Intercomparison Project Phase 6](https://pcmdi.llnl.gov/CMIP6/) (CMIP6).
 The QDC method involves calculating quantile changes between an historical and future climate model simulation
 and applying those quantile changes to observations in order to produce timeseries data for a future time period.
