@@ -31,7 +31,7 @@ __check_defined = \
       $(error Undefined $1$(if $2, ($2))))
 
 ## Method options
-METHOD=qdm
+METHOD=qdc
 INTERP=linear
 OUTPUT_GRID=input
 REF_TIME=--ref_time
@@ -187,8 +187,8 @@ $(call check_defined, OBS_DATASET)
 $(call check_defined, TARGET_VAR)
 $(call check_defined, TARGET_UNITS)
 
-HIST_DATA := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/CMIP/*/${MODEL}/historical/${RUN}/day/${HIST_VAR}/*/v*/*.nc))
-REF_DATA := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/ScenarioMIP/*/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/*/v*/*.nc))
+HIST_DATA := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/CMIP/*/${MODEL}/historical/${RUN}/day/${HIST_VAR}/*/v*/*.nc) $(wildcard /g/data/${NCI_LOC}/CMIP6/ScenarioMIP/*/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/*/v*/*.nc))
+REF_DATA := ${HIST_DATA}
 ifeq (${OBS_DATASET}, AGCD)
   TARGET_DIR=/g/data/xv83/agcd-csiro/${TARGET_VAR}/daily
   OUTPUT_GRID_LABEL=AUS-05
@@ -212,18 +212,20 @@ $(call check_defined, REF_END)
 $(call check_defined, HIST_START)
 $(call check_defined, HIST_END)
 
-REF_TBOUNDS=${REF_START}0101-${REF_END}1231
 ifdef REF_GWL
-  REF_TBOUNDS=${REF_GWL}-${REF_TBOUNDS}
+  REF_TBOUNDS=${REF_GWL}-${REF_START}0101-${REF_END}1231
   REF_DIR_LABEL=${REF_GWL}
 else
+  REF_TBOUNDS=${REF_START}0101-${REF_END}1231
   REF_DIR_LABEL=${REF_START}-${REF_END}
 endif
-HIST_TBOUNDS=${HIST_START}0101-${HIST_END}1231
-TARGET_TBOUNDS=${TARGET_START}0101-${TARGET_END}1231
+
 ifdef BASE_GWL
-  HIST_TBOUNDS=${BASE_GWL}-${HIST_TBOUNDS}
-  TARGET_TBOUNDS=${BASE_GWL}-${TARGET_TBOUNDS}
+  HIST_TBOUNDS=${BASE_GWL}-${HIST_START}0101-${HIST_END}1231
+  TARGET_TBOUNDS=${BASE_GWL}-${TARGET_START}0101-${TARGET_END}1231
+else
+  HIST_TBOUNDS=${HIST_START}0101-${HIST_END}1231
+  TARGET_TBOUNDS=${TARGET_START}0101-${TARGET_END}1231
 endif
 
 OUTPUT_AF_DIR=/g/data/ia39/australian-climate-service/test-data/QDC-CMIP6/${OBS_DATASET}/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/${REF_DIR_LABEL}

@@ -1,5 +1,6 @@
 """Command line program for running the QDC-CMIP6 workflow."""
 
+import os
 import sys
 import argparse
 
@@ -70,10 +71,11 @@ def main(args, product):
                 run = run_dict[model]
                 for exp in args.experiments:
                     hist_start, hist_end, ref_start, ref_end = get_model_tbounds(product, model, run, exp, args.output)
-                    if args.target in ['split-by-year', 'clean-up']:
+                    if args.dry_run or (args.target in ['metadata', 'split-by-year', 'clean-up']):
+                        flags = '-n -f' if args.dry_run else '-f'
                         model_tbounds = f'HIST_START={hist_start} HIST_END={hist_end} REF_START={ref_start} REF_END={ref_end}'
                         target_tbounds = f'TARGET_START={target_start} TARGET_END={target_end}'
-                        command = f'make {args.target} -f {makefile} CONFIG={config} VAR={var} OBS_DATASET={obs} MODEL={model} EXPERIMENT={exp} RUN={run} {model_tbounds} {target_tbounds}'
+                        command = f'make {args.target} {flags} {makefile} CONFIG={config} VAR={var} OBS_DATASET={obs} MODEL={model} EXPERIMENT={exp} RUN={run} {model_tbounds} {target_tbounds}'
                         if product == 'gwl':
                             command = command + f' BASE_GWL=gwl10 REF_GWL={args.output}'
                     else:
@@ -82,8 +84,10 @@ def main(args, product):
                         command = f'qsub -v target={args.target},var={var},obs={obs},model={model},experiment={exp},run={run},{model_tbounds},{target_tbounds}'
                         if product == 'gwl':
                             command = command + f',base_gwl=gwl10,ref_gwl={args.output}'
-                        command = command + ' job_cih.sh'
+                        command = command + ' job_qdc-cmip6.sh'
                     print(command)
+                    if not args.no_run:
+                        os.system(command)
 
 
 if __name__ == '__main__':
@@ -95,7 +99,7 @@ if __name__ == '__main__':
     parser.add_argument(
         "target",
         type=str,
-        choices=("train", "adjust", "validation", "clipmax", "split-by-year", "clean-up"),
+        choices=("metadata", "train", "adjust", "validation", "clipmax", "split-by-year", "clean-up"),
         help="Makefile target"
     )
     parser.add_argument(
@@ -132,6 +136,18 @@ if __name__ == '__main__':
         nargs='*',
         choices=("ssp126", "ssp245", "ssp370", "ssp585"),
         help='experiments [required for timeslice output]',
+    )
+    parser.add_argument(
+        "--no_run",
+        action='store_true',
+        default=False,
+        help='show the make command that would be run but do not execute',
+    )
+    parser.add_argument(
+        "--dry_run",
+        action='store_true',
+        default=False,
+        help='run the make command with the -n flag (dry run mode)',
     )
     args = parser.parse_args()
     if args.output[0:3] == "gwl":

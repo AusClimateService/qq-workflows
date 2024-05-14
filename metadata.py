@@ -1,13 +1,13 @@
-"""Command line program for running the CIHP13 workflow."""
+"""Command line program for defining the QDC-CMIP6 file metadata."""
 
 import argparse
 import yaml
 from datetime import datetime
 
 
-model_datasets = {
+cmip_doi = {
     'ACCESS-CM2': 'https://doi.org/10.22033/ESGF/CMIP6.2281',
-    'ACCESS-ESM1.5': 'https://doi.org/10.22033/ESGF/CMIP6.2286',
+    'ACCESS-ESM1.5': 'https://doi.org/10.22033/ESGF/CMIP6.2288',
     'CESM2': 'https://doi.org/10.22033/ESGF/CMIP6.2185',
     'CMCC-ESM2': 'https://doi.org/10.22033/ESGF/CMIP6.13164',
     'CNRM-ESM2-1': 'https://doi.org/10.22033/ESGF/CMIP6.1391',
@@ -15,6 +15,21 @@ model_datasets = {
     'NorESM2-MM': 'https://doi.org/10.22033/ESGF/CMIP6.506',
     'UKESM1-0-LL': 'https://doi.org/10.22033/ESGF/CMIP6.1569',
 }
+
+scenariomip_doi = {
+    'ACCESS-CM2': 'https://doi.org/10.22033/ESGF/CMIP6.2285',
+    'ACCESS-ESM1.5': 'https://doi.org/10.22033/ESGF/CMIP6.2291',
+    'CESM2': 'https://doi.org/10.22033/ESGF/CMIP6.2201',
+    'CMCC-ESM2': 'https://doi.org/10.22033/ESGF/CMIP6.13168',
+    'CNRM-ESM2-1': 'https://doi.org/10.22033/ESGF/CMIP6.1395',
+    'EC-Earth3': 'https://doi.org/10.22033/ESGF/CMIP6.251',
+    'NorESM2-MM': 'https://doi.org/10.22033/ESGF/CMIP6.608',
+    'UKESM1-0-LL': 'https://doi.org/10.22033/ESGF/CMIP6.1567',
+}
+
+model_datasets = {}
+for model in cmip_doi:
+    model_datasets[model] = f'{model} submission to CMIP6 CMIP ({cmip_doi[model]}) and CMIP6 ScenarioMIP ({scenariomip_doi[model]})'
 
 obs_datasets = {}
 obs_datasets['AGCD'] = {
@@ -34,19 +49,17 @@ var_attrs['pr'] = {
     'long_name': 'Precipitation',
 }
 var_attrs['time'] = {
-    'axis': 'T'
+    'axis': 'T',
     'long_name': 'time',
     'standard_name': 'time',
 }
 var_attrs['tasmax'] = {
     'standard_name': 'air_temperature',
     'long_name': 'Daily Maximum Near-Surface Air Temperature',
-    'units': 'deg_C',
 }
 var_attrs['tasmin'] = {
     'standard_name': 'air_temperature',
     'long_name': 'Daily Minimum Near-Surface Air Temperature',
-    'units': 'deg_C',
 }
 var_attrs['hurs'] = {
     'standard_name': 'relative_humidity',
@@ -132,7 +145,7 @@ def main(args):
         'acknowledgement': f'The Coupled Model Intercomparison Project Phase 6 (CMIP6; https://doi.org/10.5194/gmd-9-1937-2016)',
         'time_coverage_resolution': 'PT1440M0S',
         'processing_level': 'Level 1a: Post-processing of output Level 0 scaled data with robust metadata and data reference syntax applied, but no quality assurance and quality control undertaken.',
-        'source': 'Data from ' + obs_datasets[args.obs]['name'] + f' and {args.model_name} ({model_datasets[args.model_name]})',
+        'source': 'Data from ' + obs_datasets[args.obs]['name'] + f' and the {model_datasets[args.model_name]}',
         'comment': method_details[args.method]['info'],
         'contact': 'damien.irving@csiro.au',
         'institution': 'Commonwealth Scientific and Industrial Research Organisation',
@@ -162,7 +175,6 @@ def main(args):
     if args.variable:
         output_dict['var_overwrite'] = {}
         output_dict['var_overwrite'][args.variable] = var_attrs[args.variable]
-        output_dict['var_overwrite'][args.variable]['coverage_content_type'] = 'modelResult'
     if args.units:
         units = 'deg_C' if args.units in ['C', 'Celsius', 'degC'] else args.units
         output_dict['var_overwrite'][args.variable]['units'] = units
