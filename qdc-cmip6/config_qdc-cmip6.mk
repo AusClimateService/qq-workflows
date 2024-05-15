@@ -35,6 +35,7 @@ METHOD=qdc
 INTERP=linear
 OUTPUT_GRID=input
 REF_TIME=--ref_time
+OUTPUT_TIME_UNITS=--output_time_units days_since_1850-01-01
 SPLIT_SCRIPT=/home/599/dbi599/qq-workflows/cihp13/split-by-year.sh
 
 ## Variable options

@@ -36,11 +36,19 @@ obs_datasets['AGCD'] = {
     'name': f'Australian Gridded Climate Data v1.0.1 (AGCD; https://dx.doi.org/10.25914/hjqj-0x55)',
     'geospatial_bounds': 'POLYGON((-10.0 112.0,-10.0 156.2,-44.5 156.2,-44.5 112.0,-10.0 112.0))',
     'geospatial_bounds_crs': 'EPSG:4326',
+    'var_attr_remove': ['analysis_version_number', 'source', 'frequency', 'length_scale_for_analysis', 'analysis_time']
 }    
 obs_datasets['BARRA-R2'] = {
     'name': f'Bureau of Meteorology Atmospheric high-resolution Regional Reanalysis for Australia - Version 2 (BARRA-R2; https://doi.org/10.25914/1x6g-2v48)',
     'geospatial_bounds': 'POLYGON((12.98 88.48,12.98 207.39,-57.97 207.39,-57.97 88.48,12.98 88.48))',
-    'geospatial_bounds_crs': 'EPSG:4326',  
+    'geospatial_bounds_crs': 'EPSG:4326',
+    'var_attr_remove': [],
+}
+
+var_name_corrections = {
+    'precip': 'pr',
+    'tmin': 'tasmin',
+    'tmax': 'tasmax',
 }
 
 var_attrs = {}
@@ -134,6 +142,14 @@ def main(args):
     
     output_dict = {}
 
+    # Variables to rename
+    if not args.variable in var_attrs:
+        variable = var_name_corrections[args.variable]
+        output_dict['rename'] = {args.variable: variable}
+    else:
+        variable = args.variable
+    assert variable in var_attrs
+
     # Global attributes to create/overwrite
     output_dict['global_overwrite'] = {
         'title': method_details[args.method]['title'],
@@ -174,14 +190,17 @@ def main(args):
     # Variable attributes to create or overwrite
     output_dict['var_overwrite'] = {}
     output_dict['var_overwrite']['time'] = var_attrs['time']
-    if args.variable:
-        output_dict['var_overwrite'][args.variable] = var_attrs[args.variable]
+    output_dict['var_overwrite'][variable] = var_attrs[variable]
     if args.units:
         units = 'deg_C' if args.units in ['C', 'Celsius', 'degC'] else args.units
-        output_dict['var_overwrite'][args.variable]['units'] = units
+        output_dict['var_overwrite'][variable]['units'] = units
         
     # Variable attributes to remove
-    output_dict['var_remove'] = {'lat': 'bounds', 'lon': 'bounds'}
+    output_dict['var_remove'] = {
+        'lat': ['bounds',],
+        'lon': ['bounds',],
+        variable: obs_datasets[args.obs]['var_attr_remove'],
+    }
 
     outfile = open(args.outfile, "w")
     yaml.dump(output_dict, outfile)
@@ -208,8 +227,7 @@ if __name__ == '__main__':
     parser.add_argument(
         "--variable",
         type=str,
-        choices=('tasmin', 'tasmax', 'pr', 'rsds', 'sfcWind', 'sfcWindmax', 'hurs', 'hursmin', 'hursmax'),
-        default=None,
+        required=True,
         help="Variable"
     )
     parser.add_argument(
