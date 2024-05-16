@@ -76,7 +76,7 @@ A second dot refers to AGCD.
 | CESM2 | r11i1p1f1 | ssp585 | | | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: |
 | CMCC-ESM2 | r1i1p1f1 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | CMCC-ESM2 | r1i1p1f1 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| CMCC-ESM2 | r1i1p1f1 | ssp370 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| CMCC-ESM2 | r1i1p1f1 | ssp370 | :white_circle: :white_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | CMCC-ESM2 | r1i1p1f1 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | CNRM-ESM2-1 | r1i1p1f2 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | CNRM-ESM2-1 | r1i1p1f2 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
@@ -128,7 +128,7 @@ A second dot refers to AGCD.
 | CESM2 | r11i1p1f1 | GWL3.0 | | | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: |
 | CESM2 | r11i1p1f1 | GWL4.0 | | | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: |
 | CMCC-ESM2 | r1i1p1f1 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| CMCC-ESM2 | r1i1p1f1 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| CMCC-ESM2 | r1i1p1f1 | GWL2.0 | :white_circle: :white_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | CMCC-ESM2 | r1i1p1f1 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | CMCC-ESM2 | r1i1p1f1 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | CNRM-ESM2-1 | r1i1p1f2 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
