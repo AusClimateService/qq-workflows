@@ -22,8 +22,8 @@ and just want the (arguably) superior observational underpinning.
   - EC-Earth3
   - MPI-ESM1-2-HR
   - NorESM2-MM
-  - These global climate models were selected for dynamical downscaling over Australia by the Australian Climate Service (i.e. the [BARPA-R](https://dx.doi.org/10.25914/z1x6-dq28) and
-[CCAM-v2203-SN](https://dx.doi.org/10.25914/rd73-4m38) data) using a 'sparse matrix' framework ([Grose et al, 2023](https://doi.org/10.1016/j.cliser.2023.100368))
+  - These global climate models were selected for dynamical downscaling over Australia by the Australian Climate Service (i.e. the [BARPA](https://dx.doi.org/10.25914/z1x6-dq28) and
+[CCAM](https://dx.doi.org/10.25914/rd73-4m38) data) using a 'sparse matrix' framework ([Grose et al, 2023](https://doi.org/10.1016/j.cliser.2023.100368))
 - Time slice output:
   - Baseline time slice: 1985-2014 ("2000")
     - At least 30 years is preferable for QDM (to reduce the effect of natural variability)
@@ -40,25 +40,29 @@ and just want the (arguably) superior observational underpinning.
 
 ## Model data availability
 
-Preliminary data that have not yet undergone
-quality checking and metadata standardisation process
-are available from project [wp00](https://my.nci.org.au/mancini/project/wp00) on NCI.
-An example file path is as follows:
-```
-/g/data/wp00/data/QDC-CMIP6/AGCD/ACCESS-CM2/ssp126/r4i1p1f1/day/tasmax/2035-2064/tasmax_day_ACCESS-CM2_ssp126_r4i1p1f1_AUS-r005_20440101-20441231_qdc-additive-monthly-q100-nearest_AGCD-19850101-20141231_historical-19850101-20141231.nc
-```
-That example file contains data for the year 2044 that was produced by
-calculating the quantile changes between the 2035-2064 data from the ssp126 experiment
-and 1985-2014 data from the historical experiment and applying those changes
-to AGCD data from 1985-2014.
+Preliminary data that have not yet undergone final quality checking
+are available from project [ia39](https://my.nci.org.au/mancini/project/ia39) on NCI.
 
-Here's a summary of what preliminary data are currently available.
+### Time slice data
+
+An example time slice file path is as follows:
+```
+/g/data/ia39/australian-climate-service/test-data/QDC-CMIP6/AGCD/CMCC-ESM2/ssp370/r1i1p1f1/day/tasmin/2035-2064/tasmin_day_CMCC-ESM2_ssp370_r1i1p1f1_AUS-05_20350101-20641231_qdc-additive-monthly-q100-linear_AGCD-baseline-19850101-20141231_model-baseline-19850101-20141231.nc
+```
+That example file contains data for the years 2035-2064.
+It was produced by calculating the quantile changes between the
+2035-2064 data from the ssp370 experiment and
+1985-2014 data from the historical experiment for the CMCC-ESM2 model
+and applying those changes to AGCD data from 1985-2014.
+
+Here's a summary of what preliminary time slice data are currently available
+(for both 2035-2064 and 2070-2099).
 The first dot in each cell refers to BARRA-R2.
 A second dot refers to AGCD.
 
 | model | run | experiment | tasmax | tasmin | pr | hurs | hursmax | hursmin | rsds | sfcWind | 
 | ---   | --- | ---        | :-:    | :-:    | :-:| :-:  | :-:     | :-:     | :-:  | :-:     |
-| ACCESS-CM2 | r4i1p1f1 | ssp126 | :green_circle: :white_circle: | :green_circle: :white_circle: | :green_circle: :white_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| ACCESS-CM2 | r4i1p1f1 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | ACCESS-CM2 | r4i1p1f1 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | 
 | ACCESS-CM2 | r4i1p1f1 | ssp370 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | ACCESS-CM2 | r4i1p1f1 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
@@ -90,6 +94,59 @@ A second dot refers to AGCD.
 | UKESM1-0-LL | r1i1p1f2 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | UKESM1-0-LL | r1i1p1f2 | ssp370 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | UKESM1-0-LL | r1i1p1f2 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+
+
+### Global warming level data
+
+An example global warming level file path is as follows:
+```
+/g/data/ia39/australian-climate-service/test-data/QDC-CMIP6/AGCD/CMCC-ESM2/ssp370/r1i1p1f1/day/tasmin/gwl20/tasmin_day_CMCC-ESM2_ssp370_r1i1p1f1_AUS-05_gwl20-20320101-20511231_qdc-additive-monthly-q100-linear_AGCD-baseline-gwl10-20010101-20201231_model-baseline-gwl10-19940101-20131231.nc
+```
+That example file contains data for the 2.0 degC global warming level. 
+It wsa produced by calculating the quantile changes between
+global warming level 1.0 (corresponding to the years 1994-2013 in the CMCC-ESM2 model for experiment ssp370) and
+global warming level 2.0 (corresponding to the years 2032-2051 in the model)
+and then applying those changes to AGCD data for global warming level 1.0
+(corresponding to 2001-2020 for the observed global mean temperature).
+
+Here's a summary of what preliminary global warming level data are currently available.
+The first dot in each cell refers to BARRA-R2.
+A second dot refers to AGCD.
+
+| model | run | GWL | tasmax | tasmin | pr | hurs | hursmax | hursmin | rsds | sfcWind | 
+| ---   | --- | ---        | :-:    | :-:    | :-:| :-:  | :-:     | :-:     | :-:  | :-:     |
+| ACCESS-CM2 | r4i1p1f1 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| ACCESS-CM2 | r4i1p1f1 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | 
+| ACCESS-CM2 | r4i1p1f1 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| ACCESS-CM2 | r4i1p1f1 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| ACCESS-ESM1.5 | r6i1p1f1 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| ACCESS-ESM1.5 | r6i1p1f1 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| ACCESS-ESM1.5 | r6i1p1f1 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| ACCESS-ESM1.5 | r6i1p1f1 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| CESM2 | r11i1p1f1 | GWL1.5 | | | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: |
+| CESM2 | r11i1p1f1 | GWL2.0 | | | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: |
+| CESM2 | r11i1p1f1 | GWL3.0 | | | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: |
+| CESM2 | r11i1p1f1 | GWL4.0 | | | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: |
+| CMCC-ESM2 | r1i1p1f1 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| CMCC-ESM2 | r1i1p1f1 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| CMCC-ESM2 | r1i1p1f1 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| CMCC-ESM2 | r1i1p1f1 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| EC-Earth3 | r1i1p1f1 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| EC-Earth3 | r1i1p1f1 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| EC-Earth3 | r1i1p1f1 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| EC-Earth3 | r1i1p1f1 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| NorESM2-MM | r1i1p1f1 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: |
+| NorESM2-MM | r1i1p1f1 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: |
+| NorESM2-MM | r1i1p1f1 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: |
+| NorESM2-MM | r1i1p1f1 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: |
+| UKESM1-0-LL | r1i1p1f2 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| UKESM1-0-LL | r1i1p1f2 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| UKESM1-0-LL | r1i1p1f2 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| UKESM1-0-LL | r1i1p1f2 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 
 :green_circle: = application ready data is available  
 :white_circle: = CMIP6 data is available on NCI (or the ESGF) but hasn't been processed yet  
