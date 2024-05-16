@@ -36,7 +36,7 @@ obs_datasets['AGCD'] = {
     'name': f'Australian Gridded Climate Data v1.0.1 (AGCD; https://dx.doi.org/10.25914/hjqj-0x55)',
     'geospatial_bounds': 'POLYGON((-10.0 112.0,-10.0 156.2,-44.5 156.2,-44.5 112.0,-10.0 112.0))',
     'geospatial_bounds_crs': 'EPSG:4326',
-    'var_attr_remove': ['analysis_version_number', 'source', 'frequency', 'length_scale_for_analysis', 'analysis_time']
+    'var_attr_remove': ['analysis_version_number', 'source', 'frequency', 'length_scale_for_analysis', 'analysis_time', 'number_of_stations_reporting']
 }    
 obs_datasets['BARRA-R2'] = {
     'name': f'Bureau of Meteorology Atmospheric high-resolution Regional Reanalysis for Australia - Version 2 (BARRA-R2; https://doi.org/10.25914/1x6g-2v48)',
