@@ -3,7 +3,7 @@
 #PBS -q normal
 #PBS -l walltime=2:00:00
 #PBS -l mem=10GB
-#PBS -l storage=gdata/wp00
+#PBS -l storage=gdata/ia39
 #PBS -l wd
 #PBS -l ncpus=5
 #PBS -v year,infile,outfile

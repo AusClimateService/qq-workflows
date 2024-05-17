@@ -9,15 +9,17 @@
 
 for infile in "$@"; do
     echo ${infile}
-    dates=`basename ${infile} | cut -d _ -f 7`
-    start=`echo ${dates:0:4}`
-    end=`echo ${dates:9:4}`
+    date_label=`basename ${infile} | cut -d _ -f 7`
+    start_date=`echo ${date_label} | rev | cut -d - -f 2 | rev`
+    end_date=`echo ${date_label} | rev | cut -d - -f 1 | rev`
+    start=`echo ${start_date:0:4}`
+    end=`echo ${end_date:0:4}`
     years=($(seq ${start} 1 ${end}))
     for year in "${years[@]}"; do
-        outfile=`echo ${infile} | sed s:_${start}0101-${end}1231:_${year}0101-${year}1231:g`
+        outfile=`echo ${infile} | sed s:${start}0101-${end}1231:${year}0101-${year}1231:g`
         outdir=`dirname ${outfile}`
         mkdir -p ${outdir}
-        qsub -v year=${year},infile=${infile},outfile=${outfile} /home/599/dbi599/qq-workflows/cihp13/split-by-year-job.sh
+        qsub -v year=${year},infile=${infile},outfile=${outfile} /home/599/dbi599/qq-workflows/qdc-cmip6/split-by-year-job.sh
     done
 done
 
