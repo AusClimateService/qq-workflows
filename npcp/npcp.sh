@@ -3,13 +3,13 @@
 # Description: Process all NPCP data
 #             
 
-method_list=(ecdfm qdm)
-# ecdfm qdm
-var_list=(pr)
+method_list=(ecdfm qdc)
+# ecdfm qdc
+var_list=(tasmax tasmin)
 # tasmax tasmin pr
-rcm_list=(CSIRO-CCAM-2203)
+rcm_list=(GCM)
 # BOM-BARPA-R UQ-DES-CCAM-2105 CSIRO-CCAM-2203 GCM
-gcm_list=(NCAR-CESM2)
+gcm_list=(EC-Earth-Consortium-EC-Earth3)
 # ECMWF-ERA5 CSIRO-ACCESS-ESM1-5 EC-Earth-Consortium-EC-Earth3 NCAR-CESM2
 
 for var in "${var_list[@]}"; do
