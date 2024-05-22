@@ -106,7 +106,7 @@ ${QQ_PATH} : ${AF_PATH} ${METADATA_PATH}
 ## clipmax: Clip the quantile scaled data to a given upper bound
 clipmax : ${QQCLIPPED_PATH}
 ${QQCLIPPED_PATH} : ${QQ_PATH}
-	${PYTHON} ${QQ_CODE_DIR}/clipmax.py $< ${TARGET_VAR} $@ --maxfiles ${MAX_DATA} --maxvar ${MAX_VAR} ${COMPRESSION}
+	${PYTHON} ${QQ_CODE_DIR}/clipmax.py $< ${TARGET_VAR} $@ --maxfiles ${MAX_DATA} --maxvar ${MAX_VAR} --maxtbounds ${TARGET_START}-01-01 ${TARGET_END}-12-31 --short_history ${COMPRESSION}
 
 ## validation : Create validation notebook
 validation : ${VALIDATION_NOTEBOOK}
