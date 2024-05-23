@@ -2,7 +2,7 @@
 #PBS -P xv83
 #PBS -q hugemem
 #PBS -l walltime=20:00:00
-#PBS -l mem=450GB
+#PBS -l mem=600GB
 #PBS -l storage=gdata/xv83+gdata/wp00+gdata/oi10+gdata/fs38+gdata/dk7+gdata/ia39+gdata/ob53+gdata/hd50+scratch/hd50
 #PBS -l wd
 #PBS -v target,var,obs,model,experiment,run,hist_start,hist_end,ref_start,ref_end,target_start,target_end,base_gwl,ref_gwl
