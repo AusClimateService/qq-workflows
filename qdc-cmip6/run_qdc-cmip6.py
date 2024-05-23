@@ -4,7 +4,7 @@ import os
 import sys
 import argparse
 
-sys.path.append('/home/599/dbi599/gwls')
+sys.path.append('/g/data/xv83/quantile-mapping/gwls')
 import gwl
 
 
@@ -60,8 +60,8 @@ def get_model_tbounds(product, model, run, experiment, ref):
 def main(args, product):
     """Run the program."""
 
-    makefile = '/home/599/dbi599/qq-workflows/Makefile'
-    config = '/home/599/dbi599/qq-workflows/qdc-cmip6/config_qdc-cmip6.mk'
+    makefile = '/g/data/xv83/quantile-mapping/qq-workflows/Makefile'
+    config = '/g/data/xv83/quantile-mapping/qq-workflows/qdc-cmip6/config_qdc-cmip6.mk'
     target_start, target_end = get_target_tbounds(product)
     for var in args.variables:
         for obs in args.obs:

@@ -17,11 +17,10 @@
 
 include ${CONFIG}
 
-#PYTHON=/g/data/wp00/users/dbi599/miniconda3/envs/cih/bin/python
-PYTHON=/g/data/xv83/dbi599/miniconda3/envs/qqscale/bin/python
-PAPERMILL=/g/data/xv83/dbi599/miniconda3/envs/qqscale/bin/papermill
-QQ_CODE_DIR=~/qqscale
-WORKFLOW_CODE_DIR=~/qq-workflows
+PYTHON=/g/data/xv83/quantile-mapping/miniconda3/envs/quantile-mapping/bin/python
+PAPERMILL=/g/data/xv83/quantile-mapping/miniconda3/envs/quantile-mapping/bin/papermill
+QQ_CODE_DIR=/g/data/xv83/quantile-mapping/qqscale
+WORKFLOW_CODE_DIR=/g/data/xv83/quantile-mapping/qq-workflows
 TEMPLATE_NOTEBOOK=${WORKFLOW_CODE_DIR}/validation.ipynb
 
 

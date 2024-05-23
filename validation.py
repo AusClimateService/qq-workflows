@@ -9,7 +9,7 @@ import cartopy.crs as ccrs
 import xesmf as xe
 import cmdline_provenance as cmdprov
 
-sys.path.append('/g/data/wp00/shared_code/qqscale')
+sys.path.append('/g/data/xv83/quantile-mapping/qqscale')
 import utils
 
 
