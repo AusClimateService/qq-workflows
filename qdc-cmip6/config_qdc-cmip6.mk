@@ -124,34 +124,6 @@ else ifeq (${VAR}, hurs)
   OUTPUT_UNITS="%"
   VALID_MIN=--valid_min 0
   VALID_MAX=--valid_max 100
-else ifeq (${VAR}, hursmin)
-  SCALING=additive
-  NQUANTILES=100
-  GROUPING=--time_grouping monthly
-  METHOD_DESCRIPTION=qdc-${SCALING}-monthly-q${NQUANTILES}
-  HIST_VAR=hursmin
-  HIST_UNITS="%"
-  REF_VAR=hursmin
-  REF_UNITS="%"
-  TARGET_VAR=hursmin
-  TARGET_UNITS="%"
-  OUTPUT_UNITS="%"
-  VALID_MIN=--valid_min 0
-  VALID_MAX=--valid_max 100
-else ifeq (${VAR}, hursmax)
-  SCALING=additive
-  NQUANTILES=100
-  GROUPING=--time_grouping monthly
-  METHOD_DESCRIPTION=qdc-${SCALING}-monthly-q${NQUANTILES}
-  HIST_VAR=hursmax
-  HIST_UNITS="%"
-  REF_VAR=hursmax
-  REF_UNITS="%"
-  TARGET_VAR=hursmax
-  TARGET_UNITS="%"
-  OUTPUT_UNITS="%"
-  VALID_MIN=--valid_min 0
-  VALID_MAX=--valid_max 100
 else ifeq (${VAR}, sfcWind)
   SCALING=additive
   NQUANTILES=100
@@ -162,6 +134,19 @@ else ifeq (${VAR}, sfcWind)
   REF_VAR=sfcWind
   REF_UNITS="m s-1"
   TARGET_VAR=sfcWind
+  TARGET_UNITS="m s-1"
+  OUTPUT_UNITS="m s-1"
+  VALID_MIN=--valid_min 0
+else ifeq (${VAR}, sfcWindmax)
+  SCALING=additive
+  NQUANTILES=100
+  GROUPING=--time_grouping monthly
+  METHOD_DESCRIPTION=qdc-${SCALING}-monthly-q${NQUANTILES}
+  HIST_VAR=sfcWindmax
+  HIST_UNITS="m s-1"
+  REF_VAR=sfcWindmax
+  REF_UNITS="m s-1"
+  TARGET_VAR=sfcWindmax
   TARGET_UNITS="m s-1"
   OUTPUT_UNITS="m s-1"
   VALID_MIN=--valid_min 0
