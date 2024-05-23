@@ -182,11 +182,8 @@ else ifeq (${OBS_DATASET}, ERA5)
   TARGET_DIR=/g/data/wp00/data/observations/ERA5/${TARGET_VAR}/daily
   #TODO OUTPUT_GRID_LABEL=
 else ifeq (${OBS_DATASET}, BARRA-R2)
-  ifeq (${TARGET_VAR}, sfcWind)
-    TARGET_DIR=/g/data/ob53/BARRA2/output/reanalysis/AUS-11/BOM/ERA5/historical/hres/BARRA-R2/v1/day/${TARGET_VAR}/v20231001
-  else
-    TARGET_DIR=/scratch/hd50/jt4085/bias_correction/BARRA2/output/reanalysis/AUS-11/BOM/ERA5/historical/hres/BARRA-R2/v1/day/${TARGET_VAR}/v20240516
-  endif
+#  TARGET_DIR=/g/data/ob53/BARRA2/output/reanalysis/AUS-11/BOM/ERA5/historical/hres/BARRA-R2/v1/day/${TARGET_VAR}/v20231001
+  TARGET_DIR=/scratch/hd50/jt4085/bias_correction/BARRA2/output/reanalysis/AUS-11/BOM/ERA5/historical/hres/BARRA-R2/v1/day/${TARGET_VAR}/v20240516
   OUTPUT_GRID_LABEL=AUS-11
 endif
 TARGET_DATA := $(sort $(wildcard ${TARGET_DIR}/*.nc))
