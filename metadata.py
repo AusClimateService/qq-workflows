@@ -36,7 +36,7 @@ obs_datasets['AGCD'] = {
     'name': f'Australian Gridded Climate Data v1.0.1 (AGCD; https://dx.doi.org/10.25914/hjqj-0x55)',
     'geospatial_bounds': 'POLYGON((-10.0 112.0,-10.0 156.2,-44.5 156.2,-44.5 112.0,-10.0 112.0))',
     'geospatial_bounds_crs': 'EPSG:4326',
-    'var_attr_remove': ['analysis_version_number', 'source', 'frequency', 'length_scale_for_analysis', 'analysis_time', 'number_of_stations_reporting']
+    'var_attr_remove': ['analysis_version_number', 'source', 'frequency', 'length_scale_for_analysis', 'analysis_time', 'number_of_stations_reporting'],
 }    
 obs_datasets['BARRA-R2'] = {
     'name': f'Bureau of Meteorology Atmospheric high-resolution Regional Reanalysis for Australia - Version 2 (BARRA-R2; https://doi.org/10.25914/1x6g-2v48)',
@@ -137,7 +137,9 @@ def main(args):
     method_details['qdc'] = {
         'title': 'QDC-Scaled CMIP6 Application-Ready Climate Projections',
         'summary': f'The data have been created by applying climate changes simulated between {hist_tbounds} and {ref_tbounds} by the {args.model_name} CMIP6 global climate model to {args.obs} data for {target_tbounds} using the Quantile Delta Change (QDC) scaling method.',
-        'info': 'More information on the Quantile Delta Change (QDC) scaling method can be found at https://github.com/AusClimateService/qqscale/blob/master/docs/method_qdc.md.'   
+        'info': 'More information on the Quantile Delta Change (QDC) scaling method can be found at https://github.com/AusClimateService/qqscale/blob/master/docs/method_qdc.md.',
+        'projection_method': 'Quantile Delta Change',
+        'projection_method_id': 'QDC', 
     }
     
     output_dict = {}
@@ -163,6 +165,8 @@ def main(args):
         'processing_level': 'Level 1a: Post-processing of output Level 0 scaled data with robust metadata and data reference syntax applied, but no quality assurance and quality control undertaken.',
         'source': 'Data from ' + obs_datasets[args.obs]['name'] + f' and the {model_datasets[args.model_name]}',
         'comment': method_details[args.method]['info'],
+        'projection_method': method_details[args.method]['projection_method'],
+        'projection_method_id': method_details[args.method]['projection_method_id'],
         'contact': 'damien.irving@csiro.au',
         'institution': 'Commonwealth Scientific and Industrial Research Organisation',
         'institute_id': 'CSIRO',
@@ -180,6 +184,7 @@ def main(args):
         'cmip6_experiment_id': args.model_experiment,
         'cmip6_variant_label': args.model_run,
         'cmip6_source_id': args.model_name,
+        'observation_id': args.obs,
         'code': 'https://github.com/AusClimateService/qqscale'
     }
     
