@@ -46,7 +46,7 @@ OUTPUT_GRID=input
 OUTPUT_START=${TARGET_START}
 OUTPUT_END=${TARGET_END}
 OUTPUT_TSLICE=--output_tslice ${OUTPUT_START}-01-01 ${OUTPUT_END}-12-31
-SPLIT_SCRIPT=/home/599/dbi599/qq-workflows/acs/split-by-year.sh
+SPLIT_SCRIPT=/g/data/xv83/quantile-mapping/qq-workflows/acs/split-by-year.sh
 
 ## Variable options
 $(call check_defined, VAR)
@@ -160,13 +160,13 @@ else ifeq (${VAR}, hurs)
   OUTPUT_UNITS="%"
   VALID_MIN=--valid_min 0
   VALID_MAX=--valid_max 100
-else ifeq (${VAR}, sfcWind)
+else ifeq (${VAR}, windspeed)
   SCALING=additive
-  HIST_VAR=sfcWind
+  HIST_VAR=windspeed
   HIST_UNITS="m s-1"
-  REF_VAR=sfcWind
+  REF_VAR=windspeed
   REF_UNITS="m s-1"
-  TARGET_VAR=sfcWind
+  TARGET_VAR=windspeed
   TARGET_UNITS="m s-1"
   OUTPUT_UNITS="m s-1"
   VALID_MIN=--valid_min 0
@@ -220,10 +220,12 @@ endif
 ifeq (${VAR}, vph09)
   HIST_DATA := /g/data/xv83/ab7412/vph09_${GCM_NAME}/vph09_${GCM_NAME}_historical_1951_2014.nc
   TARGET_DATA := $(sort $(wildcard /g/data/xv83/ab7412/vph09_${GCM_NAME}/*.nc))
-
 else ifeq (${VAR}, vph15)
   HIST_DATA := /g/data/xv83/ab7412/vph15_${GCM_NAME}/vph15_${GCM_NAME}_historical_1951_2014.nc
   TARGET_DATA := $(sort $(wildcard /g/data/xv83/ab7412/vph15_${GCM_NAME}/*.nc))
+else ifeq (${VAR}, windspeed)
+  HIST_DATA := /g/data/xv83/ab7412/windspeed_${GCM_NAME}/windspeed_${GCM_NAME}_historical_1951_2014.nc
+  TARGET_DATA := $(sort $(wildcard /g/data/xv83/ab7412/windspeed_${GCM_NAME}/*.nc))
 else
   HIST_PATH=${CORDEX_PATH}/${RCM_GRID}/${RCM_INSTITUTION}/${GCM_NAME}/${HIST_EXP}/${GCM_RUN}/${RCM_NAME}/v1-r1/day/${HIST_VAR}
   HIST_DATA := $(sort $(wildcard ${HIST_PATH}/v*/*day_198[5,6,7,8,9]*.nc) $(wildcard ${HIST_PATH}/v*/*day_199*.nc) $(wildcard ${HIST_PATH}/v*/*day_2*.nc))  
@@ -277,7 +279,7 @@ $(call check_defined, SCALING)
 $(call check_defined, NQUANTILES)
 $(call check_defined, OBS_DATASET)
 
-OUTFILE_ATTRIBUTES=--outfile_attrs /home/599/dbi599/qq-workflows/acs/outfile_attributes_${SCALING}_${OBS_DATASET}.yml
+OUTFILE_ATTRIBUTES=--outfile_attrs /g/data/xv83/quantile-mapping/qq-workflows/acs/outfile_attributes_${SCALING}_${OBS_DATASET}.yml
 BIAS_ADJUSTMENT=${RCM_VERSION}-${METHOD}-${OBS_DATASET}-${REF_START}-${REF_END}
 TRAINING_DATES=${HIST_START}0101-${HIST_END}1231
 ADJUSTMENT_DATES=${TARGET_START}0101-${TARGET_END}1231
@@ -292,6 +294,8 @@ AF_PATH=${OUTPUT_AF_DIR}/${AF_FILE}
 OUTPUT_QQ_DIR=${OUTDIR}
 QQ_BASE=${TARGET_VAR}Adjust_${OUTPUT_GRID_LABEL}_${GCM_NAME}_${TARGET_EXP}_${GCM_RUN}_${RCM_NAME}_${BIAS_ADJUSTMENT}_day_${OUTPUT_DATES}
 QQ_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.nc
+#METADATA_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.yaml
+METADATA_PATH=/g/data/xv83/quantile-mapping/qq-workflows/acs/outfile_attributes_additive_AGCA-AGCD.yml
 
 OUTPUT_VALIDATION_DIR=${OUTDIR}
 VALIDATION_NOTEBOOK=${OUTPUT_VALIDATION_DIR}/${QQ_BASE}.ipynb
