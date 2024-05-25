@@ -119,27 +119,31 @@ def parse_tbounds(tbounds):
     if gwl:
         assert gwl[0:3] == 'gwl'
         assert len(gwl) == 5
-        tbound_string = f'Global Warming Level {gwl[3]}.{gwl[4]}degC ({start_string} to {end_string})'
+        tbound_long = f'Global Warming Level {gwl[3]}.{gwl[4]}degC ({start_string} to {end_string})'
+        tbound_short = f'GWL {gwl[3]}.{gwl[4]}'
     else:
-        tbound_string = f'{start_string} to {end_string}'
+        tbound_long = f'{start_string} to {end_string}'
+        tbound_short = f'{start_year}-{end_year}'
         
-    return tbound_string
+    return tbound_long, tbound_short
     
 
 def main(args):
     """Run the program."""
 
-    hist_tbounds = parse_tbounds(args.hist_tbounds)
-    ref_tbounds = parse_tbounds(args.ref_tbounds)
-    target_tbounds = parse_tbounds(args.target_tbounds) 
+    hist_tbounds_long, hist_tbounds_short  = parse_tbounds(args.hist_tbounds)
+    ref_tbounds_long, ref_tbounds_short = parse_tbounds(args.ref_tbounds)
+    target_tbounds_long, target_tbounds_short = parse_tbounds(args.target_tbounds) 
 
     method_details = {}
     method_details['qdc'] = {
         'title': 'QDC-Scaled CMIP6 Application-Ready Climate Projections',
-        'summary': f'The data have been created by applying climate changes simulated between {hist_tbounds} and {ref_tbounds} by the {args.model_name} CMIP6 global climate model to {args.obs} data for {target_tbounds} using the Quantile Delta Change (QDC) scaling method.',
+        'summary': f'The data have been created by applying climate changes simulated between {hist_tbounds_long} and {ref_tbounds_long} by the {args.model_name} CMIP6 global climate model to {args.obs} data for {target_tbounds_long} using the Quantile Delta Change (QDC) scaling method.',
         'info': 'More information on the Quantile Delta Change (QDC) scaling method can be found at https://github.com/AusClimateService/qqscale/blob/master/docs/method_qdc.md.',
         'projection_method': 'Quantile Delta Change',
-        'projection_method_id': 'QDC', 
+        'projection_method_id': 'QDC',
+        'projection_baseline': target_tbounds_short,
+        'projection_period': ref_tbounds_short,
     }
     
     output_dict = {}
@@ -167,6 +171,8 @@ def main(args):
         'comment': method_details[args.method]['info'],
         'projection_method': method_details[args.method]['projection_method'],
         'projection_method_id': method_details[args.method]['projection_method_id'],
+        'projection_baseline': method_details[args.method]['projection_baseline'],
+        'projection_period': method_details[args.method]['projection_period'],
         'contact': 'damien.irving@csiro.au',
         'institution': 'Commonwealth Scientific and Industrial Research Organisation',
         'institute_id': 'CSIRO',

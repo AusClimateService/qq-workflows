@@ -17,8 +17,8 @@
 
 include ${CONFIG}
 
-PYTHON=/g/data/xv83/quantile-mapping/miniconda3/envs/quantile-mapping/bin/python
-PAPERMILL=/g/data/xv83/quantile-mapping/miniconda3/envs/quantile-mapping/bin/papermill
+PYTHON=/g/data/xv83/quantile-mapping/miniconda3/envs/qq-workflows/bin/python
+PAPERMILL=/g/data/xv83/quantile-mapping/miniconda3/envs/qq-workflows/bin/papermill
 QQ_CODE_DIR=/g/data/xv83/quantile-mapping/qqscale
 WORKFLOW_CODE_DIR=/g/data/xv83/quantile-mapping/qq-workflows
 TEMPLATE_NOTEBOOK=${WORKFLOW_CODE_DIR}/validation.ipynb

@@ -13,12 +13,11 @@ for a particular project (`project/`) are:
 1. Create a configuration makefile (e.g. `project/my_config.mk`) 
 1. Run `make [target] [-nB] CONFIG=project/my_config.mk` to implement either QDC or ECDFm.
 
-The targets are `train`, `adjust` or `validation` (run `make help` for details),
-while `-n` is a dry run (i.e. just print the commands to the screen without running them)
+`-n` is a dry run (i.e. just print the commands to the screen without running them)
 and `-B` forces all steps to be run
 (i.e. even if make thinks the output files already exist and are up-to-date).
 
-Other useful scripts include:
-- `make_qdm_post-processing.mk`: Makefile for applying standard CIH file metadata to QDM data.
-- `bias_correct_timeseries.sh`: Bias correct a long timeseries via sliding window.
-- `npcp.sh` calls `job_npcp.sh` multiple times to process the entire NPCP dataset
+The `Makefile` runs python programs in the
+`/g/data/xv83/quantile-mapping/miniconda3/envs/qq-workflows` conda environment,
+which is described by `environment.yml`.
+
