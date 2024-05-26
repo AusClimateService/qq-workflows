@@ -65,7 +65,7 @@ A second dot refers to AGCD.
 | ---   | --- | ---        | :-:    | :-:    | :-:| :-:  | :-:  | :-:     | :-:        |
 | ACCESS-CM2 | r4i1p1f1 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | ACCESS-CM2 | r4i1p1f1 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| ACCESS-CM2 | r4i1p1f1 | ssp370 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| ACCESS-CM2 | r4i1p1f1 | ssp370 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
 | ACCESS-CM2 | r4i1p1f1 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | ACCESS-ESM1.5 | r6i1p1f1 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | ACCESS-ESM1.5 | r6i1p1f1 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
@@ -77,7 +77,7 @@ A second dot refers to AGCD.
 | CESM2 | r11i1p1f1 | ssp585 | | | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | |
 | CMCC-ESM2 | r1i1p1f1 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | CMCC-ESM2 | r1i1p1f1 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| CMCC-ESM2 | r1i1p1f1 | ssp370 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :white_circle: | :white_circle: |
+| CMCC-ESM2 | r1i1p1f1 | ssp370 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | CMCC-ESM2 | r1i1p1f1 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | CNRM-ESM2-1 | r1i1p1f2 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: |  | :white_circle: |
 | CNRM-ESM2-1 | r1i1p1f2 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: |  | :white_circle: |
@@ -95,7 +95,9 @@ A second dot refers to AGCD.
 | UKESM1-0-LL | r1i1p1f2 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | UKESM1-0-LL | r1i1p1f2 | ssp370 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | UKESM1-0-LL | r1i1p1f2 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| Size | | | 2.1 TB | 2.1 TB | 3.5 TB | | 1.7 TB | 1.8 TB | | |
+| Size | | | 2.1 TB | 2.1 TB | 3.5 TB | 1.7 TB | 1.8 TB | 1.4 TB | 1.2 TB |
+
+Estimated total size of time slice dataset = 13.8 TB
 
 ### Global warming level data
 
@@ -117,7 +119,7 @@ A second dot refers to AGCD.
 | model | run | GWL | tasmax | tasmin | pr | hurs | rsds | sfcWind | sfcWindmax | 
 | ---   | --- | --- | :-:    | :-:    | :-:| :-:  | :-:  | :-:     | :-:        |
 | ACCESS-CM2 | r4i1p1f1 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| ACCESS-CM2 | r4i1p1f1 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | 
+| ACCESS-CM2 | r4i1p1f1 | GWL2.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | 
 | ACCESS-CM2 | r4i1p1f1 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | ACCESS-CM2 | r4i1p1f1 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | ACCESS-ESM1.5 | r6i1p1f1 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
@@ -129,7 +131,7 @@ A second dot refers to AGCD.
 | CESM2 | r11i1p1f1 | GWL3.0 | | | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | |
 | CESM2 | r11i1p1f1 | GWL4.0 | | | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | |
 | CMCC-ESM2 | r1i1p1f1 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| CMCC-ESM2 | r1i1p1f1 | GWL2.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :white_circle: | :yellow_circle: | :white_circle: | :white_circle: |
+| CMCC-ESM2 | r1i1p1f1 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | CMCC-ESM2 | r1i1p1f1 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | CMCC-ESM2 | r1i1p1f1 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | CNRM-ESM2-1 | r1i1p1f2 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: |  | :white_circle: |
@@ -148,10 +150,12 @@ A second dot refers to AGCD.
 | UKESM1-0-LL | r1i1p1f2 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | UKESM1-0-LL | r1i1p1f2 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | UKESM1-0-LL | r1i1p1f2 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| Size | | | 0.7 TB | 0.7 TB | 1.2 TB | | 0.6 TB | 0.6 TB | | |
+| Size | | | 0.7 TB | 0.7 TB | 1.2 TB | 0.6 TB | 0.6 TB | 0.5 TB | 0.4 TB |
 
+Estimated total size of GWL dataset = 4.6 TB
 
-:green_circle: = application ready data is available  
+:green_circle: = data is available  
+:yellow_circle: = preliminary data is available  
 :white_circle: = CMIP6 data is available on NCI (or the ESGF) but hasn't been processed yet  
 blank = CMIP6 data does not exist on NCI or the ESGF   
 
