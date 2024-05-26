@@ -37,7 +37,7 @@ and just want the (arguably) superior observational underpinning.
   - Future GWLs: 1.5, 2.0, 3.0 and 4.0 degC
   - Source for 20 year period defining each GWL:
     - Observations: The GWL 1.0 level corresponds to 2001-2020 (Table 2.4 of the [latest IPCC report](https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-2/#2.3.1.1#2.3.1.1.3))
-    - Models: [Mathias Hauser](https://github.com/mathause/cmip_warming_levels/blob/main/warming_levels/cmip6_all_ens/cmip6_warming_levels_all_ens_1850_1900.yml))
+    - Models: [Mathias Hauser](https://github.com/mathause/cmip_warming_levels/blob/main/warming_levels/cmip6_all_ens/cmip6_warming_levels_all_ens_1850_1900.yml)
   - ssp370 scenario for all GWLs 
 
 ## Model data availability
