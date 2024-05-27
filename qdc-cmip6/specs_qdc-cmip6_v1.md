@@ -119,41 +119,41 @@ Here's a summary of what preliminary global warming level data are currently ava
 The first dot in each cell refers to BARRA-R2.
 A second dot refers to AGCD.
 
-| model | run | GWL | tasmax | tasmin | pr | hurs | rsds | sfcWind | sfcWindmax | 
-| ---   | --- | --- | :-:    | :-:    | :-:| :-:  | :-:  | :-:     | :-:        |
-| ACCESS-CM2 | r4i1p1f1 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| ACCESS-CM2 | r4i1p1f1 | GWL2.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | 
-| ACCESS-CM2 | r4i1p1f1 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| ACCESS-CM2 | r4i1p1f1 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| ACCESS-ESM1.5 | r6i1p1f1 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| ACCESS-ESM1.5 | r6i1p1f1 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| ACCESS-ESM1.5 | r6i1p1f1 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| ACCESS-ESM1.5 | r6i1p1f1 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| CESM2 | r11i1p1f1 | GWL1.5 | | | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | |
-| CESM2 | r11i1p1f1 | GWL2.0 | | | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | |
-| CESM2 | r11i1p1f1 | GWL3.0 | | | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | |
-| CESM2 | r11i1p1f1 | GWL4.0 | | | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | |
-| CMCC-ESM2 | r1i1p1f1 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| CMCC-ESM2 | r1i1p1f1 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| CMCC-ESM2 | r1i1p1f1 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| CMCC-ESM2 | r1i1p1f1 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| CNRM-ESM2-1 | r1i1p1f2 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: |  | :white_circle: |
-| CNRM-ESM2-1 | r1i1p1f2 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: |  | :white_circle: |
-| CNRM-ESM2-1 | r1i1p1f2 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: |  | :white_circle: |
-| CNRM-ESM2-1 | r1i1p1f2 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: |  | :white_circle: |
-| EC-Earth3 | r1i1p1f1 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| EC-Earth3 | r1i1p1f1 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| EC-Earth3 | r1i1p1f1 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| EC-Earth3 | r1i1p1f1 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| NorESM2-MM | r1i1p1f1 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | |
-| NorESM2-MM | r1i1p1f1 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | |
-| NorESM2-MM | r1i1p1f1 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | |
-| NorESM2-MM | r1i1p1f1 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | |
-| UKESM1-0-LL | r1i1p1f2 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| UKESM1-0-LL | r1i1p1f2 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| UKESM1-0-LL | r1i1p1f2 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| UKESM1-0-LL | r1i1p1f2 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| Size | | | 0.7 TB | 0.7 TB | 1.2 TB | 0.6 TB | 0.6 TB | 0.5 TB | 0.4 TB |
+| model | run | GWL | tas max | tas min | pr | hurs | hurs max | hurs min | rsds | sfcWind | sfcWindmax | 
+| ---   | --- | --- | :-:     | :-:     | :-:| :-:  | :-:      | :-:      | :-:  | :-:     | :-:        |
+| ACCESS-CM2 | r4i1p1f1 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| ACCESS-CM2 | r4i1p1f1 | GWL2.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :white_circle: | :white_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | 
+| ACCESS-CM2 | r4i1p1f1 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| ACCESS-CM2 | r4i1p1f1 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| ACCESS-ESM1.5 | r6i1p1f1 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| ACCESS-ESM1.5 | r6i1p1f1 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| ACCESS-ESM1.5 | r6i1p1f1 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| ACCESS-ESM1.5 | r6i1p1f1 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| CESM2 | r11i1p1f1 | GWL1.5 | | | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | |
+| CESM2 | r11i1p1f1 | GWL2.0 | | | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | |
+| CESM2 | r11i1p1f1 | GWL3.0 | | | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | |
+| CESM2 | r11i1p1f1 | GWL4.0 | | | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | |
+| CMCC-ESM2 | r1i1p1f1 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: | :white_circle: | :white_circle: |
+| CMCC-ESM2 | r1i1p1f1 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: | :white_circle: | :white_circle: |
+| CMCC-ESM2 | r1i1p1f1 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: | :white_circle: | :white_circle: |
+| CMCC-ESM2 | r1i1p1f1 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: | :white_circle: | :white_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: |  | :white_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: |  | :white_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: |  | :white_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: |  | :white_circle: |
+| EC-Earth3 | r1i1p1f1 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: | :white_circle: | :white_circle: |
+| EC-Earth3 | r1i1p1f1 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: | :white_circle: | :white_circle: |
+| EC-Earth3 | r1i1p1f1 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: | :white_circle: | :white_circle: |
+| EC-Earth3 | r1i1p1f1 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: | :white_circle: | :white_circle: |
+| NorESM2-MM | r1i1p1f1 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: | :white_circle: | |
+| NorESM2-MM | r1i1p1f1 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | |
+| NorESM2-MM | r1i1p1f1 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | |
+| NorESM2-MM | r1i1p1f1 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | |
+| UKESM1-0-LL | r1i1p1f2 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | :white_circle: |
+| UKESM1-0-LL | r1i1p1f2 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | :white_circle: |
+| UKESM1-0-LL | r1i1p1f2 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | :white_circle: |
+| UKESM1-0-LL | r1i1p1f2 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | :white_circle: |
+| Size (TB) | | | 0.7 | 0.7 | 1.2 | 0.6 | | | 0.6 | 0.5 | 0.4 |
 
 Estimated total size of GWL dataset = 4.6 TB
 
