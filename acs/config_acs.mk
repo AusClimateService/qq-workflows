@@ -160,13 +160,13 @@ else ifeq (${VAR}, hurs)
   OUTPUT_UNITS="%"
   VALID_MIN=--valid_min 0
   VALID_MAX=--valid_max 100
-else ifeq (${VAR}, windspeed)
+else ifeq (${VAR}, sfcWind)
   SCALING=additive
-  HIST_VAR=windspeed
+  HIST_VAR=sfcWind
   HIST_UNITS="m s-1"
   REF_VAR=windspeed
   REF_UNITS="m s-1"
-  TARGET_VAR=windspeed
+  TARGET_VAR=sfcWind
   TARGET_UNITS="m s-1"
   OUTPUT_UNITS="m s-1"
   VALID_MIN=--valid_min 0

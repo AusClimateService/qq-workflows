@@ -37,7 +37,7 @@ nsegments=${#target_start[@]}
 
 for (( i=0; i<${nsegments}; i++ ));
 do
-  command="make ${flags} ${task} -f /home/599/dbi599/qq-workflows/Makefile CONFIG=config_acs.mk VAR=${var} OBS_DATASET=${obs} RCM_NAME=${rcm} GCM_NAME=${gcm} TARGET_START=${target_start[$i]} TARGET_END=${target_end[$i]} OUTPUT_START=${output_start[$i]} OUTPUT_END=${output_end[$i]}"
+  command="make ${flags} ${task} -f /g/data/xv83/quantile-mapping/qq-workflows/Makefile CONFIG=config_acs.mk VAR=${var} OBS_DATASET=${obs} RCM_NAME=${rcm} GCM_NAME=${gcm} TARGET_START=${target_start[$i]} TARGET_END=${target_end[$i]} OUTPUT_START=${output_start[$i]} OUTPUT_END=${output_end[$i]}"
   echo ${command}
   ${command}
 done
