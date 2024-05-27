@@ -9,6 +9,8 @@
   - Precipitation - pr (AGCD, BARRA-R2)
   - Surface downwelling solar radiation - rsds (BARRA-R2)
   - Daily mean surface relative humidity - hurs (BARRA-R2)
+  - Daily maximum surface relative humidity - hursmax (BARRA-R2)
+  - Daily minimum surface relative humidity - hursmin (BARRA-R2)
   - Daily mean surface wind speed - sfcWind (BARRA-R2)
   - Daily maximum surface wind speed - sfcWindmax (BARRA-R2)
   - The rationale for processing two observational datasets is that BARRA-R2 (~12km) provides a consistent product across all variables,
@@ -62,41 +64,41 @@ Here's a summary of what preliminary time slice data are currently available
 The first dot in each cell refers to BARRA-R2.
 A second dot refers to AGCD.
 
-| model | run | experiment | tasmax | tasmin | pr | hurs | rsds | sfcWind | sfcWindmax |
-| ---   | --- | ---        | :-:    | :-:    | :-:| :-:  | :-:  | :-:     | :-:        |
-| ACCESS-CM2 | r4i1p1f1 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| ACCESS-CM2 | r4i1p1f1 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| ACCESS-CM2 | r4i1p1f1 | ssp370 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| ACCESS-CM2 | r4i1p1f1 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| ACCESS-ESM1.5 | r6i1p1f1 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| ACCESS-ESM1.5 | r6i1p1f1 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| ACCESS-ESM1.5 | r6i1p1f1 | ssp370 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| ACCESS-ESM1.5 | r6i1p1f1 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| CESM2 | r11i1p1f1 | ssp126 | | | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | |
-| CESM2 | r11i1p1f1 | ssp245 | | | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | | 
-| CESM2 | r11i1p1f1 | ssp370 | | | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | |
-| CESM2 | r11i1p1f1 | ssp585 | | | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | |
-| CMCC-ESM2 | r1i1p1f1 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| CMCC-ESM2 | r1i1p1f1 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| CMCC-ESM2 | r1i1p1f1 | ssp370 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| CMCC-ESM2 | r1i1p1f1 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| CNRM-ESM2-1 | r1i1p1f2 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: |  | :white_circle: |
-| CNRM-ESM2-1 | r1i1p1f2 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: |  | :white_circle: |
-| CNRM-ESM2-1 | r1i1p1f2 | ssp370 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: |  | :white_circle: |
-| CNRM-ESM2-1 | r1i1p1f2 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: |  | :white_circle: |
-| EC-Earth3 | r1i1p1f1 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| EC-Earth3 | r1i1p1f1 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| EC-Earth3 | r1i1p1f1 | ssp370 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| EC-Earth3 | r1i1p1f1 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| NorESM2-MM | r1i1p1f1 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | |
-| NorESM2-MM | r1i1p1f1 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | |
-| NorESM2-MM | r1i1p1f1 | ssp370 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | |
-| NorESM2-MM | r1i1p1f1 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | |
-| UKESM1-0-LL | r1i1p1f2 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| UKESM1-0-LL | r1i1p1f2 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| UKESM1-0-LL | r1i1p1f2 | ssp370 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| UKESM1-0-LL | r1i1p1f2 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| Size | | | 2.1 TB | 2.1 TB | 3.5 TB | 1.7 TB | 1.8 TB | 1.4 TB | 1.2 TB |
+| model | run | exp | tas max | tas min | pr | hurs | hurs max | hurs min | rsds | sfcWind | sfcWind max |
+| ---   | --- | --- | :-:    | :-:    | :-:| :-:  | :-:     | :-:     | :-:  | :-:     | :-:        |
+| ACCESS-CM2 | r4i1p1f1 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| ACCESS-CM2 | r4i1p1f1 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| ACCESS-CM2 | r4i1p1f1 | ssp370 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :white_circle: | :white_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
+| ACCESS-CM2 | r4i1p1f1 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| ACCESS-ESM1.5 | r6i1p1f1 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| ACCESS-ESM1.5 | r6i1p1f1 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| ACCESS-ESM1.5 | r6i1p1f1 | ssp370 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| ACCESS-ESM1.5 | r6i1p1f1 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| CESM2 | r11i1p1f1 | ssp126 | | | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | |
+| CESM2 | r11i1p1f1 | ssp245 | | | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | | 
+| CESM2 | r11i1p1f1 | ssp370 | | | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | |
+| CESM2 | r11i1p1f1 | ssp585 | | | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | |
+| CMCC-ESM2 | r1i1p1f1 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: | :white_circle: | :white_circle: |
+| CMCC-ESM2 | r1i1p1f1 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: | :white_circle: | :white_circle: |
+| CMCC-ESM2 | r1i1p1f1 | ssp370 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: | :white_circle: | :white_circle: |
+| CMCC-ESM2 | r1i1p1f1 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: | :white_circle: | :white_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: |  | :white_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: |  | :white_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | ssp370 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: |  |  :white_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: |  | :white_circle: |
+| EC-Earth3 | r1i1p1f1 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: | :white_circle: | :white_circle: |
+| EC-Earth3 | r1i1p1f1 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: | :white_circle: | :white_circle: |
+| EC-Earth3 | r1i1p1f1 | ssp370 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: | :white_circle: | :white_circle: |
+| EC-Earth3 | r1i1p1f1 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :red_circle: | :red_circle: | :white_circle: | :white_circle: | :white_circle: |
+| NorESM2-MM | r1i1p1f1 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | |
+| NorESM2-MM | r1i1p1f1 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | |
+| NorESM2-MM | r1i1p1f1 | ssp370 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | |
+| NorESM2-MM | r1i1p1f1 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | |
+| UKESM1-0-LL | r1i1p1f2 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | :white_circle: |
+| UKESM1-0-LL | r1i1p1f2 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | :white_circle: |
+| UKESM1-0-LL | r1i1p1f2 | ssp370 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | :white_circle: |
+| UKESM1-0-LL | r1i1p1f2 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | :white_circle: |
+| Size (TB) | | | 2.1 | 2.1 | 3.5 | 1.7 | | | 1.8 | 1.4 | 1.2 |
 
 Estimated total size of time slice dataset = 13.8 TB
 
