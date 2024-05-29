@@ -158,8 +158,7 @@ A second dot refers to AGCD.
 Estimated total size of GWL dataset = 4.6 TB
 
 :green_circle: = data is available  
-:yellow_circle: = preliminary data is available  
-:white_circle: = request submitted for CMIP6 data to be downloaded to NCI  
+:yellow_circle: = preliminary data is available    
 :white_circle: = CMIP6 data is available on NCI but hasn't been processed yet  
 blank = CMIP6 data does not exist on NCI or the ESGF   
 
