@@ -124,6 +124,34 @@ else ifeq (${VAR}, hurs)
   OUTPUT_UNITS="%"
   VALID_MIN=--valid_min 0
   VALID_MAX=--valid_max 100
+else ifeq (${VAR}, hursmax)
+  SCALING=additive
+  NQUANTILES=100
+  GROUPING=--time_grouping monthly
+  METHOD_DESCRIPTION=qdc-${SCALING}-monthly-q${NQUANTILES}
+  HIST_VAR=hursmax
+  HIST_UNITS="%"
+  REF_VAR=hursmax
+  REF_UNITS="%"
+  TARGET_VAR=hursmax
+  TARGET_UNITS="%"
+  OUTPUT_UNITS="%"
+  VALID_MIN=--valid_min 0
+  VALID_MAX=--valid_max 100
+else ifeq (${VAR}, hursmin)
+  SCALING=additive
+  NQUANTILES=100
+  GROUPING=--time_grouping monthly
+  METHOD_DESCRIPTION=qdc-${SCALING}-monthly-q${NQUANTILES}
+  HIST_VAR=hursmin
+  HIST_UNITS="%"
+  REF_VAR=hursmin
+  REF_UNITS="%"
+  TARGET_VAR=hursmin
+  TARGET_UNITS="%"
+  OUTPUT_UNITS="%"
+  VALID_MIN=--valid_min 0
+  VALID_MAX=--valid_max 100
 else ifeq (${VAR}, sfcWind)
   SCALING=additive
   NQUANTILES=100
@@ -182,7 +210,14 @@ else ifeq (${OBS_DATASET}, ERA5)
   TARGET_DIR=/g/data/wp00/data/observations/ERA5/${TARGET_VAR}/daily
   #TODO OUTPUT_GRID_LABEL=
 else ifeq (${OBS_DATASET}, BARRA-R2)
-  TARGET_DIR=/g/data/ob53/BARRA2/output/reanalysis/AUS-11/BOM/ERA5/historical/hres/BARRA-R2/v1/day/${TARGET_VAR}/v20240516
+  ifeq (${VAR}, hursmax)
+    TARGET_BASEDIR=/g/data/ia39/australian-climate-service/test-data/observations
+  else ifeq (${VAR}, hursmin)
+    TARGET_BASEDIR=/g/data/ia39/australian-climate-service/test-data/observations
+  else
+    TARGET_BASEDIR=/g/data/ob53
+  endif
+  TARGET_DIR=${TARGET_BASEDIR}/BARRA2/output/reanalysis/AUS-11/BOM/ERA5/historical/hres/BARRA-R2/v1/day/${TARGET_VAR}/v20240516
   OUTPUT_GRID_LABEL=AUS-11
   TARGET_DROP_VARS=--drop_vars sigma level_height model_level_number
 endif

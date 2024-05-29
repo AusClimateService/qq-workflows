@@ -18,7 +18,7 @@ for infile in "${infiles[@]}"; do
     outfile=`echo ${outfile} | sed s:hurs:${var}:g`
     outdir=`dirname ${outfile}`
   
-    python_command="${python} preprocess_hurs.py ${infile} ${var} ${outfile}"
+    python_command="${python} /g/data/xv83/quantile-mapping/qq-workflows/qdc-cmip6/preprocess_hurs.py ${infile} ${var} ${outfile}"
     if [[ "${flags}" == "-n" ]] ; then
         echo ${python_command}
     else
