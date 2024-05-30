@@ -212,8 +212,10 @@ else ifeq (${OBS_DATASET}, ERA5)
 else ifeq (${OBS_DATASET}, BARRA-R2)
   ifeq (${VAR}, hursmax)
     TARGET_BASEDIR=/g/data/ia39/australian-climate-service/test-data/observations
+    KEEP_TARGET_HISTORY=--keep_history
   else ifeq (${VAR}, hursmin)
     TARGET_BASEDIR=/g/data/ia39/australian-climate-service/test-data/observations
+    KEEP_TARGET_HISTORY=--keep_history
   else
     TARGET_BASEDIR=/g/data/ob53
   endif

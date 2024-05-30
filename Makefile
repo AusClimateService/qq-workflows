@@ -100,7 +100,7 @@ ${METADATA_PATH} :
 adjust : ${QQ_PATH}
 ${QQ_PATH} : ${AF_PATH} ${METADATA_PATH}
 	mkdir -p ${OUTPUT_QQ_DIR}
-	${PYTHON} ${QQ_CODE_DIR}/adjust.py ${TARGET_DATA} ${TARGET_VAR} $< $@ --adjustment_tbounds ${TARGET_START}-01-01 ${TARGET_END}-12-31 --input_units ${TARGET_UNITS} --output_units ${OUTPUT_UNITS} --spatial_grid ${OUTPUT_GRID} --interp ${INTERP} --verbose ${SSR} --outfile_attrs $(word 2,$^) --short_history ${OUTPUT_TIME_UNITS} ${OUTPUT_TSLICE} ${OUTFILE_ATTRIBUTES} ${REF_TIME} ${MAX_AF} ${VALID_MIN} ${VALID_MAX} ${COMPRESSION} ${TARGET_DROP_VARS}
+	${PYTHON} ${QQ_CODE_DIR}/adjust.py ${TARGET_DATA} ${TARGET_VAR} $< $@ --adjustment_tbounds ${TARGET_START}-01-01 ${TARGET_END}-12-31 --input_units ${TARGET_UNITS} --output_units ${OUTPUT_UNITS} --spatial_grid ${OUTPUT_GRID} --interp ${INTERP} --verbose ${SSR} --outfile_attrs $(word 2,$^) --short_history ${OUTPUT_TIME_UNITS} ${OUTPUT_TSLICE} ${OUTFILE_ATTRIBUTES} ${REF_TIME} ${MAX_AF} ${VALID_MIN} ${VALID_MAX} ${COMPRESSION} ${TARGET_DROP_VARS} ${KEEP_TARGET_HISTORY}
 
 ## clipmax: Clip the quantile scaled data to a given upper bound
 clipmax : ${QQCLIPPED_PATH}
