@@ -21,7 +21,7 @@ run_dict = {
 
 valid_vars = {
     'AGCD': ['tasmax', 'tasmin', 'pr'],
-    'BARRA-R2': ["tasmax", "tasmin", "pr", "rsds", "hurs", "sfcWind", "sfcWindmax"]
+    'BARRA-R2': ["tasmax", "tasmin", "pr", "rsds", "hurs", "hursmin", "hursmax", "sfcWind", "sfcWindmax"]
 }
 
 
@@ -118,7 +118,7 @@ if __name__ == '__main__':
         "--variables",
         type=str,
         nargs='*',
-        choices=("tasmax", "tasmin", "pr", "rsds", "hurs", "sfcWind", "sfcWindmax"),
+        choices=("tasmax", "tasmin", "pr", "rsds", "hurs", "hursmin", "hursmax", "sfcWind", "sfcWindmax"),
         required=True,
         help='variables to process [required]',
     )

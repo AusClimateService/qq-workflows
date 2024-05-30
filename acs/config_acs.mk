@@ -47,6 +47,7 @@ OUTPUT_START=${TARGET_START}
 OUTPUT_END=${TARGET_END}
 OUTPUT_TSLICE=--output_tslice ${OUTPUT_START}-01-01 ${OUTPUT_END}-12-31
 SPLIT_SCRIPT=/g/data/xv83/quantile-mapping/qq-workflows/acs/split-by-year.sh
+OUTPUT_TIME_UNITS=--output_time_units days_since_1950-01-01
 
 ## Variable options
 $(call check_defined, VAR)
