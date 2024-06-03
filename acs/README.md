@@ -44,7 +44,7 @@ This sliding window approach prevents strong trends in the data impacting the re
 e.g.
 
 ```
-qsub -v var=tasmax,obs=AGCD,rcm=BOM-BARPA-R,gcm=CSIRO-ACCESS-ESM1-5 bias_correct_timeseries-job.sh
+qsub -v var=tasmax,obs=AGCD,rcm=BOM-BARPA-R,gcm=CSIRO-ACCESS-ESM1-5,exp=ssp370 bias_correct_timeseries-job.sh
 ```
 
 #### Step 2: Split data into single years
@@ -59,7 +59,7 @@ bash split_by_year.sh /g/data/xv83/dbi599/australian-climate-service/test-data/C
 
 You can then delete the original files:
 ```
-bash bias_correct_timeseries.sh clean-up tasmax AGCA BOM-BARPA-R CSIRO-ACCESS-ESM1-5
+bash bias_correct_timeseries.sh clean-up tasmax AGCA BOM-BARPA-R CSIRO-ACCESS-ESM1-5 ssp370
 ```
 
 #### (Optional): Fix file metadata

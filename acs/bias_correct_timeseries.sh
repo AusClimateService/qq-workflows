@@ -10,6 +10,7 @@ function usage {
     echo "  obs:   obs dataset to process"
     echo "  rcm:   name of regional climate model"
     echo "  gcm:   name of global climate model"
+    echo "  exp:   experiment"
     echo "  [-Bn]: optional flags for make command"
     exit 1
 }
@@ -19,7 +20,8 @@ var=$2
 obs=$3
 rcm=$4
 gcm=$5
-flags=$6
+exp=$6
+flags=$7
 
 if [ "${rcm}" == "BARPA-R" ] ; then
   declare -a target_start=(1960 1970 1980 1990 2000 2010 2020 2030 2040 2050 2060 2070)
@@ -37,7 +39,7 @@ nsegments=${#target_start[@]}
 
 for (( i=0; i<${nsegments}; i++ ));
 do
-  command="make ${flags} ${task} -f /g/data/xv83/quantile-mapping/qq-workflows/Makefile CONFIG=config_acs.mk VAR=${var} OBS_DATASET=${obs} RCM_NAME=${rcm} GCM_NAME=${gcm} TARGET_START=${target_start[$i]} TARGET_END=${target_end[$i]} OUTPUT_START=${output_start[$i]} OUTPUT_END=${output_end[$i]}"
+  command="make ${flags} ${task} -f /g/data/xv83/quantile-mapping/qq-workflows/Makefile CONFIG=config_acs.mk VAR=${var} OBS_DATASET=${obs} RCM_NAME=${rcm} GCM_NAME=${gcm} TARGET_EXP=${exp} TARGET_START=${target_start[$i]} TARGET_END=${target_end[$i]} OUTPUT_START=${output_start[$i]} OUTPUT_END=${output_end[$i]}"
   echo ${command}
   ${command}
 done

@@ -15,6 +15,7 @@
 #               CESM2
 #               NorESM2-MM
 #             )
+# - TARGET_EXP (required; options: ssp126 ssp370 evaluation)
 # - TARGET_START (required; start year for target period)
 # - TARGET_END (required; end year for target period)
 # - OUTPUT_START (optional; start year for output data; default=TARGET_START)
@@ -34,7 +35,6 @@ __check_defined = \
       $(error Undefined $1$(if $2, ($2))))
 
 ## Method options
-METHOD=ecdfm
 NQUANTILES=100
 GROUPING=--time_grouping monthly
 INTERP=nearest
@@ -46,8 +46,8 @@ OUTPUT_GRID=input
 OUTPUT_START=${TARGET_START}
 OUTPUT_END=${TARGET_END}
 OUTPUT_TSLICE=--output_tslice ${OUTPUT_START}-01-01 ${OUTPUT_END}-12-31
-SPLIT_SCRIPT=/g/data/xv83/quantile-mapping/qq-workflows/acs/split-by-year.sh
 OUTPUT_TIME_UNITS=--output_time_units days_since_1950-01-01
+PROJECT_ID=acs
 
 ## Variable options
 $(call check_defined, VAR)
@@ -179,10 +179,8 @@ $(call check_defined, RCM_NAME)
 
 ifeq (${GCM_NAME}, ECMWF-ERA5)
   HIST_EXP=evaluation
-  TARGET_EXP=evaluation
 else
   HIST_EXP=historical
-  TARGET_EXP=ssp370
 endif
 
 ifeq (${GCM_NAME}, ACCESS-ESM1-5)
@@ -220,13 +218,13 @@ endif
 
 ifeq (${VAR}, vph09)
   HIST_DATA := /g/data/xv83/ab7412/vph09_${GCM_NAME}/vph09_${GCM_NAME}_historical_1951_2014.nc
-  TARGET_DATA := $(sort $(wildcard /g/data/xv83/ab7412/vph09_${GCM_NAME}/*.nc))
+  TARGET_DATA := /g/data/xv83/ab7412/vph09_${GCM_NAME}/vph09_${GCM_NAME}_${TARGET_EXP}_2015_2099.nc
 else ifeq (${VAR}, vph15)
   HIST_DATA := /g/data/xv83/ab7412/vph15_${GCM_NAME}/vph15_${GCM_NAME}_historical_1951_2014.nc
-  TARGET_DATA := $(sort $(wildcard /g/data/xv83/ab7412/vph15_${GCM_NAME}/*.nc))
+  TARGET_DATA := /g/data/xv83/ab7412/vph15_${GCM_NAME}/vph15_${GCM_NAME}_${TARGET_EXP}_2015_2099.nc
 else ifeq (${VAR}, windspeed)
-  HIST_DATA := /g/data/xv83/ab7412/windspeed_${GCM_NAME}/windspeed_${GCM_NAME}_historical_1951_2014.nc
-  TARGET_DATA := $(sort $(wildcard /g/data/xv83/ab7412/windspeed_${GCM_NAME}/*.nc))
+  HIST_DATA := /g/data/xv83/ab7412/sfcWind_${GCM_NAME}/sfcWind_${GCM_NAME}_historical_1951_2014.nc
+  TARGET_DATA := /g/data/xv83/ab7412/sfcWind_${GCM_NAME}/sfcWind_${GCM_NAME}_${TARGET_EXP}_2015_2099.nc
 else
   HIST_PATH=${CORDEX_PATH}/${RCM_GRID}/${RCM_INSTITUTION}/${GCM_NAME}/${HIST_EXP}/${GCM_RUN}/${RCM_NAME}/v1-r1/day/${HIST_VAR}
   HIST_DATA := $(sort $(wildcard ${HIST_PATH}/v*/*day_198[5,6,7,8,9]*.nc) $(wildcard ${HIST_PATH}/v*/*day_199*.nc) $(wildcard ${HIST_PATH}/v*/*day_2*.nc))  
@@ -252,7 +250,7 @@ else ifeq (${OBS_DATASET}, BARRA-R2)
     OUTPUT_GRID_LABEL=${RCM_GRID}
   endif
 else ifeq (${OBS_DATASET}, AGCA-AGCD)
-  REF_DATA=/g/data/xv83/ab7412/${REF_VAR}_AGCD_1985_2014.nc
+  REF_DATA=/g/data/xv83/ab7412/AGCD/${REF_VAR}_AGCD_1985_2014.nc
   ifeq (${OUTPUT_GRID}, af)
     OUTPUT_GRID_LABEL=AUS-05i
   else
@@ -265,8 +263,6 @@ $(call check_defined, OUTPUT_GRID_LABEL)
 $(call check_defined, RCM_INSTITUTION)
 $(call check_defined, GCM_NAME)
 $(call check_defined, GCM_RUN)
-$(call check_defined, HIST_EXP)
-$(call check_defined, TARGET_EXP)
 $(call check_defined, RCM_NAME)
 $(call check_defined, TARGET_VAR)
 $(call check_defined, HIST_START)
@@ -275,13 +271,11 @@ $(call check_defined, REF_START)
 $(call check_defined, REF_END)
 $(call check_defined, TARGET_START)
 $(call check_defined, TARGET_END)
-$(call check_defined, METHOD)
 $(call check_defined, SCALING)
 $(call check_defined, NQUANTILES)
 $(call check_defined, OBS_DATASET)
 
-OUTFILE_ATTRIBUTES=--outfile_attrs /g/data/xv83/quantile-mapping/qq-workflows/acs/outfile_attributes_${SCALING}_${OBS_DATASET}.yml
-BIAS_ADJUSTMENT=${RCM_VERSION}-${METHOD}-${OBS_DATASET}-${REF_START}-${REF_END}
+BIAS_ADJUSTMENT=${RCM_VERSION}-ecdfm-${OBS_DATASET}-${REF_START}-${REF_END}
 TRAINING_DATES=${HIST_START}0101-${HIST_END}1231
 ADJUSTMENT_DATES=${TARGET_START}0101-${TARGET_END}1231
 OUTPUT_DATES=${OUTPUT_START}0101-${OUTPUT_END}1231
@@ -289,14 +283,14 @@ OUTDIR=/g/data/xv83/dbi599/bennett-postdoc/test-data/CORDEX-CMIP6/bias-adjusted-
 # /g/data/xv83/dbi599/australian-climate-service
 
 OUTPUT_AF_DIR=${OUTDIR}
-AF_FILE=${TARGET_VAR}-${METHOD}-${SCALING}-monthly-q${NQUANTILES}-adjustment-factors_${OBS_DATASET}_${OUTPUT_GRID_LABEL}_${GCM_NAME}_${HIST_EXP}_${GCM_RUN}_${RCM_NAME}_${RCM_VERSION}_day_${TRAINING_DATES}.nc
+AF_FILE=${TARGET_VAR}-ecdfm-${SCALING}-monthly-q${NQUANTILES}-adjustment-factors_${OBS_DATASET}_${OUTPUT_GRID_LABEL}_${GCM_NAME}_${HIST_EXP}_${GCM_RUN}_${RCM_NAME}_${RCM_VERSION}_day_${TRAINING_DATES}.nc
 AF_PATH=${OUTPUT_AF_DIR}/${AF_FILE}
 
 OUTPUT_QQ_DIR=${OUTDIR}
 QQ_BASE=${TARGET_VAR}Adjust_${OUTPUT_GRID_LABEL}_${GCM_NAME}_${TARGET_EXP}_${GCM_RUN}_${RCM_NAME}_${BIAS_ADJUSTMENT}_day_${OUTPUT_DATES}
 QQ_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.nc
-#METADATA_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.yaml
-METADATA_PATH=/g/data/xv83/quantile-mapping/qq-workflows/acs/outfile_attributes_additive_AGCA-AGCD.yml
+METADATA_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.yaml
+METADATA_OPTIONS=${OBS_DATASET} ${TARGET_EXP} ${SCALING} ${HIST_START}-${HIST_END}
 
 OUTPUT_VALIDATION_DIR=${OUTDIR}
 VALIDATION_NOTEBOOK=${OUTPUT_VALIDATION_DIR}/${QQ_BASE}.ipynb

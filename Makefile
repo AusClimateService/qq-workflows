@@ -1,16 +1,15 @@
 # Workflow for QDM, EDCDFm or EQCDFm
 #
 #   CONFIG file needs the following variables defined:
-#   - Methods details: METHOD, SCALING, GROUPING, NQUANTILES, INTERP, SSR, OUTPUT_GRID
-#   - Paths for files that will be created: AF_PATH, QQ_PATH, VALIDATION_NOTEBOOK, FINAL_QQ_PATH 
+#   - Methods details: SCALING, GROUPING, NQUANTILES, INTERP, SSR, OUTPUT_GRID
+#   - Paths for files that will be created: AF_PATH, METADATA_PATH, QQ_PATH, VALIDATION_NOTEBOOK, FINAL_QQ_PATH 
 #   - Directories that need to be created for those files: OUTPUT_AF_DIR, OUTPUT_QQ_DIR, OUTPUT_VALIDATION_DIR
 #   - Variables: HIST_VAR, REF_VAR, TARGET_VAR
 #   - Input data: HIST_DATA, REF_DATA, TARGET_DATA
-#   - Time bounds: HIST_START, HIST_END, REF_START, REF_END, TARGET_START, TARGET_END, REF_TIME, HIST_TBOUNDS, REF_TBOUNDS, TARGET_TBOUNDS
+#   - Time bounds: HIST_START, HIST_END, REF_START, REF_END, TARGET_START, TARGET_END, REF_TIME
 #   - Units: HIST_UNITS, REF_UNITS, TARGET_UNITS, OUTPUT_UNITS
-#   - Model details: MODEL, RUN, EXPERIMENT
 #   - Obs details: OBS_DATASET
-#   - Output metadata: METADATA_PATH
+#   - Metadata options: METADATA_OPTIONS
 #
 
 .PHONY: help clean-up
@@ -22,6 +21,8 @@ PAPERMILL=/g/data/xv83/quantile-mapping/miniconda3/envs/qq-workflows/bin/papermi
 QQ_CODE_DIR=/g/data/xv83/quantile-mapping/qqscale
 WORKFLOW_CODE_DIR=/g/data/xv83/quantile-mapping/qq-workflows
 TEMPLATE_NOTEBOOK=${WORKFLOW_CODE_DIR}/validation.ipynb
+METADATA_SCRIPT=${WORKFLOW_CODE_DIR}/${PROJECT_ID}/metadata.py
+SPLIT_SCRIPT=${WORKFLOW_CODE_DIR}/${PROJECT_ID}/split-by-year.sh
 
 
 check_defined = \
@@ -44,6 +45,7 @@ $(call check_defined, OUTPUT_GRID)
 #Optional: GROUPING, SSR
 
 $(call check_defined, AF_PATH)
+$(call check_defined, METADATA_PATH)
 $(call check_defined, QQ_PATH)
 $(call check_defined, VALIDATION_NOTEBOOK)
 $(call check_defined, FINAL_QQ_PATH)
@@ -73,15 +75,10 @@ $(call check_defined, REF_UNITS)
 $(call check_defined, TARGET_UNITS)
 $(call check_defined, OUTPUT_UNITS)
 
-$(call check_defined, METHOD)
 $(call check_defined, METADATA_PATH)
 $(call check_defined, OBS_DATASET)
-$(call check_defined, MODEL)
-$(call check_defined, EXPERIMENT)
-$(call check_defined, RUN)
-$(call check_defined, HIST_TBOUNDS)
-$(call check_defined, REF_TBOUNDS)
-$(call check_defined, TARGET_TBOUNDS)
+
+$(call check_defined, METADATA_OPTIONS)
 
 
 ## train: Calculate the QQ-scale adjustment factors
@@ -94,7 +91,7 @@ ${AF_PATH} :
 metadata : ${METADATA_PATH}
 ${METADATA_PATH} :
 	mkdir -p ${OUTPUT_AF_DIR}
-	${PYTHON} ${WORKFLOW_CODE_DIR}/metadata.py ${METHOD} $@ --variable ${TARGET_VAR} --units ${OUTPUT_UNITS} --obs ${OBS_DATASET} --model_name ${MODEL} --model_experiment ${EXPERIMENT} --model_run ${RUN} --hist_tbounds ${HIST_TBOUNDS} --ref_tbounds ${REF_TBOUNDS} --target_tbounds ${TARGET_TBOUNDS}
+	${PYTHON} ${METADATA_SCRIPT} $@ ${METADATA_OPTIONS}
 
 ## adjust: Apply adjustment factors to the target data
 adjust : ${QQ_PATH}

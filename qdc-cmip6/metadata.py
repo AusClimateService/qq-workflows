@@ -135,19 +135,6 @@ def main(args):
     ref_tbounds_long, ref_tbounds_short = parse_tbounds(args.ref_tbounds)
     target_tbounds_long, target_tbounds_short = parse_tbounds(args.target_tbounds) 
 
-    method_details = {}
-    method_details['qdc'] = {
-        'title': 'QDC-Scaled CMIP6 Application-Ready Climate Projections',
-        'summary': f'The data have been created by applying climate changes simulated between {hist_tbounds_long} and {ref_tbounds_long} by the {args.model_name} CMIP6 global climate model to {args.obs} data for {target_tbounds_long} using the Quantile Delta Change (QDC) scaling method.',
-        'info': 'More information on the Quantile Delta Change (QDC) scaling method can be found at https://github.com/AusClimateService/qqscale/blob/master/docs/method_qdc.md.',
-        'projection_method': 'Quantile Delta Change',
-        'projection_method_id': 'QDC',
-        'projection_baseline': target_tbounds_short,
-        'projection_period': ref_tbounds_short,
-    }
-    
-    output_dict = {}
-
     # Variables to rename
     if not args.variable in var_attrs:
         variable = var_name_corrections[args.variable]
@@ -157,10 +144,11 @@ def main(args):
     assert variable in var_attrs
 
     # Global attributes to create/overwrite
+    output_dict = {}
     output_dict['global_overwrite'] = {
-        'title': method_details[args.method]['title'],
+        'title': 'QDC-Scaled CMIP6 Application-Ready Climate Projections',
         'Conventions': 'CF-1.8, ACDD-1.3',
-        'summary': method_details[args.method]['summary'],
+        'summary': f'The data have been created by applying climate changes simulated between {hist_tbounds_long} and {ref_tbounds_long} by the {args.model_name} CMIP6 global climate model to {args.obs} data for {target_tbounds_long} using the Quantile Delta Change (QDC) scaling method.',
         'keywords': 'GCMD:Locations>Continent>Australia/New Zealand>Australia, GCMD:Earth Science Services>Models>Coupled Climate Models, GCMD:Earth Science>Atmosphere',
         'keywords_vocabulary': 'GCMD:GCMD Keywords, Version 17.9',
         'keywords_reference': 'Global Change Master Directory (GCMD). 2023. GCMD Keywords, Version 17.9, Greenbelt, MD: Earth Science Data and Information System, Earth Science Projects Division, Goddard Space Flight Center, NASA. URL (GCMD Keyword Forum Page): https://forum.earthdata.nasa.gov/app.php/tag/GCMD+Keywords',
@@ -168,11 +156,11 @@ def main(args):
         'time_coverage_resolution': 'PT1440M0S',
         'processing_level': 'Level 1a: Post-processing of output Level 0 scaled data with robust metadata and data reference syntax applied, but no quality assurance and quality control undertaken.',
         'source': 'Data from ' + obs_datasets[args.obs]['name'] + f' and the {model_datasets[args.model_name]}',
-        'comment': method_details[args.method]['info'],
-        'projection_method': method_details[args.method]['projection_method'],
-        'projection_method_id': method_details[args.method]['projection_method_id'],
-        'projection_baseline': method_details[args.method]['projection_baseline'],
-        'projection_period': method_details[args.method]['projection_period'],
+        'comment': 'More information on the Quantile Delta Change (QDC) scaling method can be found at https://github.com/AusClimateService/qqscale/blob/master/docs/method_qdc.md.',
+        'projection_method': 'Quantile Delta Change',
+        'projection_method_id': 'QDC',
+        'projection_baseline': target_tbounds_short,
+        'projection_period': ref_tbounds_short,
         'contact': 'damien.irving@csiro.au',
         'institution': 'Commonwealth Scientific and Industrial Research Organisation',
         'institute_id': 'CSIRO',
@@ -195,8 +183,7 @@ def main(args):
     }
     
     # Global attributes to keep
-    if args.method == 'qdc':
-        output_dict['global_keep'] = ['geospatial_lat_min', 'geospatial_lat_max', 'geospatial_lon_min', 'geospatial_lon_max']
+    output_dict['global_keep'] = ['geospatial_lat_min', 'geospatial_lat_max', 'geospatial_lon_min', 'geospatial_lon_max']
 
     # Variable attributes to create or overwrite
     output_dict['var_overwrite'] = {}
@@ -223,12 +210,6 @@ if __name__ == '__main__':
         description=__doc__,
         argument_default=argparse.SUPPRESS,
         formatter_class=argparse.RawDescriptionHelpFormatter
-    )    
-    parser.add_argument(
-        "method",
-        type=str,
-        choices=('qdc', 'ecdfm'),
-        help="Quantile method"
     )
     parser.add_argument(
         "outfile",

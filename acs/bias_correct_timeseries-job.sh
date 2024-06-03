@@ -5,8 +5,8 @@
 #PBS -l mem=350GB
 #PBS -l storage=gdata/xv83+gdata/ia39+gdata/ob53+gdata/hq89
 #PBS -l wd
-#PBS -v var,obs,rcm,gcm
+#PBS -v var,obs,rcm,gcm,exp
 
-command="bash bias_correct_timeseries.sh adjust ${var} ${obs} ${rcm} ${gcm}"
+command="bash bias_correct_timeseries.sh adjust ${var} ${obs} ${rcm} ${gcm} ${exp}"
 echo ${command}
 ${command}

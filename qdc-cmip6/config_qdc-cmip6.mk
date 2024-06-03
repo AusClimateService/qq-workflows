@@ -1,7 +1,6 @@
 # Quantile Delta Change configuration
 #
 # The required user defined variables are:
-# - METHOD (options: qdm ecdfm)
 # - VAR (options: tasmin tasmax pr rsds hurs hursmin hursmax sfcWind)
 # - OBS_DATASET (options: AGCD BARRA-R2)
 # - MODEL (options: ACCESS-CM2 ACCESS-ESM1-5 CMCC-ESM2 CESM2 EC-Earth3 NorESM2-MM UKESM1-0-LL)
@@ -31,12 +30,11 @@ __check_defined = \
       $(error Undefined $1$(if $2, ($2))))
 
 ## Method options
-METHOD=qdc
 INTERP=linear
 OUTPUT_GRID=input
 REF_TIME=--ref_time
 OUTPUT_TIME_UNITS=--output_time_units days_since_1850-01-01
-SPLIT_SCRIPT=/g/data/xv83/quantile-mapping/qq-workflows/qdc-cmip6/split-by-year.sh
+PROJECT_ID=qdc-cmip6
 
 ## Variable options
 $(call check_defined, VAR)
@@ -263,6 +261,7 @@ OUTPUT_QQ_DIR=${OUTPUT_AF_DIR}
 QQ_BASE=${REF_VAR}_day_${MODEL}_${EXPERIMENT}_${RUN}_${OUTPUT_GRID_LABEL}_${REF_TBOUNDS}_${METHOD_DESCRIPTION}-${INTERP}_${OBS_DATASET}-baseline-${TARGET_TBOUNDS}_model-baseline-${HIST_TBOUNDS}
 QQ_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.nc
 METADATA_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.yaml
+METADATA_OPTIONS=--variable ${TARGET_VAR} --units ${OUTPUT_UNITS} --obs ${OBS_DATASET} --model_name ${MODEL} --model_experiment ${EXPERIMENT} --model_run ${RUN} --hist_tbounds ${HIST_TBOUNDS} --ref_tbounds ${REF_TBOUNDS} --target_tbounds ${TARGET_TBOUNDS}
 
 OUTPUT_VALIDATION_DIR=${OUTPUT_QQ_DIR}
 VALIDATION_NOTEBOOK=${OUTPUT_VALIDATION_DIR}/${QQ_BASE}.ipynb
