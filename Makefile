@@ -90,7 +90,7 @@ ${AF_PATH} :
 ## metadata: Define the output file metadata
 metadata : ${METADATA_PATH}
 ${METADATA_PATH} :
-	mkdir -p ${OUTPUT_AF_DIR}
+	mkdir -p ${OUTPUT_QQ_DIR}
 	${PYTHON} ${METADATA_SCRIPT} $@ ${METADATA_OPTIONS}
 
 ## adjust: Apply adjustment factors to the target data
