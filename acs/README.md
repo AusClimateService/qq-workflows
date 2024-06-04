@@ -1,35 +1,7 @@
 # ACS bias correction
 
 This directory contains configuration files and information about preliminary bias corrected CORDEX data
-that has been produced for the Australian Climate Service.
-
-## Data availability
-
-Bias corrected tasmin and tasmax data using the [equidistant CDF matching](https://github.com/DamienIrving/qqscale/blob/master/docs/method_ecdfm.md) (ECDFm) method
-is available for the following GCM/RCM combinations.
-
-|  | BOM-BARPA-R | CSIRO-CCAM-2203 | 
-| ---  | :-:     | :-:             |
-| CMCC-CMCC-ESM2 | :green_circle: | :green_circle: |
-| CNRM-CERFACS-CNRM-ESM2-1 | | :green_circle: |
-| CSIRO-ACCESS-ESM1-5 | :green_circle: | :green_circle: | 
-| CSIRO-ACCESS-CM2 | :green_circle: | :white_circle: | 
-| EC-Earth-Consortium-EC-Earth3 | :green_circle: | :white_circle: |
-| MPI-M-MPI-ESM1-2-HR | :white_circle: | |
-| NCAR-CESM2 | :green_circle: | :white_circle: | 
-| NCC-NorESM2-MM | :green_circle: | :white_circle: | 
-
-:green_circle: = data is available  
-:white_circle: = modelling groups haven't provided the final CORDEX-compliant data yet
-
-The bias correction method was trained on the 1985-2014 period and a bias corrected timeseries
-for the 1960-2100 period has been produced (for the historical/ssp370 experiment).
-
-The data is available at `/g/data/ia39/australian-climate-service/test-data/CORDEX-CMIP6/bias-adjusted-output` on NCI.
-The full path to a data file looks something like:
-```
-/g/data/ia39/australian-climate-service/test-data/CORDEX-CMIP6/bias-adjusted-output/AUS-05i/BOM/CMCC-CMCC-ESM2/ssp370/r1i1p1f1/BOM-BARPA-R/v1-ecdfm-AGCD-1985-2014/day/tasmaxAdjust/tasmaxAdjust_AUS-05i_CMCC-CMCC-ESM2_ssp370_r1i1p1f1_BOM-BARPA-R_v1-ecdfm-AGCD-1985-2014_day_20960101-20961231.nc
-```
+that has been produced using the [equidistant CDF matching](https://github.com/AusClimateService/qqscale/blob/master/docs/method_ecdfm.md) (ECDFm) method.
 
 ## Data processing
 
