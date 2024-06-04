@@ -85,7 +85,7 @@ $(call check_defined, METADATA_OPTIONS)
 train : ${AF_PATH}
 ${AF_PATH} :
 	mkdir -p ${OUTPUT_AF_DIR}
-	${PYTHON} ${QQ_CODE_DIR}/train.py ${HIST_VAR} ${REF_VAR} $@ --hist_files ${HIST_DATA} --ref_files ${REF_DATA} --hist_time_bounds ${HIST_START}-01-01 ${HIST_END}-12-31 --ref_time_bounds ${REF_START}-01-01 ${REF_END}-12-31 --scaling ${SCALING} --nquantiles ${NQUANTILES} ${GROUPING} --input_hist_units ${HIST_UNITS} --input_ref_units ${REF_UNITS} --output_units ${OUTPUT_UNITS} --verbose --short_history ${SSR} ${VALID_MIN} ${VALID_MAX} ${COMPRESSION} ${HIST_DROP_VARS} ${REF_DROP_VARS}
+	${PYTHON} ${QQ_CODE_DIR}/train.py ${HIST_VAR} ${REF_VAR} $@ --hist_files ${HIST_DATA} --ref_files ${REF_DATA} --hist_time_bounds ${HIST_START} ${HIST_END} --ref_time_bounds ${REF_START} ${REF_END} --scaling ${SCALING} --nquantiles ${NQUANTILES} ${GROUPING} --input_hist_units ${HIST_UNITS} --input_ref_units ${REF_UNITS} --output_units ${OUTPUT_UNITS} --verbose --short_history ${SSR} ${VALID_MIN} ${VALID_MAX} ${COMPRESSION} ${HIST_DROP_VARS} ${REF_DROP_VARS}
 
 ## metadata: Define the output file metadata
 metadata : ${METADATA_PATH}
@@ -97,18 +97,18 @@ ${METADATA_PATH} :
 adjust : ${QQ_PATH}
 ${QQ_PATH} : ${AF_PATH} ${METADATA_PATH}
 	mkdir -p ${OUTPUT_QQ_DIR}
-	${PYTHON} ${QQ_CODE_DIR}/adjust.py ${TARGET_DATA} ${TARGET_VAR} $< $@ --adjustment_tbounds ${TARGET_START}-01-01 ${TARGET_END}-12-31 --input_units ${TARGET_UNITS} --output_units ${OUTPUT_UNITS} --spatial_grid ${OUTPUT_GRID} --interp ${INTERP} --verbose ${SSR} --outfile_attrs $(word 2,$^) --short_history ${OUTPUT_TIME_UNITS} ${OUTPUT_TSLICE} ${OUTFILE_ATTRIBUTES} ${REF_TIME} ${MAX_AF} ${VALID_MIN} ${VALID_MAX} ${COMPRESSION} ${TARGET_DROP_VARS} ${KEEP_TARGET_HISTORY}
+	${PYTHON} ${QQ_CODE_DIR}/adjust.py ${TARGET_DATA} ${TARGET_VAR} $< $@ --adjustment_tbounds ${TARGET_START} ${TARGET_END} --input_units ${TARGET_UNITS} --output_units ${OUTPUT_UNITS} --spatial_grid ${OUTPUT_GRID} --interp ${INTERP} --verbose ${SSR} --outfile_attrs $(word 2,$^) --short_history ${OUTPUT_TIME_UNITS} ${OUTPUT_TSLICE} ${OUTFILE_ATTRIBUTES} ${REF_TIME} ${MAX_AF} ${VALID_MIN} ${VALID_MAX} ${COMPRESSION} ${TARGET_DROP_VARS} ${KEEP_TARGET_HISTORY}
 
 ## clipmax: Clip the quantile scaled data to a given upper bound
 clipmax : ${QQCLIPPED_PATH}
 ${QQCLIPPED_PATH} : ${QQ_PATH}
-	${PYTHON} ${QQ_CODE_DIR}/clipmax.py $< ${TARGET_VAR} $@ --maxfiles ${MAX_DATA} --maxvar ${MAX_VAR} --maxtbounds ${TARGET_START}-01-01 ${TARGET_END}-12-31 --short_history ${COMPRESSION}
+	${PYTHON} ${QQ_CODE_DIR}/clipmax.py $< ${TARGET_VAR} $@ --maxfiles ${MAX_DATA} --maxvar ${MAX_VAR} --maxtbounds ${TARGET_START} ${TARGET_END} --short_history ${COMPRESSION}
 
 ## validation : Create validation notebook
 validation : ${VALIDATION_NOTEBOOK}
 ${VALIDATION_NOTEBOOK} : ${TEMPLATE_NOTEBOOK} ${AF_PATH} ${QQ_PATH} ${QQCLIPPED_PATH}
 	mkdir -p ${OUTPUT_VALIDATION_DIR}
-	${PAPERMILL} -p adjustment_file $(word 2,$^) -p qq_file $(word 3,$^) -r hist_files "${HIST_DATA}" -r ref_files "${REF_DATA}" -r target_files "${TARGET_DATA}" -r hist_time_bounds "${HIST_START}-01-01 ${HIST_END}-12-31" -r ref_time_bounds "${REF_START}-01-01 ${REF_END}-12-31" -r target_time_bounds "${TARGET_START}-01-01 ${TARGET_END}-12-31" -p hist_units ${HIST_UNITS} -p ref_units ${REF_UNITS} -p target_units ${TARGET_UNITS} -p output_units ${OUTPUT_UNITS} -p hist_var ${HIST_VAR} -p ref_var ${REF_VAR} -p target_var ${TARGET_VAR} -p scaling ${SCALING} -p nquantiles ${NQUANTILES} ${CLIP_VALIDATION} $< $@
+	${PAPERMILL} -p adjustment_file $(word 2,$^) -p qq_file $(word 3,$^) -r hist_files "${HIST_DATA}" -r ref_files "${REF_DATA}" -r target_files "${TARGET_DATA}" -r hist_time_bounds "${HIST_START} ${HIST_END}" -r ref_time_bounds "${REF_START} ${REF_END}" -r target_time_bounds "${TARGET_START} ${TARGET_END}" -p hist_units ${HIST_UNITS} -p ref_units ${REF_UNITS} -p target_units ${TARGET_UNITS} -p output_units ${OUTPUT_UNITS} -p hist_var ${HIST_VAR} -p ref_var ${REF_VAR} -p target_var ${TARGET_VAR} -p scaling ${SCALING} -p nquantiles ${NQUANTILES} ${CLIP_VALIDATION} $< $@
 
 ## split-by-year: Create (and compress) an individual file for each year
 split-by-year : ${FINAL_QQ_PATH}

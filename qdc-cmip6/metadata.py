@@ -98,31 +98,23 @@ var_attrs['sfcWindmax'] = {
 def parse_tbounds(tbounds):
     """Parse tbounds arguments.
     
-    e.g. gwl20-20400101-20591231 or 20600101-20891231
+    e.g. gwl20-2040-2059 or 2060-2089
     """
     
     components = tbounds.split('-')
     if len(components) == 3:
-        gwl, start_date, end_date = components
+        gwl, start_year, end_year = components
     else:
-        start_date, end_date = components
+        start_year, end_year = components
         gwl = None
-    start_year = start_date[0:4]
-    start_month = start_date[4:6]
-    start_day = start_date[6:8]
-    start_string = f'{start_year}-{start_month}-{start_day}'
-    end_year = end_date[0:4]
-    end_month = end_date[4:6]
-    end_day = end_date[6:8]
-    end_string = f'{end_year}-{end_month}-{end_day}'
     
     if gwl:
         assert gwl[0:3] == 'gwl'
         assert len(gwl) == 5
-        tbound_long = f'Global Warming Level {gwl[3]}.{gwl[4]}degC ({start_string} to {end_string})'
+        tbound_long = f'Global Warming Level {gwl[3]}.{gwl[4]}degC ({start_year}-{end_year})'
         tbound_short = f'GWL {gwl[3]}.{gwl[4]}'
     else:
-        tbound_long = f'{start_string} to {end_string}'
+        tbound_long = f'{start_year}-{end_year}'
         tbound_short = f'{start_year}-{end_year}'
         
     return tbound_long, tbound_short
@@ -258,19 +250,19 @@ if __name__ == '__main__':
         "--hist_tbounds",
         type=str,
         required=True,
-        help="Time bounds for historical model data (e.g. gwl10-20010101-20201231 or 19850101-20141231)"
+        help="Time bounds for historical model data (e.g. gwl10-2001-2020 or 1985-2014)"
     )
     parser.add_argument(
         "--ref_tbounds",
         type=str,
         required=True,
-        help="Time bounds for reference data (e.g. gwl20-20400101-20591231 or 20600101-20891231)"
+        help="Time bounds for reference data (e.g. gwl20-2040-2059 or 2060-2089)"
     )
     parser.add_argument(
         "--target_tbounds",
         type=str,
         required=True,
-        help="Time bounds for target data (e.g. gwl10-20010101-20201231 or 19850101-20141231)"
+        help="Time bounds for target data (e.g. gwl10-2001-2020 or 1985-2014)"
     )
     args = parser.parse_args()
     main(args)
