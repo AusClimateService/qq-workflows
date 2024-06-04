@@ -127,6 +127,8 @@ def main(args):
     ref_tbounds_long, ref_tbounds_short = parse_tbounds(args.ref_tbounds)
     target_tbounds_long, target_tbounds_short = parse_tbounds(args.target_tbounds) 
 
+    output_dict = {}
+
     # Variables to rename
     if not args.variable in var_attrs:
         variable = var_name_corrections[args.variable]
@@ -136,7 +138,6 @@ def main(args):
     assert variable in var_attrs
 
     # Global attributes to create/overwrite
-    output_dict = {}
     output_dict['global_overwrite'] = {
         'title': 'QDC-Scaled CMIP6 Application-Ready Climate Projections',
         'Conventions': 'CF-1.8, ACDD-1.3',
