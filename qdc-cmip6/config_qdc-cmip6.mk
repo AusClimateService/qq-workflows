@@ -271,7 +271,7 @@ ifeq (${VAR}, rsds)
     MAX_DIR=/g/data/wp00/data/observations/ERA5/ssrdc/daily
     MAX_VAR=ssrdc
   else ifeq (${OBS_DATASET}, BARRA-R2)
-    MAX_DIR=/g/data/ob53/BARRA2/output/reanalysis/AUS-11/BOM/ERA5/historical/hres/BARRA-R2/v1/day/rsdscs/v20231001
+    MAX_DIR=/g/data/ob53/BARRA2/output/reanalysis/AUS-11/BOM/ERA5/historical/hres/BARRA-R2/v1/day/rsdscs/v20240516
     MAX_VAR=rsdscs
   endif
   $(call check_defined, MAX_DIR)
