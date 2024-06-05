@@ -15,15 +15,24 @@ run_dict = {
     'CMCC-ESM2': 'r1i1p1f1',
     'CNRM-ESM2-1': 'r1i1p1f2',
     'EC-Earth3': 'r1i1p1f1',
+    'MPI-ESM1-2-HR': 'r1i1p1f1',
     'NorESM2-MM': 'r1i1p1f1',
     'UKESM1-0-LL': 'r1i1p1f2',
 }
 
 valid_vars = {
     'AGCD': ['tasmax', 'tasmin', 'pr'],
-    'BARRA-R2': ["tasmax", "tasmin", "pr", "rsds", "hurs", "hursmin", "hursmax", "sfcWind", "sfcWindmax"]
+    'BARRA-R2': ['tasmax', 'tasmin', 'pr', 'rsds', 'hurs', 'hursmin', 'hursmax', 'sfcWind', 'sfcWindmax'],
+    'ACCESS-CM2': ['tasmax', 'tasmin', 'pr', 'rsds', 'hurs', 'hursmin', 'hursmax', 'sfcWind', 'sfcWindmax'],
+    'ACCESS-ESM1-5': ['tasmax', 'tasmin', 'pr', 'rsds', 'hurs', 'hursmin', 'hursmax', 'sfcWind', 'sfcWindmax'],
+    'CESM2': ['pr', 'rsds', 'hurs', 'sfcWind'],
+    'CMCC-ESM2': ['tasmax', 'tasmin', 'pr', 'rsds', 'hurs', 'hursmin', 'hursmax', 'sfcWind', 'sfcWindmax'],
+    'CNRM-ESM2-1': ['tasmax', 'tasmin', 'pr', 'rsds', 'hurs', 'hursmin', 'hursmax', 'sfcWindmax'],
+    'EC-Earth': ['tasmax', 'tasmin', 'pr', 'rsds', 'hurs', 'hursmin', 'hursmax', 'sfcWind', 'sfcWindmax'],
+    'MPI-ESM1-2-HR': ['tasmax', 'tasmin', 'pr', 'rsds', 'hurs', 'sfcWind', 'sfcWindmax'],
+    'NorESM2-MM': ['tasmax', 'tasmin', 'pr', 'rsds', 'hurs', 'sfcWind'],
+    'UKESM1-0-LL': ['tasmax', 'tasmin', 'pr', 'rsds', 'hurs', 'sfcWind', 'sfcWindmax'],
 }
-
 
 def get_target_tbounds(product):
     """Get the time bounds to be applied to observations"""
@@ -68,6 +77,8 @@ def main(args, product):
             if var not in valid_vars[obs]:
                 continue
             for model in args.models:
+                if var not in valid_vars[model]:
+                    continue
                 run = run_dict[model]
                 for exp in args.experiments:
                     hist_start, hist_end, ref_start, ref_end = get_model_tbounds(product, model, run, exp, args.output)
@@ -126,7 +137,7 @@ if __name__ == '__main__':
         "--models",
         type=str,
         nargs='*',
-        choices=("ACCESS-CM2", "ACCESS-ESM1-5", "CMCC-ESM2", "CESM2", "EC-Earth3", "NorESM2-MM", "UKESM1-0-LL"),
+        choices=("ACCESS-CM2", "ACCESS-ESM1-5", "CMCC-ESM2", "CESM2", "EC-Earth3", "MPI-ESM1-2-HR", "NorESM2-MM", "UKESM1-0-LL"),
         required=True,
         help='models to process [required]',
     )
