@@ -28,7 +28,7 @@ valid_vars = {
     'CESM2': ['pr', 'rsds', 'hurs', 'sfcWind'],
     'CMCC-ESM2': ['tasmax', 'tasmin', 'pr', 'rsds', 'hurs', 'hursmin', 'hursmax', 'sfcWind', 'sfcWindmax'],
     'CNRM-ESM2-1': ['tasmax', 'tasmin', 'pr', 'rsds', 'hurs', 'hursmin', 'hursmax', 'sfcWindmax'],
-    'EC-Earth': ['tasmax', 'tasmin', 'pr', 'rsds', 'hurs', 'hursmin', 'hursmax', 'sfcWind', 'sfcWindmax'],
+    'EC-Earth3': ['tasmax', 'tasmin', 'pr', 'rsds', 'hurs', 'hursmin', 'hursmax', 'sfcWind', 'sfcWindmax'],
     'MPI-ESM1-2-HR': ['tasmax', 'tasmin', 'pr', 'rsds', 'hurs', 'sfcWind', 'sfcWindmax'],
     'NorESM2-MM': ['tasmax', 'tasmin', 'pr', 'rsds', 'hurs', 'sfcWind'],
     'UKESM1-0-LL': ['tasmax', 'tasmin', 'pr', 'rsds', 'hurs', 'sfcWind', 'sfcWindmax'],
@@ -137,7 +137,7 @@ if __name__ == '__main__':
         "--models",
         type=str,
         nargs='*',
-        choices=("ACCESS-CM2", "ACCESS-ESM1-5", "CMCC-ESM2", "CESM2", "EC-Earth3", "MPI-ESM1-2-HR", "NorESM2-MM", "UKESM1-0-LL"),
+        choices=("ACCESS-CM2", "ACCESS-ESM1-5", "CESM2", "CMCC-ESM2", "CNRM-ESM2-1", "EC-Earth3", "MPI-ESM1-2-HR", "NorESM2-MM", "UKESM1-0-LL"),
         required=True,
         help='models to process [required]',
     )

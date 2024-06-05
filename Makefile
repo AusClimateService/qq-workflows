@@ -22,7 +22,7 @@ QQ_CODE_DIR=/g/data/xv83/quantile-mapping/qqscale
 WORKFLOW_CODE_DIR=/g/data/xv83/quantile-mapping/qq-workflows
 TEMPLATE_NOTEBOOK=${WORKFLOW_CODE_DIR}/validation.ipynb
 METADATA_SCRIPT=${WORKFLOW_CODE_DIR}/${PROJECT_ID}/metadata.py
-SPLIT_SCRIPT=${WORKFLOW_CODE_DIR}/${PROJECT_ID}/split-by-year.sh
+SPLIT_JOB=${WORKFLOW_CODE_DIR}/${PROJECT_ID}/split-by-year-job.sh
 
 
 check_defined = \
@@ -112,7 +112,7 @@ ${VALIDATION_NOTEBOOK} : ${TEMPLATE_NOTEBOOK} ${AF_PATH} ${QQ_PATH} ${QQCLIPPED_
 
 ## split-by-year: Create (and compress) an individual file for each year
 split-by-year : ${FINAL_QQ_PATH}
-	bash ${SPLIT_SCRIPT} $<
+	qsub -v infile=$< ${SPLIT_JOB}
 
 ## clean up: remove unneeded files once the split into years process is done
 clean-up : 
