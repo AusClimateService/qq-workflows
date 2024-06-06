@@ -98,10 +98,10 @@ A second dot refers to AGCD.
 | NorESM2-MM | r1i1p1f1 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | |
 | NorESM2-MM | r1i1p1f1 | ssp370 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | |
 | NorESM2-MM | r1i1p1f1 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | |
-| UKESM1-0-LL | r1i1p1f2 | ssp126 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | :white_circle: |
-| UKESM1-0-LL | r1i1p1f2 | ssp245 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | :white_circle: |
-| UKESM1-0-LL | r1i1p1f2 | ssp370 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | :white_circle: |
-| UKESM1-0-LL | r1i1p1f2 | ssp585 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | :white_circle: |
+| UKESM1-0-LL | r1i1p1f2 | ssp126 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :white_circle: | :yellow_circle: | :yellow_circle: |
+| UKESM1-0-LL | r1i1p1f2 | ssp245 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :white_circle: | :yellow_circle: | :yellow_circle: |
+| UKESM1-0-LL | r1i1p1f2 | ssp370 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :white_circle: | :yellow_circle: | :yellow_circle: |
+| UKESM1-0-LL | r1i1p1f2 | ssp585 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :white_circle: | :yellow_circle: | :yellow_circle: |
 | Size (TB) | | | 2.1 | 2.1 | 3.5 | 1.7 | 1.1 | 1.1 | 1.8 | 1.4 | 1.2 |
 
 Estimated total size of time slice dataset = 15.9 TB

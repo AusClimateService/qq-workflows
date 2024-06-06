@@ -7,22 +7,24 @@ from datetime import datetime
 
 cmip_doi = {
     'ACCESS-CM2': 'https://doi.org/10.22033/ESGF/CMIP6.2281',
-    'ACCESS-ESM1.5': 'https://doi.org/10.22033/ESGF/CMIP6.2288',
+    'ACCESS-ESM1-5': 'https://doi.org/10.22033/ESGF/CMIP6.2288',
     'CESM2': 'https://doi.org/10.22033/ESGF/CMIP6.2185',
     'CMCC-ESM2': 'https://doi.org/10.22033/ESGF/CMIP6.13164',
     'CNRM-ESM2-1': 'https://doi.org/10.22033/ESGF/CMIP6.1391',
     'EC-Earth3': 'https://doi.org/10.22033/ESGF/CMIP6.181',
+    'MPI-ESM1-2-HR': 'https://doi.org/10.22033/ESGF/CMIP6.741',
     'NorESM2-MM': 'https://doi.org/10.22033/ESGF/CMIP6.506',
     'UKESM1-0-LL': 'https://doi.org/10.22033/ESGF/CMIP6.1569',
 }
 
 scenariomip_doi = {
     'ACCESS-CM2': 'https://doi.org/10.22033/ESGF/CMIP6.2285',
-    'ACCESS-ESM1.5': 'https://doi.org/10.22033/ESGF/CMIP6.2291',
+    'ACCESS-ESM1-5': 'https://doi.org/10.22033/ESGF/CMIP6.2291',
     'CESM2': 'https://doi.org/10.22033/ESGF/CMIP6.2201',
     'CMCC-ESM2': 'https://doi.org/10.22033/ESGF/CMIP6.13168',
     'CNRM-ESM2-1': 'https://doi.org/10.22033/ESGF/CMIP6.1395',
     'EC-Earth3': 'https://doi.org/10.22033/ESGF/CMIP6.251',
+    'MPI-ESM1-2-HR': 'https://doi.org/10.22033/ESGF/CMIP6.2450',
     'NorESM2-MM': 'https://doi.org/10.22033/ESGF/CMIP6.608',
     'UKESM1-0-LL': 'https://doi.org/10.22033/ESGF/CMIP6.1567',
 }
@@ -232,7 +234,7 @@ if __name__ == '__main__':
         "--model_name",
         type=str,
         required=True,
-        choices=("ACCESS-CM2", "ACCESS-ESM1-5", "CMCC-ESM2", "CESM2", "EC-Earth3", "NorESM2-MM", "UKESM1-0-LL"),
+        choices=("ACCESS-CM2", "ACCESS-ESM1-5", "CESM2", "CMCC-ESM2", 'CNRM-ESM2-1', "EC-Earth3", "MPI-ESM1-2-HR", "NorESM2-MM", "UKESM1-0-LL"),
         help="Climate model name"
     )
     parser.add_argument(
