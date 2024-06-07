@@ -168,7 +168,7 @@ Estimated total size of GWL dataset = 5.3 TB
 :green_circle: = data is available  
 :yellow_circle: = preliminary data is available    
 :white_circle: = CMIP6 data is available on NCI but hasn't been processed yet  
-:no_entry_sign: = the model doesn't reach that GWL under the ssp370 experiment
+:no_entry_sign: = the model doesn't reach that GWL under the ssp370 experiment  
 blank = CMIP6 data does not exist on NCI or the ESGF   
 
 ## Observational data availability 
