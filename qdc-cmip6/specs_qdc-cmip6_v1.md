@@ -132,7 +132,7 @@ A second dot refers to AGCD.
 | ACCESS-ESM1.5 | r6i1p1f1 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | ACCESS-ESM1.5 | r6i1p1f1 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
 | ACCESS-ESM1.5 | r6i1p1f1 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
-| ACCESS-ESM1.5 | r6i1p1f1 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: |
+| ACCESS-ESM1.5 | r6i1p1f1 | GWL4.0 | :no_entry_sign: :no_entry_sign: | :no_entry_sign: :no_entry_sign: | :no_entry_sign: :no_entry_sign: | :no_entry_sign: | :no_entry_sign: | :no_entry_sign: | :no_entry_sign: | :no_entry_sign: | :no_entry_sign: |
 | CESM2 | r11i1p1f1 | GWL1.5 | | | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | |
 | CESM2 | r11i1p1f1 | GWL2.0 | | | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | |
 | CESM2 | r11i1p1f1 | GWL3.0 | | | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | |
@@ -152,11 +152,11 @@ A second dot refers to AGCD.
 | MPI-ESM1-2-HR | r1i1p1f1 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | :white_circle: |
 | MPI-ESM1-2-HR | r1i1p1f1 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | :white_circle: |
 | MPI-ESM1-2-HR | r1i1p1f1 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | :white_circle: |
-| MPI-ESM1-2-HR | r1i1p1f1 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | :white_circle: |
+| MPI-ESM1-2-HR | r1i1p1f1 | GWL4.0 | :no_entry_sign: :no_entry_sign: | :no_entry_sign: :no_entry_sign: | :no_entry_sign: :no_entry_sign: | :no_entry_sign: | | | :no_entry_sign: | :no_entry_sign: | :no_entry_sign: |
 | NorESM2-MM | r1i1p1f1 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | :white_circle: | |
 | NorESM2-MM | r1i1p1f1 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | |
 | NorESM2-MM | r1i1p1f1 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | |
-| NorESM2-MM | r1i1p1f1 | GWL4.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | |
+| NorESM2-MM | r1i1p1f1 | GWL4.0 | :no_entry_sign: :no_entry_sign: | :no_entry_sign: :no_entry_sign: | :no_entry_sign: :no_entry_sign: | :no_entry_sign: | | | :no_entry_sign: | :no_entry_sign: | |
 | UKESM1-0-LL | r1i1p1f2 | GWL1.5 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | :white_circle: |
 | UKESM1-0-LL | r1i1p1f2 | GWL2.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | :white_circle: |
 | UKESM1-0-LL | r1i1p1f2 | GWL3.0 | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: :white_circle: | :white_circle: | | | :white_circle: | :white_circle: | :white_circle: |
@@ -168,6 +168,7 @@ Estimated total size of GWL dataset = 5.3 TB
 :green_circle: = data is available  
 :yellow_circle: = preliminary data is available    
 :white_circle: = CMIP6 data is available on NCI but hasn't been processed yet  
+:no_entry_sign: = the model doesn't reach that GWL under the ssp370 experiment
 blank = CMIP6 data does not exist on NCI or the ESGF   
 
 ## Observational data availability 

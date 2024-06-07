@@ -81,7 +81,11 @@ def main(args, product):
                     continue
                 run = run_dict[model]
                 for exp in args.experiments:
-                    hist_start, hist_end, ref_start, ref_end = get_model_tbounds(product, model, run, exp, args.output)
+                    try:
+                        hist_start, hist_end, ref_start, ref_end = get_model_tbounds(product, model, run, exp, args.output)
+                    except ValueError as error:
+                        print(error)
+                        continue
                     if args.dry_run or (args.target in ['metadata', 'split-by-year', 'clean-up']):
                         flags = '-n -f' if args.dry_run else '-f'
                         model_tbounds = f'HIST_START={hist_start} HIST_END={hist_end} REF_START={ref_start} REF_END={ref_end}'
