@@ -102,9 +102,9 @@ A second dot refers to AGCD.
 | UKESM1-0-LL | r1i1p1f2 | ssp245 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | :yellow_circle: |
 | UKESM1-0-LL | r1i1p1f2 | ssp370 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | :yellow_circle: |
 | UKESM1-0-LL | r1i1p1f2 | ssp585 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| Size (TB) | | | 2.1 | 2.1 | 3.5 | 1.7 | 1.1 | 1.1 | 1.8 | 1.4 | 1.2 |
+| Size (TB) | | | 2.4 | 2.4 | 3.8 | 1.9 | 1.1 | 1.1 | 2.0 | 1.6 | 1.4 |
 
-Estimated total size of time slice dataset = 15.9 TB
+Estimated total size of time slice dataset = 17.7 TB
 
 ### Global warming level data
 
@@ -161,9 +161,9 @@ A second dot refers to AGCD.
 | UKESM1-0-LL | r1i1p1f2 | GWL2.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | :yellow_circle: |
 | UKESM1-0-LL | r1i1p1f2 | GWL3.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | :yellow_circle: |
 | UKESM1-0-LL | r1i1p1f2 | GWL4.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| Size (TB) | | | 0.7 | 0.7 | 1.2 | 0.6 | 0.4 | 0.4 | 0.6 | 0.5 | 0.4 |
+| Size (TB) | | | 0.8 | 0.8 | 1.3 | 0.6 | 0.4 | 0.4 | 0.7 | 0.5 | 0.5 |
 
-Estimated total size of GWL dataset = 5.3 TB
+Estimated total size of GWL dataset = 5.9 TB
 
 :green_circle: = final release data is available  
 :yellow_circle: = preliminary data is available    
