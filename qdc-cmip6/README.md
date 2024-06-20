@@ -28,9 +28,10 @@ can be viewed by running `python run_qdc-cmip6.py -h`.
 
 - [Version 0.0](specs_qdc-cmip6_v0.md): Test data for the Ag2050 project.
 - [Version 1.0](specs_qdc-cmip6_v1.md): All CMIP6 GCMs selected for downscaling by the Australian Climate Service.
-- Version 1.1 (still to come): Add a broader selection of CMIP6 GCMs.
-- Version 1.2 (still to come): Add CORDEX-Australisia downscaled data (see details [here](https://opus.nci.org.au/display/CMIP/CMIP6-CORDEX+datasets)). 
-- Version 2.0 (still to come): Replacement of BARRA-R2 (~12km resolution) with BARRA-C2 (~4.4km)
 
-Additional variables and timescales may also be added along the way as identified by users
-(see https://github.com/AusClimateService/qq-workflows/issues/3 for suggested additions).
+Future versions will consider:
+- Adding a broader selection of CMIP6 global climate models
+- Adding CORDEX-Australisia model data (see details [here](https://opus.nci.org.au/display/CMIP/CMIP6-CORDEX+datasets)). 
+- Replacement of BARRA-R2 (~12km resolution) with BARRA-C2 (~4.4km)
+- Replacement of AGCDv1 with AGCDv2
+- Additional variables and timescales as requested by users (see https://github.com/AusClimateService/qq-workflows/issues/3 for suggested additions).
