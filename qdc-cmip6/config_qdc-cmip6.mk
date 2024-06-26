@@ -108,6 +108,7 @@ else ifeq (${VAR}, rsds)
     TARGET_UNITS="W m-2"
   endif
   OUTPUT_UNITS="W m-2"
+  VALID_MIN=--valid_min 0
 else ifeq (${VAR}, hurs)
   SCALING=additive
   NQUANTILES=100
