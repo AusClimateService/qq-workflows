@@ -16,7 +16,7 @@
   - The rationale for processing two observational datasets is that BARRA-R2 (~12km) provides a consistent product across all variables,
 while having AGCD (~5km) available for temperature and precipitation caters to users who don't require consistency across many variables
 and just want the (arguably) superior observational underpinning.
-- CMIP6 models (8):
+- CMIP6 models (9):
   - ACCESS-CM2
   - ACCESS-ESM1.5
   - CESM2
@@ -25,6 +25,7 @@ and just want the (arguably) superior observational underpinning.
   - EC-Earth3
   - MPI-ESM1-2-HR
   - NorESM2-MM
+  - UKESM1-0-LL
   - These global climate models were selected for dynamical downscaling over Australia by the Australian Climate Service (i.e. the [BARPA](https://dx.doi.org/10.25914/z1x6-dq28) and
 [CCAM](https://dx.doi.org/10.25914/rd73-4m38) data) using a 'sparse matrix' framework ([Grose et al, 2023](https://doi.org/10.1016/j.cliser.2023.100368))
 - Time slice output:
