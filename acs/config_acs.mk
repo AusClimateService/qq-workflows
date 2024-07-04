@@ -132,6 +132,7 @@ else ifeq (${VAR}, rsds)
   TARGET_VAR=rsds
   TARGET_UNITS="W m-2"
   OUTPUT_UNITS="W m-2"
+  VALID_MIN=--valid_min 0
 else ifeq (${VAR}, vph09)
   SCALING=additive
   HIST_VAR=vph09
