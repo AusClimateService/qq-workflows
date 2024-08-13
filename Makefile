@@ -4,7 +4,7 @@
 #   - Methods details: SCALING, GROUPING, NQUANTILES, INTERP, SSR, OUTPUT_GRID
 #   - Paths for files that will be created: AF_PATH, METADATA_PATH, QQ_PATH, VALIDATION_NOTEBOOK, FINAL_QQ_PATH 
 #   - Directories that need to be created for those files: OUTPUT_AF_DIR, OUTPUT_QQ_DIR, OUTPUT_VALIDATION_DIR
-#   - Variables: HIST_VAR, REF_VAR, TARGET_VAR
+#   - Variables: HIST_VAR, REF_VAR, TARGET_VAR, OUTPUT_VAR
 #   - Input data: HIST_DATA, REF_DATA, TARGET_DATA
 #   - Time bounds: HIST_START, HIST_END, REF_START, REF_END, TARGET_START, TARGET_END, REF_TIME
 #   - Units: HIST_UNITS, REF_UNITS, TARGET_UNITS, OUTPUT_UNITS
@@ -102,7 +102,17 @@ ${QQ_PATH} : ${AF_PATH} ${METADATA_PATH}
 ## clipmax: Clip the quantile scaled data to a given upper bound
 clipmax : ${QQCLIPPED_PATH}
 ${QQCLIPPED_PATH} : ${QQ_PATH}
-	${PYTHON} ${QQ_CODE_DIR}/clipmax.py $< ${TARGET_VAR} $@ --maxfiles ${MAX_DATA} --maxvar ${MAX_VAR} --maxtbounds ${TARGET_START} ${TARGET_END} --short_history ${COMPRESSION}
+	${PYTHON} ${QQ_CODE_DIR}/clipmax.py $< ${OUTPUT_VAR} $@ --maxfiles ${MAX_DATA} --maxvar ${MAX_VAR} --maxtbounds ${TARGET_START} ${TARGET_END} --short_history ${COMPRESSION}
+
+## cmatch-train: Calculate adjustment factors for matching the model and QDC trends
+cmatch-train : ${QQCMATCH_AF_PATH}
+${QQCMATCH_AF_PATH} : ${QQ_PATH}
+	${PYTHON} ${QQ_CODE_DIR}/change_match_train.py $< ${OUTPUT_VAR} $@ --hist_files ${HIST_DATA} --hist_var ${HIST_VAR} --input_hist_units ${HIST_UNITS} --hist_time_bounds ${HIST_START} ${HIST_END} --ref_files ${REF_DATA} --ref_var ${REF_VAR} --input_ref_units ${REF_UNITS} --ref_time_bounds ${REF_START} ${REF_END} --target_files ${TARGET_DATA} --target_var ${TARGET_VAR} --input_target_units ${TARGET_UNITS} --target_time_bounds ${TARGET_START} ${TARGET_END} --scaling ${SCALING} ${GROUPING} --short_history
+
+## cmatch-adjust: Apply adjustment factors for matching the model and QDC trends
+cmatch-adjust : ${QQCMATCH_PATH}
+${QQCMATCH_PATH} : ${QQ_PATH} ${QQCMATCH_AF_PATH}
+	${PYTHON} ${QQ_CODE_DIR}/change_match_adjust.py $< ${OUTPUT_VAR} $(word 2,$^) $@ --scaling ${SCALING} ${GROUPING} ${OUTPUT_TIME_UNITS}
 
 ## validation : Create validation notebook
 validation : ${VALIDATION_NOTEBOOK}

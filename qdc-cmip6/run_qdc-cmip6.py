@@ -117,7 +117,7 @@ if __name__ == '__main__':
     parser.add_argument(
         "target",
         type=str,
-        choices=("metadata", "train", "adjust", "validation", "clipmax", "split-by-year", "clean-up"),
+        choices=("metadata", "train", "adjust", "cmatch-train", "cmatch-adjust", "clipmax", "validation", "split-by-year", "clean-up"),
         help="Makefile target"
     )
     parser.add_argument(

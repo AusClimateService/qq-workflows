@@ -40,9 +40,13 @@ PROJECT_ID=qdc-cmip6
 $(call check_defined, VAR)
 
 ifeq (${VAR}, pr)
+#  SCALING=multiplicative
+#  NQUANTILES=1000
+#  METHOD_DESCRIPTION=qdc-${SCALING}-q${NQUANTILES}
   SCALING=multiplicative
-  NQUANTILES=1000
-  METHOD_DESCRIPTION=qdc-${SCALING}-q${NQUANTILES}
+  NQUANTILES=100
+  GROUPING=--time_grouping monthly
+  METHOD_DESCRIPTION=qdc-${SCALING}-monthly-q${NQUANTILES}
   SSR=--ssr
   HIST_VAR=pr
   HIST_UNITS="kg m-2 s-1"
@@ -56,6 +60,7 @@ ifeq (${VAR}, pr)
     TARGET_UNITS="kg m-2 s-1"
   endif
   OUTPUT_UNITS="mm day-1"
+  OUTPUT_VAR=pr
 else ifeq (${VAR}, tasmin)
   SCALING=additive
   NQUANTILES=100
@@ -73,6 +78,7 @@ else ifeq (${VAR}, tasmin)
     TARGET_UNITS=K
   endif
   OUTPUT_UNITS=C
+  OUTPUT_VAR=tasmin
 else ifeq (${VAR}, tasmax)
   SCALING=additive
   NQUANTILES=100
@@ -91,6 +97,7 @@ else ifeq (${VAR}, tasmax)
     TARGET_UNITS=K
   endif
   OUTPUT_UNITS=C
+  OUTPUT_VAR=tasmax
 else ifeq (${VAR}, rsds)
   SCALING=additive
   NQUANTILES=100
@@ -108,6 +115,7 @@ else ifeq (${VAR}, rsds)
     TARGET_UNITS="W m-2"
   endif
   OUTPUT_UNITS="W m-2"
+  OUTPUT_VAR=rsds
   VALID_MIN=--valid_min 0
 else ifeq (${VAR}, hurs)
   SCALING=additive
@@ -121,6 +129,7 @@ else ifeq (${VAR}, hurs)
   TARGET_VAR=hurs
   TARGET_UNITS="%"
   OUTPUT_UNITS="%"
+  OUTPUT_VAR=hurs
   VALID_MIN=--valid_min 0
   VALID_MAX=--valid_max 100
 else ifeq (${VAR}, hursmax)
@@ -135,6 +144,7 @@ else ifeq (${VAR}, hursmax)
   TARGET_VAR=hursmax
   TARGET_UNITS="%"
   OUTPUT_UNITS="%"
+  OUTPUT_VAR=hursmax
   VALID_MIN=--valid_min 0
   VALID_MAX=--valid_max 100
 else ifeq (${VAR}, hursmin)
@@ -149,6 +159,7 @@ else ifeq (${VAR}, hursmin)
   TARGET_VAR=hursmin
   TARGET_UNITS="%"
   OUTPUT_UNITS="%"
+  OUTPUT_VAR=hursmin
   VALID_MIN=--valid_min 0
   VALID_MAX=--valid_max 100
 else ifeq (${VAR}, sfcWind)
@@ -163,6 +174,7 @@ else ifeq (${VAR}, sfcWind)
   TARGET_VAR=sfcWind
   TARGET_UNITS="m s-1"
   OUTPUT_UNITS="m s-1"
+  OUTPUT_VAR=sfcWind
   VALID_MIN=--valid_min 0
 else ifeq (${VAR}, sfcWindmax)
   SCALING=additive
@@ -176,6 +188,7 @@ else ifeq (${VAR}, sfcWindmax)
   TARGET_VAR=sfcWindmax
   TARGET_UNITS="m s-1"
   OUTPUT_UNITS="m s-1"
+  OUTPUT_VAR=sfcWindmax
   VALID_MIN=--valid_min 0
 endif
 
@@ -218,9 +231,9 @@ else ifeq (${OBS_DATASET}, BARRA-R2)
   else
     TARGET_BASEDIR=/g/data/ob53
   endif
-  TARGET_DIR=${TARGET_BASEDIR}/BARRA2/output/reanalysis/AUS-11/BOM/ERA5/historical/hres/BARRA-R2/v1/day/${TARGET_VAR}/v20240516
+  TARGET_DIR=${TARGET_BASEDIR}/BARRA2/output/reanalysis/AUS-11/BOM/ERA5/historical/hres/BARRA-R2/v1/day/${TARGET_VAR}/v20240809
   OUTPUT_GRID_LABEL=AUS-11
-  TARGET_DROP_VARS=--drop_vars sigma level_height model_level_number
+  TARGET_DROP_VARS=--drop_vars sigma level_height model_level_number crs
 endif
 TARGET_DATA := $(sort $(wildcard ${TARGET_DIR}/*.nc))
 
@@ -231,6 +244,7 @@ REF_DROP_VARS=--ref_drop_vars height
 $(call check_defined, EXPERIMENT)
 $(call check_defined, RUN)
 $(call check_defined, REF_VAR)
+$(call check_defined, OUTPUT_VAR)
 $(call check_defined, SCALING)
 $(call check_defined, NQUANTILES)
 $(call check_defined, REF_START)
@@ -254,12 +268,12 @@ else
   TARGET_TBOUNDS=${TARGET_START}-${TARGET_END}
 endif
 
-OUTPUT_AF_DIR=/g/data/ia39/australian-climate-service/test-data/QDC-CMIP6/${OBS_DATASET}/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/${REF_DIR_LABEL}
-AF_FILE=${REF_VAR}-${METHOD_DESCRIPTION}-adjustment-factors_${MODEL}_${EXPERIMENT}_${RUN}_gn_${REF_TBOUNDS}_wrt_${HIST_TBOUNDS}.nc
+OUTPUT_AF_DIR=/g/data/xv83/dbi599/australian-climate-service/test-data/QDC-CMIP6/${OBS_DATASET}/${MODEL}/${EXPERIMENT}/${RUN}/day/${OUTPUT_VAR}/${REF_DIR_LABEL}
+AF_FILE=${OUTPUT_VAR}-${METHOD_DESCRIPTION}-adjustment-factors_${MODEL}_${EXPERIMENT}_${RUN}_gn_${REF_TBOUNDS}_wrt_${HIST_TBOUNDS}.nc
 AF_PATH=${OUTPUT_AF_DIR}/${AF_FILE}
 
 OUTPUT_QQ_DIR=${OUTPUT_AF_DIR}
-QQ_BASE=${REF_VAR}_day_${MODEL}_${EXPERIMENT}_${RUN}_${OUTPUT_GRID_LABEL}_${REF_TBOUNDS}_${METHOD_DESCRIPTION}-${INTERP}_${OBS_DATASET}-baseline-${TARGET_TBOUNDS}_model-baseline-${HIST_TBOUNDS}
+QQ_BASE=${OUTPUT_VAR}_day_${MODEL}_${EXPERIMENT}_${RUN}_${OUTPUT_GRID_LABEL}_${REF_TBOUNDS}_${METHOD_DESCRIPTION}-${INTERP}_${OBS_DATASET}-baseline-${TARGET_TBOUNDS}_model-baseline-${HIST_TBOUNDS}
 QQ_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.nc
 METADATA_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.yaml
 METADATA_OPTIONS=--variable ${TARGET_VAR} --units ${OUTPUT_UNITS} --obs ${OBS_DATASET} --model_name ${MODEL} --model_experiment ${EXPERIMENT} --model_run ${RUN} --hist_tbounds ${HIST_TBOUNDS} --ref_tbounds ${REF_TBOUNDS} --target_tbounds ${TARGET_TBOUNDS}
@@ -279,10 +293,17 @@ ifeq (${VAR}, rsds)
   $(call check_defined, MAX_VAR)
 
   MAX_DATA = $(sort $(wildcard ${MAX_DIR}/*.nc))
-  QQCLIPPED_BASE=${REF_VAR}_day_${MODEL}_${EXPERIMENT}_${RUN}_${OUTPUT_GRID_LABEL}_${REF_TBOUNDS}_${METHOD_DESCRIPTION}-${INTERP}-rsdscs-clipped_${OBS_DATASET}-baseline-${TARGET_TBOUNDS}_model-baseline-${HIST_TBOUNDS}
+  QQCLIPPED_BASE=${OUTPUT_VAR}_day_${MODEL}_${EXPERIMENT}_${RUN}_${OUTPUT_GRID_LABEL}_${REF_TBOUNDS}_${METHOD_DESCRIPTION}-${INTERP}-rsdscs-clipped_${OBS_DATASET}-baseline-${TARGET_TBOUNDS}_model-baseline-${HIST_TBOUNDS}
   QQCLIPPED_PATH=${OUTPUT_QQ_DIR}/${QQCLIPPED_BASE}.nc
   CLIP_VALIDATION=-p qq_clipped_file ${QQCLIPPED_PATH}
   FINAL_QQ_PATH=${QQCLIPPED_PATH}
+else ifeq (${VAR}, pr)
+  QQCMATCH_BASE=${OUTPUT_VAR}_day_${MODEL}_${EXPERIMENT}_${RUN}_${OUTPUT_GRID_LABEL}_${REF_TBOUNDS}_${METHOD_DESCRIPTION}-${INTERP}-change-matched_${OBS_DATASET}-baseline-${TARGET_TBOUNDS}_model-baseline-${HIST_TBOUNDS}
+  QQCMATCH_AF_BASE=${OUTPUT_VAR}-adjustment-factors_day_${MODEL}_${EXPERIMENT}_${RUN}_${OUTPUT_GRID_LABEL}_${REF_TBOUNDS}_${METHOD_DESCRIPTION}-${INTERP}-change-matched_${OBS_DATASET}-baseline-${TARGET_TBOUNDS}_model-baseline-${HIST_TBOUNDS}
+  QQCMATCH_PATH=${OUTPUT_QQ_DIR}/${QQCMATCH_BASE}.nc
+  QQCMATCH_AF_PATH=${OUTPUT_QQ_DIR}/${QQCMATCH_AF_BASE}.nc
+  CMATCH_VALIDATION=-p qq_cmatch_file ${QQCMATCH_PATH}
+  FINAL_QQ_PATH=${QQCMATCH_PATH}
 else
   FINAL_QQ_PATH=${QQ_PATH}
 endif
