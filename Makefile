@@ -107,12 +107,12 @@ ${QQCLIPPED_PATH} : ${QQ_PATH}
 ## cmatch-train: Calculate adjustment factors for matching the model and QDC trends
 cmatch-train : ${QQCMATCH_AF_PATH}
 ${QQCMATCH_AF_PATH} : ${QQ_PATH}
-	${PYTHON} ${QQ_CODE_DIR}/change_match_train.py $< ${OUTPUT_VAR} $@ --hist_files ${HIST_DATA} --hist_var ${HIST_VAR} --input_hist_units ${HIST_UNITS} --hist_time_bounds ${HIST_START} ${HIST_END} --ref_files ${REF_DATA} --ref_var ${REF_VAR} --input_ref_units ${REF_UNITS} --ref_time_bounds ${REF_START} ${REF_END} --target_files ${TARGET_DATA} --target_var ${TARGET_VAR} --input_target_units ${TARGET_UNITS} --target_time_bounds ${TARGET_START} ${TARGET_END} --scaling ${SCALING} ${GROUPING} --short_history
+	${PYTHON} ${QQ_CODE_DIR}/change_match_train.py $< ${OUTPUT_VAR} $@ --hist_files ${HIST_DATA} --hist_var ${HIST_VAR} --input_hist_units ${HIST_UNITS} --hist_time_bounds ${HIST_START} ${HIST_END} --ref_files ${REF_DATA} --ref_var ${REF_VAR} --input_ref_units ${REF_UNITS} --ref_time_bounds ${REF_START} ${REF_END} --target_files ${TARGET_DATA} --target_var ${TARGET_VAR} --input_target_units ${TARGET_UNITS} --target_time_bounds ${TARGET_START} ${TARGET_END} --scaling ${SCALING} --short_history
 
 ## cmatch-adjust: Apply adjustment factors for matching the model and QDC trends
 cmatch-adjust : ${QQCMATCH_PATH}
 ${QQCMATCH_PATH} : ${QQ_PATH} ${QQCMATCH_AF_PATH}
-	${PYTHON} ${QQ_CODE_DIR}/change_match_adjust.py $< ${OUTPUT_VAR} $(word 2,$^) $@ --scaling ${SCALING} ${GROUPING} ${OUTPUT_TIME_UNITS}
+	${PYTHON} ${QQ_CODE_DIR}/change_match_adjust.py $< ${OUTPUT_VAR} $(word 2,$^) $@ --scaling ${SCALING} ${OUTPUT_TIME_UNITS}
 
 ## validation : Create validation notebook
 validation : ${VALIDATION_NOTEBOOK}

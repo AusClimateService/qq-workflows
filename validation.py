@@ -17,7 +17,8 @@ linestyles = {
     'hist': 'solid',
     'ref': 'solid',
     'target': 'dotted',
-    'qq': 'dotted'
+    'qq': 'dotted',
+    'qq-cmatch': 'dotted',
 }
 
 
@@ -334,6 +335,7 @@ def plot_quantiles_1d_point(
     da_target_point,
     da_qq_point,
     quantiles,
+    da_qq_cmatch_point=None,
     xbounds=None,
     month=None
 ):
@@ -343,16 +345,22 @@ def plot_quantiles_1d_point(
     ref_point = da_ref_point.copy()
     target_point = da_target_point.copy()
     qq_point = da_qq_point.copy()
+    if da_qq_cmatch_point is not None:
+        qq_cmatch_point = da_qq_cmatch_point.copy()
     if month:
         hist_point = hist_point[hist_point['time'].dt.month == month]
         ref_point = ref_point[ref_point['time'].dt.month == month]
         target_point = target_point[target_point['time'].dt.month == month]
         qq_point = qq_point[qq_point['time'].dt.month == month]
-    
+        if da_qq_cmatch_point is not None:
+            qq_cmatch_point = qq_cmatch_point[qq_cmatch_point['time'].dt.month == month]
+
     hist_q_point = utils.get_quantiles(hist_point, quantiles, timescale='annual')
     ref_q_point = utils.get_quantiles(ref_point, quantiles, timescale='annual')
     target_q_point = utils.get_quantiles(target_point, quantiles, timescale='annual')
     qq_q_point = utils.get_quantiles(qq_point, quantiles, timescale='annual')
+    if da_qq_cmatch_point is not None:
+       qq_cmatch_q_point = utils.get_quantiles(qq_cmatch_point, quantiles, timescale='annual') 
     
     fig = plt.figure(figsize=[15, 5])
     ax1 = fig.add_subplot(121)
@@ -362,12 +370,16 @@ def plot_quantiles_1d_point(
     qq_data = qq_q_point.values
     hist_data = hist_q_point.values
     ref_data = ref_q_point.values
+    if da_qq_cmatch_point is not None:
+        qq_cmatch_data = qq_cmatch_q_point.values
 
     width = 80 / len(hist_q_point)
     ax1.bar(quantiles * 100, hist_data, alpha=0.5, width=width, label='historical')
     ax1.bar(quantiles * 100, ref_data, alpha=0.5, width=width, label='reference')
     ax2.bar(quantiles * 100, target_data, alpha=0.5, width=width, label='target')
     ax2.bar(quantiles * 100, qq_data, alpha=0.5, width=width, label='qq-scaled data')
+    if da_qq_cmatch_point is not None:
+        ax2.bar(quantiles * 100, qq_cmatch_data, alpha=0.5, width=width, label='qq-scaled cmatch data')
 
     ylabel = f"""{da_target_point.attrs['long_name']} ({da_target_point.attrs['units']})"""
 
@@ -524,21 +536,26 @@ def plot_seasonal_totals(
     da_ref_point,
     da_target_point,
     da_qq_point,
+    da_qq_cmatch_point=None,
     time_agg='mean',
 ):
     """Plot rainfall seasonal cycle"""
 
+    labels = ['hist', 'ref', 'target', 'qq']
     point_data = {}
     point_data['hist'] = da_hist_point.copy()
     point_data['ref'] = da_ref_point.copy()
     point_data['target'] = da_target_point.copy()
     point_data['qq'] = da_qq_point.copy()
+    if da_qq_cmatch_point is not None:
+        point_data['qq-cmatch'] = da_qq_cmatch_point.copy()
+        labels.append('qq-cmatch')
 
     xticks = np.arange(1, 13)
     xtick_labels = [calendar.month_abbr[i] for i in xticks]
 
     fig = plt.figure(figsize=[15, 10])
-    for label in ['hist', 'ref', 'target', 'qq']:
+    for label in labels:
         da_point = point_data[label]
         if time_agg == 'pct_total':
             annual_total = da_point.data.sum()
@@ -586,6 +603,7 @@ def single_point_analysis(
     general_levels,
     af_levels,
     da_qq_clipped=None,
+    da_qq_cmatch=None,
     pdf_xbounds=None,
     pdf_ybounds=None,
     q_xbounds=None,
@@ -607,6 +625,10 @@ def single_point_analysis(
     da_qq_point = da_qq.sel(point_selection, method='nearest').compute()
     if da_qq_clipped is not None:
         da_qq_clipped_point = da_qq_clipped.sel(point_selection, method='nearest').compute()
+    if da_qq_cmatch is not None:
+        da_qq_cmatch_point = da_qq_cmatch.sel(point_selection, method='nearest').compute()
+    else:
+        da_qq_cmatch_point = None
     ds_adjust_point = ds_adjust.sel(point_selection, method='nearest').compute()
     quantiles = ds_adjust['quantiles'].data
     
@@ -632,6 +654,7 @@ def single_point_analysis(
             da_ref_point,
             da_target_point,
             da_qq_point,
+            da_qq_cmatch_point=da_qq_cmatch_point,
         )
     else:
         plot_seasonal_cycle(
@@ -648,6 +671,7 @@ def single_point_analysis(
             da_target_point,
             da_qq_point,
             quantiles,
+            da_qq_cmatch_point=da_qq_cmatch_point,
             xbounds=q_xbounds
         )
         for month in months:
@@ -657,6 +681,7 @@ def single_point_analysis(
                 da_target_point,
                 da_qq_point,
                 quantiles,
+                da_qq_cmatch_point=da_qq_cmatch_point,
                 month=month,
                 xbounds=q_xbounds,
             )
