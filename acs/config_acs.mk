@@ -178,7 +178,7 @@ endif
 $(call check_defined, GCM_NAME)
 $(call check_defined, RCM_NAME)
 
-ifeq (${GCM_NAME}, ECMWF-ERA5)
+ifeq (${GCM_NAME}, ERA5)
   HIST_EXP=evaluation
 else
   HIST_EXP=historical
@@ -218,18 +218,34 @@ else ifeq (${RCM_NAME}, CCAM-v2203-SN)
 endif
 
 ifeq (${VAR}, vph09)
-  HIST_DATA := /g/data/xv83/ab7412/vph09_${GCM_NAME}/vph09_${GCM_NAME}_historical_1951_2014.nc
-  TARGET_DATA := ${HIST_DATA} /g/data/xv83/ab7412/vph09_${GCM_NAME}/vph09_${GCM_NAME}_${TARGET_EXP}_2015_2099.nc
+  ifeq (${GCM_NAME}, ERA5)
+    HIST_DATA := /g/data/xv83/ab7412/vph09_ERA5/vph09_ERA5_evaluation_1979_2020.nc
+    TARGET_DATA := ${HIST_DATA}
+  else
+    HIST_DATA := /g/data/xv83/ab7412/vph09_${GCM_NAME}/vph09_${GCM_NAME}_historical_1951_2014.nc
+    TARGET_DATA := ${HIST_DATA} /g/data/xv83/ab7412/vph09_${GCM_NAME}/vph09_${GCM_NAME}_${TARGET_EXP}_2015_2099.nc
+  endif
 else ifeq (${VAR}, vph15)
-  HIST_DATA := /g/data/xv83/ab7412/vph15_${GCM_NAME}/vph15_${GCM_NAME}_historical_1951_2014.nc
-  TARGET_DATA := ${HIST_DATA} /g/data/xv83/ab7412/vph15_${GCM_NAME}/vph15_${GCM_NAME}_${TARGET_EXP}_2015_2099.nc
+  ifeq (${GCM_NAME}, ERA5)
+    HIST_DATA := /g/data/xv83/ab7412/vph15_ERA5/vph15_ERA5_evaluation_1979_2020.nc
+    TARGET_DATA := ${HIST_DATA}
+  else
+    HIST_DATA := /g/data/xv83/ab7412/vph15_${GCM_NAME}/vph15_${GCM_NAME}_historical_1951_2014.nc
+    TARGET_DATA := ${HIST_DATA} /g/data/xv83/ab7412/vph15_${GCM_NAME}/vph15_${GCM_NAME}_${TARGET_EXP}_2015_2099.nc
+  endif
 else ifeq (${VAR}, sfcWind)
-  HIST_DATA := /g/data/xv83/ab7412/sfcWind_${GCM_NAME}/sfcWind_${GCM_NAME}_historical_1951_2014.nc
-  TARGET_DATA := ${HIST_DATA} /g/data/xv83/ab7412/sfcWind_${GCM_NAME}/sfcWind_${GCM_NAME}_${TARGET_EXP}_2015_2099.nc
+  ifeq (${GCM_NAME}, ERA5)
+    HIST_DATA := /g/data/xv83/ab7412/sfcWind_ERA5/sfcWind_ERA5_evaluation_1979_2020.nc
+    TARGET_DATA := ${HIST_DATA}
+  else
+    HIST_DATA := /g/data/xv83/ab7412/sfcWind_${GCM_NAME}/sfcWind_${GCM_NAME}_historical_1951_2014.nc
+    TARGET_DATA := ${HIST_DATA} /g/data/xv83/ab7412/sfcWind_${GCM_NAME}/sfcWind_${GCM_NAME}_${TARGET_EXP}_2015_2099.nc
+  endif
 else
   HIST_PATH=${CORDEX_PATH}/${RCM_GRID}/${RCM_INSTITUTION}/${GCM_NAME}/${HIST_EXP}/${GCM_RUN}/${RCM_NAME}/v1-r1/day/${HIST_VAR}
-  HIST_DATA := $(sort $(wildcard ${HIST_PATH}/v*/*day_198[5,6,7,8,9]*.nc) $(wildcard ${HIST_PATH}/v*/*day_199*.nc) $(wildcard ${HIST_PATH}/v*/*day_2*.nc))  
+  HIST_DATA := $(sort $(wildcard ${HIST_PATH}/v*/*day_198[5,6,7,8,9]*.nc) $(wildcard ${HIST_PATH}/v*/*day_199*.nc) $(wildcard ${HIST_PATH}/v*/*day_2*.nc))
   TARGET_PATH=${CORDEX_PATH}/${RCM_GRID}/${RCM_INSTITUTION}/${GCM_NAME}/${TARGET_EXP}/${GCM_RUN}/${RCM_NAME}/v1-r1/day/${TARGET_VAR}
+  #$(info $$TARGET_PATH is [${TARGET_PATH}])
   TARGET_DATA := $(sort $(wildcard ${HIST_PATH}/v*/*.nc) $(wildcard ${TARGET_PATH}/v*/*.nc))
 endif
 RCM_VERSION=v1-r1
