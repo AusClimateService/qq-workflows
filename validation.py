@@ -123,6 +123,7 @@ def spatial_comparison_plot(
     city_lat_lon={},
     clim_extend='max',
     outfile=None,
+    print_mav=False,
 ):
     """Spatial plot of two climatologies and their difference."""
     
@@ -164,7 +165,9 @@ def spatial_comparison_plot(
     )
     comp_text = 'Difference' if scaling == 'additive' else 'Ratio'
     ax3.set_title(comp_text)
-
+    if print_mav:
+        mav = np.nanmean(np.abs(da_comp))
+        print(f'mean absolute value: {mav:.2f} ')
     for ax in [ax1, ax2, ax3]:
         ax.coastlines()
         for lat, lon in city_lat_lon.values():
