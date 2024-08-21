@@ -23,6 +23,7 @@ experiment_descriptions = {
     'ssp245': 'update of RCP4.5 based on SSP2',
     'ssp370': 'gap-filling scenario reaching 7.0 based on SSP3',
     'ssp585': 'update of RCP8.5 based on SSP5',
+    'evaluation': 'reanalysis simulation of the recent past',
 }
     
 
@@ -102,7 +103,7 @@ if __name__ == '__main__':
     parser.add_argument(
         'experiment',
         type=str,
-        choices=('ssp126', 'ssp245', 'ssp370', 'ssp585'),
+        choices=('ssp126', 'ssp245', 'ssp370', 'ssp585', 'evaluation'),
         help='Model experiment'
     )
     parser.add_argument(
