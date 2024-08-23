@@ -3,7 +3,7 @@
 #PBS -q hugemem
 #PBS -l walltime=5:00:00
 #PBS -l mem=400GB
-#PBS -l storage=gdata/xv83+gdata/ob53+gdata/fs38+gdata/ia39
+#PBS -l storage=gdata/xv83+gdata/ob53+gdata/fs38+gdata/ia39+gdata/oi10
 #PBS -l wd
 #PBS -v model
 
