@@ -32,6 +32,6 @@ can be viewed by running `python run_qdc-cmip6.py -h`.
 Future versions will consider:
 - Adding a broader selection of CMIP6 global climate models
 - Adding CORDEX-Australisia model data (see details [here](https://opus.nci.org.au/display/CMIP/CMIP6-CORDEX+datasets)). 
-- Replacement of BARRA-R2 (~12km resolution) with BARRA-C2 (~4.4km)
+- Replacement of BARRA-R2 (~12km resolution) with [BARRA-C2](http://www.bom.gov.au/research/publications/researchreports/BRR-097.pdf) (~4.4km)
 - Replacement of AGCDv1 with AGCDv2
 - Additional variables and timescales as requested by users (see https://github.com/AusClimateService/qq-workflows/issues/3 for suggested additions).
