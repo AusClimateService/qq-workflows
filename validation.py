@@ -712,7 +712,7 @@ def single_point_analysis(
             variable,
             quantiles,
             xbounds=q_xbounds,
-            af_bounds=af_levels,
+            afbounds=af_levels,
         )
     if 'pr' in variable:
         plot_seasonal_totals(
