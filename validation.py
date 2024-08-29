@@ -70,12 +70,29 @@ def quantile_month_plot(quantiles, ax, cmap, levels=None, extend='both', point=N
         kwargs['vmin'] = data_max * -1
         kwargs['vmax'] = data_max
     
-    quantiles.transpose('month', 'quantiles').plot(ax=ax, cmap=cmap, extend=extend, **kwargs)
+    if quantiles.ndim == 1:
+        quantiles = quantiles.expand_dims(dim={'month': 1})
+        input_ndims = 1
+    else:
+        assert quantiles.ndim == 2
+        input_ndims = 2
+
+    quantiles.transpose('month', 'quantiles').plot.imshow(
+        ax=ax,
+        cmap=cmap,
+        extend=extend,
+        **kwargs
+    )
     
-    yticks = np.arange(1,13)
-    ytick_labels = [calendar.month_abbr[i] for i in yticks]
-    ax.set_yticks(yticks, ytick_labels)
-    ax.invert_yaxis()
+    if input_ndims == 1:
+        ax.set_yticks([1], [])
+        ax.set_ylabel('')
+        ax.set_xlabel('')
+    else:
+        yticks = np.arange(1,13)
+        ytick_labels = [calendar.month_abbr[i] for i in yticks]
+        ax.set_yticks(yticks, ytick_labels)
+        ax.invert_yaxis()
     if title:
         ax.set_title(title)
 
@@ -209,11 +226,17 @@ def plot_quantiles_2d_point(
 ):
     """Plot historical, reference and target quantiles for a single grid point."""
     
-    da_ref_q_point = utils.get_quantiles(da_ref_point, quantiles, timescale='monthly')
-    da_target_q_point = utils.get_quantiles(da_target_point, quantiles, timescale='monthly')
+    if da_hist_q_point.ndim == 1:
+        timescale = 'annual'
+        height = 14
+    else:
+        timescale = 'monthly'
+        height = 24
+    da_ref_q_point = utils.get_quantiles(da_ref_point, quantiles, timescale=timescale)
+    da_target_q_point = utils.get_quantiles(da_target_point, quantiles, timescale=timescale)
     extend = 'max' if 'pr' in variable else 'both'
-    
-    fig = plt.figure(figsize=[20, 24])
+
+    fig = plt.figure(figsize=[20, height])
     ax1 = fig.add_subplot(411)
     ax2 = fig.add_subplot(412)
     ax3 = fig.add_subplot(413)
@@ -664,6 +687,7 @@ def single_point_analysis(
     pdf_xbounds=None,
     pdf_ybounds=None,
     q_xbounds=None,
+    q1d_xbounds=None,
     n_values=50,
     months=[],
     seasonal_agg='mean',
@@ -691,29 +715,28 @@ def single_point_analysis(
     
     print(city.upper())
     
-    if plot_2d_quantiles:
-        plot_quantiles_2d_point(
-            ds_adjust_point['hist_q'],
-            da_ref_point,
-            da_target_point,
-            ds_adjust_point['af'],
-            variable,
-            quantiles,
-            general_cmap,
-            af_cmap,
-            general_levels,
-            af_levels,
-        )
-    else:
-        plot_quantiles_1d_baseline(
-            ds_adjust_point['hist_q'],
-            da_target_point,
-            ds_adjust_point['af'],
-            variable,
-            quantiles,
-            xbounds=q_xbounds,
-            afbounds=af_levels,
-        )
+    plot_quantiles_2d_point(
+        ds_adjust_point['hist_q'],
+        da_ref_point,
+        da_target_point,
+        ds_adjust_point['af'],
+        variable,
+        quantiles,
+        general_cmap,
+        af_cmap,
+        general_levels,
+        af_levels,
+    )
+#    else:
+#        plot_quantiles_1d_baseline(
+#            ds_adjust_point['hist_q'],
+#            da_target_point,
+#            ds_adjust_point['af'],
+#            variable,
+#            quantiles,
+#            xbounds=q1d_xbounds,
+#            afbounds=af_levels,
+#        )
     if 'pr' in variable:
         plot_seasonal_totals(
             da_hist_point,
