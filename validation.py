@@ -432,60 +432,6 @@ def plot_quantiles_1d_point(
     plt.show()
 
 
-def plot_quantiles_1d_baseline(
-    da_hist_q_point,
-    da_target_point,
-    da_af_point,
-    variable,
-    quantiles,
-    xbounds=None,
-    afbounds=None,
-):
-    """Plot baseline quantiles and adjustments if not 2d"""
-
-    hist_q_point = da_hist_q_point.copy()
-    target_point = da_target_point.copy()
-    target_q_point = utils.get_quantiles(target_point, quantiles, timescale='annual')
-    da_af_point = da_af_point.copy()
-    
-    fig = plt.figure(figsize=[15, 10])
-    ax1 = fig.add_subplot(211)
-    ax2 = fig.add_subplot(212)
-
-    target_data = target_q_point.values
-    hist_data = hist_q_point.values
-    af_data = da_af_point.values
-
-    width = 80 / len(hist_q_point)
-    ax1.bar(quantiles * 100, hist_data, alpha=0.5, width=width, label='historical')
-    ax1.bar(quantiles * 100, target_data, alpha=0.5, width=width, label='target')
-
-    ylabel = f"""{da_target_point.attrs['long_name']} ({da_target_point.attrs['units']})"""
-
-    data_min = np.min(np.concatenate([target_data, hist_data]))
-    ymin = data_min - 1 if (data_min < 0) else 0
-    ymax = np.max(np.concatenate([target_data, hist_data])) + 1
-    if xbounds:
-        ax1.set_xlim(xbounds[0], xbounds[1])
-    ax1.set_ylim(ymin, ymax)
-    ax1.grid()
-    ax1.legend()
-    ax1.set_ylabel(ylabel)
-    ax1.set_xlabel('quantile')
-    ax1.set_title('quantiles - all months')
-
-    ax2.plot(quantiles * 100, af_data)
-    ax2.set_ylabel('adjustment factor')
-    ax2.set_xlabel('quantile')
-    ax2.set_title('adjustment factors')
-    if xbounds:
-        ax2.set_xlim(xbounds[0], xbounds[1])
-    if afbounds:
-        ax2.set_ylim(afbounds[0], afbounds[-1])
-
-    plt.show()
-
-
 def plot_values_1d_point(
     da_hist_point,
     da_ref_point,
@@ -687,12 +633,10 @@ def single_point_analysis(
     pdf_xbounds=None,
     pdf_ybounds=None,
     q_xbounds=None,
-    q1d_xbounds=None,
     n_values=50,
     months=[],
     seasonal_agg='mean',
     extreme_for_values='max',
-    plot_2d_quantiles=True,
     plot_1d_quantiles=True,
     plot_1d_values=True,
     plot_pdfs=True,
@@ -727,16 +671,6 @@ def single_point_analysis(
         general_levels,
         af_levels,
     )
-#    else:
-#        plot_quantiles_1d_baseline(
-#            ds_adjust_point['hist_q'],
-#            da_target_point,
-#            ds_adjust_point['af'],
-#            variable,
-#            quantiles,
-#            xbounds=q1d_xbounds,
-#            afbounds=af_levels,
-#        )
     if 'pr' in variable:
         plot_seasonal_totals(
             da_hist_point,
