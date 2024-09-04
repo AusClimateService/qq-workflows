@@ -6,7 +6,9 @@ from clisops.core.subset import subset_shape
 import matplotlib.pyplot as plt
 import numpy as np
 import cartopy.crs as ccrs
+import cartopy
 import xesmf as xe
+from xskillscore import pearson_r
 import cmdline_provenance as cmdprov
 
 sys.path.append('/g/data/xv83/quantile-mapping/qqscale')
@@ -20,6 +22,81 @@ linestyles = {
     'qq': 'dotted',
     'qq-cmatch': 'dotted',
 }
+
+
+def monthly_annual_pct(da):
+    """Calculate the monthly mean precipitation.
+    
+    Expressed as a percentage of the annual mean.
+    
+    """
+    
+    da_monthly_mean = da.groupby('time.month').mean('time')
+    da_annual = da.resample(time='Y').sum()
+    da_annual_mean = da_annual.mean('time')
+    da_monthly_annual_pct = (da_monthly_mean / da_annual_mean) * 100
+    da_monthly_annual_pct = da_monthly_annual_pct.compute()
+
+    return da_monthly_annual_pct
+
+    
+def calc_seasonal_correlation(ds_target, ds_qq):
+    """Calculate correlation between model and obs monthly climatology"""
+
+    target_monthly_annual_pct = monthly_annual_pct(ds_target['pr'])
+    qq_monthly_annual_pct = monthly_annual_pct(ds_qq['pr'])
+    
+    seasonal_r = pearson_r(target_monthly_annual_pct, qq_monthly_annual_pct, 'month')
+    seasonal_r = corr.compute()
+    
+    return seasonal_r
+
+
+def plot_seasonal_correlation(
+    seasonal_r,
+    land_only=False,
+    city_lat_lon={},
+    outfile=None,
+):
+    """Plot the correlation between model and obs monthly climatology"""
+ 
+    if land_only:
+        shape = gp.read_file('/g/data/ia39/aus-ref-clim-data-nci/shapefiles/data/australia/australia.shp')
+        seasonal_r = subset_shape(seasonal_r, shape=shape)
+
+    fig = plt.figure(figsize=[10, 5])
+    ax = fig.add_subplot(111, projection=ccrs.PlateCarree(central_longitude=180))
+
+    seasonal_r.plot(
+        ax=ax,
+        transform=ccrs.PlateCarree(),
+        cmap='RdBu_r',
+        cbar_kwargs={'label': 'correlation'},
+        levels=[-1.0, -0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1.0],
+    )
+    ax.set_title('seasonal cycle correlation (target vs. qq)')
+    ax.coastlines()
+    ax.add_feature(cartopy.feature.STATES)
+    for lat, lon in city_lat_lon.values():
+        ax.plot(
+            lon,
+            lat,
+            marker='o',
+            markerfacecolor='lime',
+            markeredgecolor='none',
+            zorder=5,
+            transform=ccrs.PlateCarree()
+        )
+    xmin = 112.92
+    xmax = 153.63
+    ymin = -43.625
+    ymax = -10.07
+    ax.set_extent([xmin, xmax, ymin, ymax], crs=ccrs.PlateCarree())
+    
+    if outfile:
+        plt.savefig(outfile, bbox_inches='tight', facecolor='white', dpi=300)
+    else:
+        plt.show()
 
 
 def quantile_spatial_plot(
