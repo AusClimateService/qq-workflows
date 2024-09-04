@@ -47,7 +47,7 @@ def calc_seasonal_correlation(ds_target, ds_qq):
     qq_monthly_annual_pct = monthly_annual_pct(ds_qq['pr'])
     
     seasonal_r = pearson_r(target_monthly_annual_pct, qq_monthly_annual_pct, 'month')
-    seasonal_r = corr.compute()
+    seasonal_r = seasonal_r.compute()
     
     return seasonal_r
 
