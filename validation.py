@@ -35,15 +35,18 @@ def calc_seasonal_change_diff(da_hist, da_ref, da_target, da_qq, scaling):
     if scaling == 'additive':
         model_change = ref_monthly_clim - hist_monthly_clim
         qq_change = qq_monthly_clim - target_monthly_clim
+        units = da_hist.attrs['units']
     elif scaling == 'multiplicative':
         model_change = ((ref_monthly_clim - hist_monthly_clim) / hist_monthly_clim) * 100
         qq_change = ((qq_monthly_clim - target_monthly_clim) / target_monthly_clim) * 100
+        units = '%'
 
     qq_change, model_change = match_grids(qq_change, model_change)
-    diff = np.abs(qq_change - model_change).mean(dim='month')
-    diff = diff.compute()
-
-    return diff
+    diffs = np.abs(qq_change - model_change)
+    mean_diff = diffs.mean(dim='month').compute()
+    mean_diff.atrrs['units'] = units
+    
+    return mean_diff
 
 
 def plot_seasonal_change_diff(
@@ -62,15 +65,16 @@ def plot_seasonal_change_diff(
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_subplot(111, projection=ccrs.PlateCarree(central_longitude=180))
 
+    units = seasonal_diff.attrs['units']
     seasonal_diff.plot(
         ax=ax,
         transform=ccrs.PlateCarree(),
         cmap='Oranges',
-        cbar_kwargs={'label': 'average magnitude of monthly difference (%)'},
+        cbar_kwargs={'label': f'average magnitude of monthly difference ({units})'},
         levels=levels,
         extend='max',
     )
-    ax.set_title('seasonal change difference (target vs. qq)')
+    ax.set_title('difference in monthly change (model vs. qq)')
     ax.coastlines()
     ax.add_feature(cartopy.feature.STATES)
     for lat, lon in city_lat_lon.values():
