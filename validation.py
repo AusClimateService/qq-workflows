@@ -24,15 +24,83 @@ linestyles = {
 }
 
 
-def monthly_annual_pct(da):
-    """Calculate the monthly mean precipitation.
+def calc_seasonal_change_diff(da_hist, da_ref, da_target, da_qq, scaling):
+    """Calculate difference in seasonal change."""
+
+    hist_monthly_clim = da_hist.groupby('time.month').mean('time')
+    ref_monthly_clim = da_ref.groupby('time.month').mean('time')
+    target_monthly_clim = da_target.groupby('time.month').mean('time')
+    qq_monthly_clim = da_qq.groupby('time.month').mean('time')
+
+    if scaling == 'additive':
+        model_change = ref_monthly_clim - hist_monthly_clim
+        qq_change = qq_monthly_clim - target_monthly_clim
+    elif scaling == 'multiplicative':
+        model_change = ((ref_monthly_clim - hist_monthly_clim) / hist_monthly_clim) * 100
+        qq_change = ((qq_monthly_clim - target_monthly_clim) / target_monthly_clim) * 100
+
+    qq_change, model_change = match_grids(qq_change, model_change)
+    diff = np.abs(qq_change - model_change).mean(dim='month')
+    diff = diff.compute()
+
+    return diff
+
+
+def plot_seasonal_change_diff(
+    seasonal_diff,
+    land_only=False,
+    city_lat_lon={},
+    outfile=None,
+    levels=None,
+):
+    """Plot difference in seasonal change"""
+ 
+    if land_only:
+        shape = gp.read_file('/g/data/ia39/aus-ref-clim-data-nci/shapefiles/data/australia/australia.shp')
+        seasonal_diff = subset_shape(seasonal_diff, shape=shape)
+
+    fig = plt.figure(figsize=[10, 5])
+    ax = fig.add_subplot(111, projection=ccrs.PlateCarree(central_longitude=180))
+
+    seasonal_diff.plot(
+        ax=ax,
+        transform=ccrs.PlateCarree(),
+        cmap='Oranges',
+        cbar_kwargs={'label': 'average magnitude of monthly difference (%)'},
+        levels=levels,
+        extend='max',
+    )
+    ax.set_title('seasonal change difference (target vs. qq)')
+    ax.coastlines()
+    ax.add_feature(cartopy.feature.STATES)
+    for lat, lon in city_lat_lon.values():
+        ax.plot(
+            lon,
+            lat,
+            marker='o',
+            markerfacecolor='lime',
+            markeredgecolor='none',
+            zorder=5,
+            transform=ccrs.PlateCarree()
+        )
+    xmin = 112.92
+    xmax = 153.63
+    ymin = -43.625
+    ymax = -10.07
+    ax.set_extent([xmin, xmax, ymin, ymax], crs=ccrs.PlateCarree())
     
-    Expressed as a percentage of the annual mean.
+    if outfile:
+        plt.savefig(outfile, bbox_inches='tight', facecolor='white', dpi=300)
+    else:
+        plt.show()
+
+
+
+def monthly_annual_pct(ds, var):
+    """Monthly mean precip expressed as a percentage of the annual mean."""
     
-    """
-    
-    da_monthly_mean = da.groupby('time.month').mean('time')
-    da_annual = da.resample(time='Y').sum()
+    da_monthly_mean = ds[var].groupby('time.month').mean('time')
+    da_annual = ds[var].resample(time='Y').sum()
     da_annual_mean = da_annual.mean('time')
     da_monthly_annual_pct = (da_monthly_mean / da_annual_mean) * 100
     da_monthly_annual_pct = da_monthly_annual_pct.compute()
@@ -40,13 +108,19 @@ def monthly_annual_pct(da):
     return da_monthly_annual_pct
 
     
-def calc_seasonal_correlation(ds_target, ds_qq):
+def calc_seasonal_correlation(ds_target, var_target, ds_qq, var_qq):
     """Calculate correlation between model and obs monthly climatology"""
 
-    target_monthly_annual_pct = monthly_annual_pct(ds_target['pr'])
-    qq_monthly_annual_pct = monthly_annual_pct(ds_qq['pr'])
-    
-    seasonal_r = pearson_r(target_monthly_annual_pct, qq_monthly_annual_pct, 'month')
+    if 'pr' in [var_target, var_qq]:
+        target_monthly_clim = monthly_annual_pct(ds_target, var_target)
+        qq_monthly_clim = monthly_annual_pct(ds_qq, var_qq)
+    else:
+        target_monthly_clim = ds_target[var_target].groupby('time.month').mean('time')
+        target_monthly_clim = target_monthly_clim.compute()
+        qq_monthly_clim = ds_qq[var_qq].groupby('time.month').mean('time')
+        qq_monthly_clim = qq_monthly_clim.compute()
+
+    seasonal_r = pearson_r(target_monthly_clim, qq_monthly_clim, 'month')
     seasonal_r = seasonal_r.compute()
     
     return seasonal_r
@@ -174,28 +248,36 @@ def quantile_month_plot(quantiles, ax, cmap, levels=None, extend='both', point=N
         ax.set_title(title)
 
 
+def match_grids(primary_da, secondary_da):
+    """Match grids (to the highest resolution)"""
+
+    da1 = primary_da.copy()
+    da2 = secondary_da.copy()
+
+    if len(da1['lat']) > len(da2['lat']):
+        regridder = xe.Regridder(da2, da1, "bilinear")
+        da2 = regridder(da2)
+        da2 = da2.compute()
+    elif len(da1['lat']) < len(da2['lat']):
+        regridder = xe.Regridder(da1, da2, "bilinear")
+        da1 = regridder(da1)
+        da1 = da1.compute()
+
+    return da1, da2
+
+
 def spatial_comparison_data(da1, da2, scaling):
     """Compare two spatial fields."""
     
-    primary_da = da1.copy()
-    secondary_da = da2.copy()
-    primary_attrs = primary_da.attrs
-
-    if len(primary_da['lat']) > len(secondary_da['lat']):
-        regridder = xe.Regridder(secondary_da, primary_da, "bilinear")
-        secondary_da = regridder(secondary_da)
-        secondary_da = secondary_da.compute()
-    elif len(primary_da['lat']) < len(secondary_da['lat']):
-        regridder = xe.Regridder(primary_da, secondary_da, "bilinear")
-        primary_da = regridder(primary_da)
-        primary_da = primary_da.compute()
+    global_attrs = da1.attrs
+    primary_da, secondary_da = match_grids(da1, da2)
 
     if scaling == 'additive':
         comparison = primary_da - secondary_da
     elif scaling == 'multiplicative':
         comparison = ((primary_da - secondary_da) / secondary_da) * 100
         
-    comparison.attrs = primary_attrs
+    comparison.attrs = global_attrs
     if scaling == 'multiplicative':
         comparison.attrs['units'] = '% difference'
     
