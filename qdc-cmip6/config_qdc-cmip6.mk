@@ -40,13 +40,13 @@ PROJECT_ID=qdc-cmip6
 $(call check_defined, VAR)
 
 ifeq (${VAR}, pr)
-#  SCALING=multiplicative
-#  NQUANTILES=1000
-#  METHOD_DESCRIPTION=qdc-${SCALING}-q${NQUANTILES}
   SCALING=multiplicative
   NQUANTILES=100
   GROUPING=--time_grouping monthly
   METHOD_DESCRIPTION=qdc-${SCALING}-monthly-q${NQUANTILES}
+#  NQUANTILES=1000
+#  METHOD_DESCRIPTION=qdc-${SCALING}-q${NQUANTILES}
+  MAX_AF=--max_af 5
   SSR=--ssr
   HIST_VAR=pr
   HIST_UNITS="kg m-2 s-1"
@@ -268,12 +268,12 @@ else
   TARGET_TBOUNDS=${TARGET_START}-${TARGET_END}
 endif
 
-OUTPUT_AF_DIR=/g/data/xv83/dbi599/australian-climate-service/test-data/QDC-CMIP6/${OBS_DATASET}/${MODEL}/${EXPERIMENT}/${RUN}/day/${OUTPUT_VAR}/${REF_DIR_LABEL}
+OUTPUT_AF_DIR=/g/data/ia39/australian-climate-service/test-data/QDC-CMIP6-v2/${OBS_DATASET}/${MODEL}/${EXPERIMENT}/${RUN}/day/${OUTPUT_VAR}/${REF_DIR_LABEL}
 AF_FILE=${OUTPUT_VAR}-${METHOD_DESCRIPTION}-adjustment-factors_${MODEL}_${EXPERIMENT}_${RUN}_gn_${REF_TBOUNDS}_wrt_${HIST_TBOUNDS}.nc
 AF_PATH=${OUTPUT_AF_DIR}/${AF_FILE}
 
 OUTPUT_QQ_DIR=${OUTPUT_AF_DIR}
-QQ_BASE=${OUTPUT_VAR}_day_${MODEL}_${EXPERIMENT}_${RUN}_${OUTPUT_GRID_LABEL}_${REF_TBOUNDS}_${METHOD_DESCRIPTION}-${INTERP}_${OBS_DATASET}-baseline-${TARGET_TBOUNDS}_model-baseline-${HIST_TBOUNDS}
+QQ_BASE=${OUTPUT_VAR}_day_${MODEL}_${EXPERIMENT}_${RUN}_${OUTPUT_GRID_LABEL}_${REF_TBOUNDS}_${METHOD_DESCRIPTION}-${INTERP}-maxaf5_${OBS_DATASET}-baseline-${TARGET_TBOUNDS}_model-baseline-${HIST_TBOUNDS}
 QQ_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.nc
 METADATA_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.yaml
 METADATA_OPTIONS=--variable ${TARGET_VAR} --units ${OUTPUT_UNITS} --obs ${OBS_DATASET} --model_name ${MODEL} --model_experiment ${EXPERIMENT} --model_run ${RUN} --hist_tbounds ${HIST_TBOUNDS} --ref_tbounds ${REF_TBOUNDS} --target_tbounds ${TARGET_TBOUNDS}
@@ -298,8 +298,8 @@ ifeq (${VAR}, rsds)
   CLIP_VALIDATION=-p qq_clipped_file ${QQCLIPPED_PATH}
   FINAL_QQ_PATH=${QQCLIPPED_PATH}
 else ifeq (${VAR}, pr)
-  QQCMATCH_BASE=${OUTPUT_VAR}_day_${MODEL}_${EXPERIMENT}_${RUN}_${OUTPUT_GRID_LABEL}_${REF_TBOUNDS}_${METHOD_DESCRIPTION}-${INTERP}-annual-change-matched_${OBS_DATASET}-baseline-${TARGET_TBOUNDS}_model-baseline-${HIST_TBOUNDS}
-  QQCMATCH_AF_BASE=${OUTPUT_VAR}-adjustment-factors_day_${MODEL}_${EXPERIMENT}_${RUN}_${OUTPUT_GRID_LABEL}_${REF_TBOUNDS}_${METHOD_DESCRIPTION}-${INTERP}-annual-change-matched_${OBS_DATASET}-baseline-${TARGET_TBOUNDS}_model-baseline-${HIST_TBOUNDS}
+  QQCMATCH_BASE=${OUTPUT_VAR}_day_${MODEL}_${EXPERIMENT}_${RUN}_${OUTPUT_GRID_LABEL}_${REF_TBOUNDS}_${METHOD_DESCRIPTION}-${INTERP}-maxaf5-annual-change-matched_${OBS_DATASET}-baseline-${TARGET_TBOUNDS}_model-baseline-${HIST_TBOUNDS}
+  QQCMATCH_AF_BASE=${OUTPUT_VAR}-adjustment-factors_day_${MODEL}_${EXPERIMENT}_${RUN}_${OUTPUT_GRID_LABEL}_${REF_TBOUNDS}_${METHOD_DESCRIPTION}-${INTERP}-maxaf5-annual-change-matched_${OBS_DATASET}-baseline-${TARGET_TBOUNDS}_model-baseline-${HIST_TBOUNDS}
   QQCMATCH_PATH=${OUTPUT_QQ_DIR}/${QQCMATCH_BASE}.nc
   QQCMATCH_AF_PATH=${OUTPUT_QQ_DIR}/${QQCMATCH_AF_BASE}.nc
   CMATCH_VALIDATION=-p qq_cmatch_file ${QQCMATCH_PATH}
