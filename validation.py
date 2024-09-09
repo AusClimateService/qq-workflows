@@ -44,7 +44,7 @@ def calc_seasonal_change_diff(da_hist, da_ref, da_target, da_qq, scaling):
     qq_change, model_change = match_grids(qq_change, model_change)
     diffs = np.abs(qq_change - model_change)
     mean_diff = diffs.mean(dim='month').compute()
-    mean_diff.atrrs['units'] = units
+    mean_diff.attrs['units'] = units
     
     return mean_diff
 
