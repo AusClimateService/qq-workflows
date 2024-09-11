@@ -99,6 +99,69 @@ def plot_seasonal_change_diff(
         plt.show()
 
 
+def plot_monthly_change_sign_agreement(
+    da_before,
+    da_after,
+    land_only=False,
+    city_lat_lon={},
+    outfile=None,
+):
+    """Plot monthly change sign agreement.
+
+    Image shows number of months where the
+    climatological mean increases.
+    """
+
+    before_monthly_clim = da_before.groupby('time.month').mean('time')
+    after_monthly_clim = da_after.groupby('time.month').mean('time')
+    change = after_monthly_clim - before_monthly_clim
+    increase = change > 0
+    count = increase.sum(dim='month')
+
+    if land_only:
+        shape = gp.read_file('/g/data/ia39/aus-ref-clim-data-nci/shapefiles/data/australia/australia.shp')
+        count = subset_shape(count, shape=shape)
+
+    fig = plt.figure(figsize=[10, 5])
+    ax = fig.add_subplot(111, projection=ccrs.PlateCarree(central_longitude=180))
+
+    cax = count.plot(
+        ax=ax,
+        transform=ccrs.PlateCarree(),
+        levels=[-0.5, 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5, 11.5, 12.5],
+        add_colorbar=False,
+    )
+    fig.colorbar(
+        cax,
+        ticks=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        label='number of months',
+    ) 
+
+    ax.set_title('Number of months where the climatological mean increases')
+    ax.coastlines()
+    ax.add_feature(cartopy.feature.STATES)
+    for lat, lon in city_lat_lon.values():
+        ax.plot(
+            lon,
+            lat,
+            marker='o',
+            markerfacecolor='lime',
+            markeredgecolor='none',
+            zorder=5,
+            transform=ccrs.PlateCarree()
+        )
+    xmin = 112.92
+    xmax = 153.63
+    ymin = -43.625
+    ymax = -10.07
+    ax.set_extent([xmin, xmax, ymin, ymax], crs=ccrs.PlateCarree())
+    
+    if outfile:
+        plt.savefig(outfile, bbox_inches='tight', facecolor='white', dpi=300)
+    else:
+        plt.show()
+
+
 
 def monthly_annual_pct(ds, var):
     """Monthly mean precip expressed as a percentage of the annual mean."""
@@ -688,6 +751,45 @@ def plot_values_1d_point(
     plt.show()
 
 
+def plot_seasonal_change(
+    da_hist_point,
+    da_ref_point,
+    da_target_point,
+    da_qq_point,
+    scaling,
+):
+    """Plot seasonal change"""
+
+    hist_monthly_clim = da_hist_point.groupby('time.month').mean('time')
+    ref_monthly_clim = da_ref_point.groupby('time.month').mean('time')
+    target_monthly_clim = da_target_point.groupby('time.month').mean('time')
+    qq_monthly_clim = da_qq_point.groupby('time.month').mean('time')
+
+    if scaling == 'additive':
+        model_change = ref_monthly_clim - hist_monthly_clim
+        qq_change = qq_monthly_clim - target_monthly_clim
+        units = da_hist_point.attrs['units']
+    elif scaling == 'multiplicative':
+        model_change = ((ref_monthly_clim - hist_monthly_clim) / hist_monthly_clim) * 100
+        qq_change = ((qq_monthly_clim - target_monthly_clim) / target_monthly_clim) * 100
+        units = '%'
+
+    xticks = np.arange(1, 13)
+    xtick_labels = [calendar.month_abbr[i] for i in xticks]
+
+    fig = plt.figure(figsize=[15, 10])
+    ax = fig.add_subplot(111)
+    
+    ax.bar(xticks, qq_change, alpha=0.5, label='qq data')
+    ax.bar(xticks, model_change, alpha=0.5, label='model data')
+    ax.set_title('Monthly change')
+    ax.legend()
+    ax.set_ylabel(f'Change ({units})')
+    ax.set_xticks(xticks, xtick_labels)
+    ax.grid()
+    plt.show()
+
+
 def plot_seasonal_cycle(
     da_hist_point,
     da_ref_point,
@@ -849,7 +951,13 @@ def single_point_analysis(
             da_target_point,
             da_qq_point,
         )
-
+    plot_seasonal_change(
+        da_hist_point,
+        da_ref_point,
+        da_target_point,
+        da_qq_point,
+        scaling,
+    )
     if plot_1d_quantiles:
         plot_quantiles_1d_point(
             da_hist_point,
