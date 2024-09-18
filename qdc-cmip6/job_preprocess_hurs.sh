@@ -7,4 +7,6 @@
 #PBS -l wd
 #PBS -v var
 
+# usage: qsub -v var=hursmin job_preprocess_hurs.sh
+
 bash preprocess_hurs.sh ${var}
