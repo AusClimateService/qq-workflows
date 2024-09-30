@@ -29,6 +29,9 @@ __check_defined = \
     $(if $(value $1),, \
       $(error Undefined $1$(if $2, ($2))))
 
+PYTHON=/g/data/xv83/quantile-mapping/miniconda3/envs/qq-workflows/bin/python
+BOLG=/g/data/xv83/quantile-mapping/qq-workflows/bolg.py
+
 ## Method options
 INTERP=linear
 OUTPUT_GRID=input
@@ -222,8 +225,15 @@ $(call check_defined, OBS_DATASET)
 $(call check_defined, TARGET_VAR)
 $(call check_defined, TARGET_UNITS)
 
-HIST_DATA := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/CMIP/*/${MODEL}/historical/${RUN}/day/${HIST_VAR}/*/v*/*.nc) $(wildcard /g/data/${NCI_LOC}/CMIP6/ScenarioMIP/*/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/*/v*/*.nc))
+HIST_FILES := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/CMIP/*/${MODEL}/historical/${RUN}/day/${HIST_VAR}/*/v*/*_19[5,6,7,8,9]*.nc) $(wildcard /g/data/${NCI_LOC}/CMIP6/CMIP/*/${MODEL}/historical/${RUN}/day/${HIST_VAR}/*/v*/*_2???????-*.nc))
+REF_FILES := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/ScenarioMIP/*/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/*/v*/*.nc))
+HIST_DATA := ${HIST_FILES} ${REF_FILES}
 REF_DATA := ${HIST_DATA}
+HIST_FILES_GLOB := $(shell ${PYTHON} ${BOLG} ${HIST_FILES})
+REF_FILES_GLOB := $(shell ${PYTHON} ${BOLG} ${HIST_FILES})
+HIST_DATA_GLOB := ${HIST_FILES_GLOB} ${REF_FILES_GLOB}
+REF_DATA_GLOB := ${HIST_DATA_GLOB}
+
 ifeq (${OBS_DATASET}, AGCD)
   TARGET_DIR=/g/data/xv83/agcd-csiro/${TARGET_VAR}/daily
   OUTPUT_GRID_LABEL=AUS-05

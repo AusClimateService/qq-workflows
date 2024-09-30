@@ -118,7 +118,7 @@ ${QQCMATCH_PATH} : ${QQ_PATH} ${QQCMATCH_AF_PATH}
 validation : ${VALIDATION_NOTEBOOK}
 ${VALIDATION_NOTEBOOK} : ${TEMPLATE_NOTEBOOK} ${AF_PATH} ${QQ_PATH} ${QQCLIPPED_PATH} ${QQCMATCH_PATH}
 	mkdir -p ${OUTPUT_VALIDATION_DIR}
-	${PAPERMILL} -p adjustment_file $(word 2,$^) -p qq_file $(word 3,$^) -r hist_files "${HIST_DATA}" -r ref_files "${REF_DATA}" -r target_files "${TARGET_DATA}" -r hist_time_bounds "${HIST_START} ${HIST_END}" -r ref_time_bounds "${REF_START} ${REF_END}" -r target_time_bounds "${TARGET_START} ${TARGET_END}" -p hist_units ${HIST_UNITS} -p ref_units ${REF_UNITS} -p target_units ${TARGET_UNITS} -p output_units ${OUTPUT_UNITS} -p hist_var ${HIST_VAR} -p ref_var ${REF_VAR} -p target_var ${TARGET_VAR} -p scaling ${SCALING} -p nquantiles ${NQUANTILES} ${CLIP_VALIDATION} ${CMATCH_VALIDATION} $< $@
+	${PAPERMILL} -p adjustment_file $(word 2,$^) -p qq_file $(word 3,$^) -r hist_files "${HIST_DATA_GLOB}" -r ref_files "${REF_DATA_GLOB}" -r target_files "${TARGET_DATA}" -r hist_time_bounds "${HIST_START} ${HIST_END}" -r ref_time_bounds "${REF_START} ${REF_END}" -r target_time_bounds "${TARGET_START} ${TARGET_END}" -p hist_units ${HIST_UNITS} -p ref_units ${REF_UNITS} -p target_units ${TARGET_UNITS} -p output_units ${OUTPUT_UNITS} -p hist_var ${HIST_VAR} -p ref_var ${REF_VAR} -p target_var ${TARGET_VAR} -p scaling ${SCALING} -p nquantiles ${NQUANTILES} ${CLIP_VALIDATION} ${CMATCH_VALIDATION} $< $@
 
 ## split-by-year: Create (and compress) an individual file for each year
 split-by-year : ${FINAL_QQ_PATH}
