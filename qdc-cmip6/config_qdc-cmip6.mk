@@ -225,12 +225,12 @@ $(call check_defined, OBS_DATASET)
 $(call check_defined, TARGET_VAR)
 $(call check_defined, TARGET_UNITS)
 
-HIST_FILES := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/CMIP/*/${MODEL}/historical/${RUN}/day/${HIST_VAR}/*/v*/*_19[5,6,7,8,9]*.nc) $(wildcard /g/data/${NCI_LOC}/CMIP6/CMIP/*/${MODEL}/historical/${RUN}/day/${HIST_VAR}/*/v*/*_2???????-*.nc))
+HIST_FILES := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/CMIP/*/${MODEL}/historical/${RUN}/day/${HIST_VAR}/*/v*/*.nc))
 REF_FILES := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/ScenarioMIP/*/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/*/v*/*.nc))
 HIST_DATA := ${HIST_FILES} ${REF_FILES}
 REF_DATA := ${HIST_DATA}
 HIST_FILES_GLOB := $(shell ${PYTHON} ${BOLG} ${HIST_FILES})
-REF_FILES_GLOB := $(shell ${PYTHON} ${BOLG} ${HIST_FILES})
+REF_FILES_GLOB := $(shell ${PYTHON} ${BOLG} ${REF_FILES})
 HIST_DATA_GLOB := ${HIST_FILES_GLOB} ${REF_FILES_GLOB}
 REF_DATA_GLOB := ${HIST_DATA_GLOB}
 
@@ -254,6 +254,7 @@ else ifeq (${OBS_DATASET}, BARRA-R2)
   OUTPUT_GRID_LABEL=AUS-11
 endif
 TARGET_DATA := $(sort $(wildcard ${TARGET_DIR}/*.nc))
+TARGET_DATA_GLOB := $(shell ${PYTHON} ${BOLG} ${TARGET_DATA})
 
 ## Output data files
 $(call check_defined, EXPERIMENT)
