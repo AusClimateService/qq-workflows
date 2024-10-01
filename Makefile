@@ -116,6 +116,7 @@ ${QQCMATCH_PATH} : ${QQ_PATH} ${QQCMATCH_AF_PATH}
 	${PYTHON} ${QQ_CODE_DIR}/change_match_adjust.py $< ${OUTPUT_VAR} $(word 2,$^) $@ --scaling ${SCALING} ${OUTPUT_TIME_UNITS}
 
 ## validation : Create validation notebook
+.PRECIOUS: ${VALIDATION_NOTEBOOK}
 validation : ${VALIDATION_NOTEBOOK}
 ${VALIDATION_NOTEBOOK} : ${TEMPLATE_NOTEBOOK} ${AF_PATH} ${QQ_PATH} ${QQCLIPPED_PATH} ${QQCMATCH_PATH}
 	mkdir -p ${OUTPUT_VALIDATION_DIR}
