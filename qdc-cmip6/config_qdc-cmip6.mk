@@ -207,10 +207,12 @@ endif
 ## Model options
 $(call check_defined, MODEL)
 
+REF_VERSION_PREFIX=v
 ifeq (${MODEL}, ACCESS-CM2)
   NCI_LOC=fs38/publications
 else ifeq (${MODEL}, ACCESS-ESM1-5)
   NCI_LOC=fs38/publications
+  REF_VERSION_PREFIX=v2021031
 else
   NCI_LOC=oi10/replicas
 endif
@@ -226,7 +228,7 @@ $(call check_defined, TARGET_VAR)
 $(call check_defined, TARGET_UNITS)
 
 HIST_FILES := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/CMIP/*/${MODEL}/historical/${RUN}/day/${HIST_VAR}/*/v*/*.nc))
-REF_FILES := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/ScenarioMIP/*/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/*/v*/*.nc))
+REF_FILES := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/ScenarioMIP/*/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/*/${REF_VERSION_PREFIX}*/*.nc))
 HIST_DATA := ${HIST_FILES} ${REF_FILES}
 REF_DATA := ${HIST_DATA}
 HIST_FILES_GLOB := $(shell ${PYTHON} ${BOLG} ${HIST_FILES})
