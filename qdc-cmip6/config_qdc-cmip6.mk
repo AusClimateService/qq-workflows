@@ -227,7 +227,8 @@ $(call check_defined, OBS_DATASET)
 $(call check_defined, TARGET_VAR)
 $(call check_defined, TARGET_UNITS)
 
-HIST_FILES := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/CMIP/*/${MODEL}/historical/${RUN}/day/${HIST_VAR}/*/v*/*.nc))
+
+HIST_FILES := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/CMIP/*/${MODEL}/historical/${RUN}/day/${HIST_VAR}/*/v*/*_19[5,6,7,8,9]*.nc) $(wildcard /g/data/${NCI_LOC}/CMIP6/CMIP/*/${MODEL}/historical/${RUN}/day/${HIST_VAR}/*/v*/*_2???????-*.nc))
 REF_FILES := $(sort $(wildcard /g/data/${NCI_LOC}/CMIP6/ScenarioMIP/*/${MODEL}/${EXPERIMENT}/${RUN}/day/${REF_VAR}/*/${REF_VERSION_PREFIX}*/*.nc))
 HIST_DATA := ${HIST_FILES} ${REF_FILES}
 REF_DATA := ${HIST_DATA}
