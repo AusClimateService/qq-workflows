@@ -212,7 +212,11 @@ ifeq (${MODEL}, ACCESS-CM2)
   NCI_LOC=fs38/publications
 else ifeq (${MODEL}, ACCESS-ESM1-5)
   NCI_LOC=fs38/publications
-  REF_VERSION_PREFIX=v2021031
+  ifeq (${EXPERIMENT}, ssp126)
+    REF_VERSION_PREFIX=v2021031
+  else ifeq (${EXPERIMENT}, ssp585)
+    REF_VERSION_PREFIX=v2021031
+  endif
 else
   NCI_LOC=oi10/replicas
 endif
