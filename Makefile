@@ -57,6 +57,7 @@ $(call check_defined, OUTPUT_VALIDATION_DIR)
 $(call check_defined, HIST_VAR)
 $(call check_defined, REF_VAR)
 $(call check_defined, TARGET_VAR)
+$(call check_defined, OUTPUT_VAR)
 
 $(call check_defined, HIST_DATA)
 $(call check_defined, REF_DATA)
