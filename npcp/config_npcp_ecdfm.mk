@@ -4,8 +4,8 @@
 # - VAR (options: tasmin tasmax pr)
 # - TASK (options: historical xvalidation projection)
 # - RCM_NAME (options: BOM-BARPA-R UQ-DES-CCAM-2105 CSIRO-CCAM-2203 GCM)
-# - GCM_NAME (options: ECMWF-ERA5 CSIRO-ACCESS-ESM1-5)
-#
+# - GCM_NAME (options: ECMWF-ERA5 CSIRO-ACCESS-ESM1-5 EC-Earth-Consortium-EC-Earth3 NCAR-CESM2)
+
 # Example usage:
 #   make [target] [-Bn] CONFIG=npcp/config_npcp.mk VAR=pr TASK=projection RCM_NAME=BOM-BARPA-R GCM_NAME=CSIRO-ACCESS-ESM1-5
 #
@@ -21,9 +21,11 @@ __check_defined = \
 METHOD=ecdfm
 NQUANTILES=100
 GROUPING=--time_grouping monthly
-INTERP=nearest
+INTERP=linear
 OUTPUT_GRID=af
 COMPRESSION=--compress
+PROJECT_ID=npcp
+OUTPUT_TIME_UNITS=--output_time_units days_since_1850-01-01
 
 ## Variable options
 $(call check_defined, VAR)
@@ -31,12 +33,17 @@ $(call check_defined, VAR)
 ifeq (${VAR}, pr)
 SCALING=multiplicative
 SSR=--ssr
-#MAX_AF=--max_af 1.5
 UNITS="mm day-1"
+MAX_AF=--max_af 5
+AF_SMOOTHING=${INTERP}-maxaf5
 else
 SCALING=additive
 UNITS=C
+AF_SMOOTHING=${INTERP}
 endif
+METHOD_DESCRIPTION=ecdfm-${SCALING}-monthly-q${NQUANTILES}
+
+OUTPUT_VAR=${VAR}
 HIST_VAR=${VAR}
 REF_VAR=${VAR}
 TARGET_VAR=${VAR}
@@ -163,16 +170,17 @@ $(call check_defined, RCM_VERSION)
 OUTDIR=/g/data/ia39/npcp/data/${HIST_VAR}/${GCM_NAME}/${RCM_NAME}/${METHOD}/task-${TASK}
 
 OUTPUT_AF_DIR=${OUTDIR}
-AF_FILE=${REF_VAR}-${METHOD}-${SCALING}-monthly-q${NQUANTILES}-adjustment-factors_${OBS_DATASET}_NPCP-20i_${GCM_NAME}_${EXPERIMENT}_${GCM_RUN}_${RCM_NAME}_${RCM_VERSION}_day_${TRAINING_DATES}.nc
+AF_FILE=${OUTPUT_VAR}-${METHOD_DESCRIPTION}-quantile-adjustment-factors_${OBS_DATASET}_NPCP-20i_${GCM_NAME}_${EXPERIMENT}_${GCM_RUN}_${RCM_NAME}_${RCM_VERSION}_day_${TRAINING_DATES}.nc
 AF_PATH=${OUTPUT_AF_DIR}/${AF_FILE}
 
 OUTPUT_QQ_DIR=${OUTDIR}
-QQ_BASE=${REF_VAR}_NPCP-20i_${GCM_NAME}_${EXPERIMENT}_${GCM_RUN}_${RCM_NAME}_${RCM_VERSION}_day_${TARGET_DATES}_${METHOD}-${SCALING}-monthly-q${NQUANTILES}-${INTERP}-${OBS_DATASET}-${TRAINING_DATES}
+QQ_BASE=${OUTPUT_VAR}_NPCP-20i_${GCM_NAME}_${EXPERIMENT}_${GCM_RUN}_${RCM_NAME}_${RCM_VERSION}_day_${TARGET_DATES}_${METHOD_DESCRIPTION}-${AF_SMOOTHING}-${OBS_DATASET}-${TRAINING_DATES}
 QQ_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.nc
-#_maxaf50pct.nc
+
+METADATA_PATH=${OUTPUT_QQ_DIR}/${QQ_BASE}.yaml
+METADATA_OPTIONS= --method ${METHOD} --scaling ${SCALING} --gcm ${GCM_NAME} --rcm ${RCM_NAME} --hist_tbounds ${HIST_START}-${HIST_END} --ref_tbounds ${REF_START}-${REF_END} --target_tbounds ${TARGET_START}-${TARGET_END}
 
 OUTPUT_VALIDATION_DIR=${OUTDIR}
 VALIDATION_NOTEBOOK=${OUTPUT_VALIDATION_DIR}/${QQ_BASE}.ipynb
-#_maxaf50pct.ipynb
 FINAL_QQ_PATH=${QQ_PATH}
 
