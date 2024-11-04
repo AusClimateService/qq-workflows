@@ -8,6 +8,7 @@
 
 
 module load cdo
+module load nco
 
 for infile in "$@"; do
     echo ${infile}
@@ -20,6 +21,14 @@ for infile in "$@"; do
         command="cdo -z zip_5 -seldate,${year}-01-01,${year}-12-31 ${infile} ${outfile}"
         echo ${command}
         ${command}
+        ncatted -O -h -a time_coverage_start,c,c,"${year}0101T0000Z" ${outfile}
+        if [[ "${year}" == "2064" ]] && [[ "${start_year}-${end_year}" == "2035-2064" ]] ; then
+            end_day=30
+        else
+            end_day=31
+        fi
+        ncatted -O -h -a time_coverage_end,c,c,"${year}12${end_day}T0000Z" ${outfile}
+        ncatted -O -h -a time_coverage_duration,c,c,"P1Y0M0DT0H0M0S" ${outfile}
     done
 done
 

@@ -39,6 +39,9 @@ obs_datasets['AGCD'] = {
     'geospatial_bounds': 'POLYGON((-10.0 112.0,-10.0 156.2,-44.5 156.2,-44.5 112.0,-10.0 112.0))',
     'geospatial_bounds_crs': 'EPSG:4326',
     'var_attr_remove': ['analysis_version_number', 'source', 'frequency', 'length_scale_for_analysis', 'analysis_time', 'number_of_stations_reporting'],
+    'pr_summary': """ The AGCD precipitation for the previous 24 hours is recorded at 9am local clock time and then recorded against the observed day's date.""",
+    'tasmin_summary': """ The AGCD minimum temperature for the previous 24 hours is recorded at 9am local clock time and then recorded against the observed day's date.""",
+    'tasmax_summary': """ The AGCD maximum temperature for the previous 24 hours is recorded at 9am local clock time and then recorded against the previous day's date.""",
 }    
 obs_datasets['BARRA-R2'] = {
     'name': f'Bureau of Meteorology Atmospheric high-resolution Regional Reanalysis for Australia - Version 2 (BARRA-R2; https://doi.org/10.25914/1x6g-2v48)',
@@ -55,7 +58,7 @@ var_name_corrections = {
 
 var_attrs = {}
 var_attrs['pr'] = {
-    'standard_name': 'precipitation',
+    'standard_name': 'lwe_precipitation_rate',
     'long_name': 'Precipitation',
 }
 var_attrs['time'] = {
@@ -140,10 +143,17 @@ def main(args):
     assert variable in var_attrs
 
     # Global attributes to create/overwrite
+    summary = f'The data have been created by applying climate changes simulated between {hist_tbounds_long} and {ref_tbounds_long} by the {args.model_name} CMIP6 global climate model to {args.obs} data for {target_tbounds_long} using the Quantile Delta Change (QDC) scaling method.'
+    try:
+        summary = summary + obs_datasets[args.obs][f'{args.variable}_summary']
+    except KeyError:
+        pass
     output_dict['global_overwrite'] = {
         'title': 'QDC-Scaled CMIP6 Application-Ready Climate Projections',
         'Conventions': 'CF-1.8, ACDD-1.3',
-        'summary': f'The data have been created by applying climate changes simulated between {hist_tbounds_long} and {ref_tbounds_long} by the {args.model_name} CMIP6 global climate model to {args.obs} data for {target_tbounds_long} using the Quantile Delta Change (QDC) scaling method.',
+        'standard_name_vocabulary': 'CF Standard Name Table v86',
+        'project': 'QDC-CMIP6',
+        'summary': summary,
         'keywords': 'GCMD:Locations>Continent>Australia/New Zealand>Australia, GCMD:Earth Science Services>Models>Coupled Climate Models, GCMD:Earth Science>Atmosphere',
         'keywords_vocabulary': 'GCMD:GCMD Keywords, Version 17.9',
         'keywords_reference': 'Global Change Master Directory (GCMD). 2023. GCMD Keywords, Version 17.9, Greenbelt, MD: Earth Science Data and Information System, Earth Science Projects Division, Goddard Space Flight Center, NASA. URL (GCMD Keyword Forum Page): https://forum.earthdata.nasa.gov/app.php/tag/GCMD+Keywords',
@@ -162,6 +172,7 @@ def main(args):
         'creator_name': 'Australian Climate Service',
         'creator_type': 'group',
         'creator_institution': 'Commonwealth Scientific and Industrial Research Organisation',
+        'creator_url': 'https://www.acs.gov.au/',
         'creator_email': 'acs@acs.gov.au',
         'publisher_name': 'Commonwealth Scientific and Industrial Research Organisation',
         'publisher_type': 'institution',
@@ -184,6 +195,7 @@ def main(args):
     output_dict['var_overwrite'] = {}
     output_dict['var_overwrite']['time'] = var_attrs['time']
     output_dict['var_overwrite'][variable] = var_attrs[variable]
+    output_dict['var_overwrite'][variable]['coverage_content_type'] = 'modelResult'
     if args.units:
         units = 'deg_C' if args.units in ['C', 'Celsius', 'degC'] else args.units
         output_dict['var_overwrite'][variable]['units'] = units
