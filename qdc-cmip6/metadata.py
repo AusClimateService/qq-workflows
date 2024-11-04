@@ -151,6 +151,7 @@ def main(args):
     output_dict['global_overwrite'] = {
         'title': 'QDC-Scaled CMIP6 Application-Ready Climate Projections',
         'Conventions': 'CF-1.8, ACDD-1.3',
+        'standard_name_vocabulary': 'CF Standard Name Table v86',
         'project': 'QDC-CMIP6',
         'summary': summary,
         'keywords': 'GCMD:Locations>Continent>Australia/New Zealand>Australia, GCMD:Earth Science Services>Models>Coupled Climate Models, GCMD:Earth Science>Atmosphere',
@@ -194,6 +195,7 @@ def main(args):
     output_dict['var_overwrite'] = {}
     output_dict['var_overwrite']['time'] = var_attrs['time']
     output_dict['var_overwrite'][variable] = var_attrs[variable]
+    output_dict['var_overwrite'][variable]['coverage_content_type'] = 'modelResult'
     if args.units:
         units = 'deg_C' if args.units in ['C', 'Celsius', 'degC'] else args.units
         output_dict['var_overwrite'][variable]['units'] = units
