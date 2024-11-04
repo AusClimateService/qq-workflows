@@ -30,22 +30,24 @@ for inpath in "$@"; do
     outpath=`echo ${outpath} | sed s:QDC-CMIP6-v2:QDC-CMIP6:g`
     outpath=`echo ${outpath} | sed s:${time}:${grid}/${time}/v20241025:g`
     outdir=`dirname ${outpath}`
+    # Move file
+    mkdir -p ${outdir}
+    mv ${inpath} ${outpath}
     # Update file attributes
-    ncatted -O -h -a creator_url,global,c,c,"https://www.acs.gov.au/" ${inpath}
-    ncatted -O -h -a project,global,c,c,"QDC-CMIP6" ${inpath}
-    ncatted -O -h -a time_coverage_start,c,c,"${year}0101T0000Z" ${inpath}
-    ncatted -O -h -a time_coverage_end,c,c,"${year}12${end_day}T0000Z" ${inpath}
-    ncatted -O -h -a time_coverage_duration,c,c,"P1Y0M0DT0H0M0S" ${inpath}
-    ncatted -O -h -a processing_level,global,o,c,"Level 2: Quality assurance and quality control undertaken." ${inpath}
+    ncatted -O -h -a creator_url,global,c,c,"https://www.acs.gov.au/" ${outpath}
+    ncatted -O -h -a project,global,c,c,"QDC-CMIP6" ${outpath}
+    ncatted -O -h -a time_coverage_start,c,c,"${year}0101T0000Z" ${outpath}
+    ncatted -O -h -a time_coverage_end,c,c,"${year}12${end_day}T0000Z" ${outpath}
+    ncatted -O -h -a time_coverage_duration,c,c,"P1Y0M0DT0H0M0S" ${outpath}
+    ncatted -O -h -a standard_name_vocabulary,c,c,"CF Standard Name Table v86" ${outpath}
+    ncatted -O -h -a processing_level,global,o,c,"Level 1b: Post-processing of output Level 0 scaled data with robust metadata and data reference syntax applied and a quality assurance and quality control check completed." ${outpath}
+    ncatted -O -h -a coverage_content_type,${var},c,c,"modelResult" ${outpath}
     if [[ "${var}" == "pr" ]] ; then
-        ncatted -O -h -a standard_name,pr,o,c,"lwe_precipitation_rate" ${inpath}
+        ncatted -O -h -a standard_name,pr,o,c,"lwe_precipitation_rate" ${outpath}
         ncatted -O -h -a summary,global,a,c," The AGCD precipitation for the previous 24 hours is recorded at 9am local clock time and then recorded against the observed day's date." ${inpath}
     elif [[ "${var}" == "tasmin" ]] ; then
         ncatted -O -h -a summary,global,a,c," The AGCD minimum temperature for the previous 24 hours is recorded at 9am local clock time and then recorded against the observed day's date." ${inpath}
     elif [[ "${var}" == "tasmax" ]] ; then
         ncatted -O -h -a summary,global,a,c," The AGCD maximum temperature for the previous 24 hours is recorded at 9am local clock time and then recorded against the previous day's date." ${inpath}
     fi
-    # Move file
-    mkdir -p ${outdir}
-    mv ${inpath} ${outpath}
 done
