@@ -31,7 +31,7 @@ for inpath in "$@"; do
     outpath=`echo ${outpath} | sed s:${time}:${grid}/${time}/v20241025:g`
     outdir=`dirname ${outpath}`
     # Update file attributes
-    ncatted -O -h -a creator_url,global,c,c,"https://www.csiro.au" ${inpath}
+    ncatted -O -h -a creator_url,global,c,c,"https://www.acs.gov.au/" ${inpath}
     ncatted -O -h -a project,global,c,c,"QDC-CMIP6" ${inpath}
     ncatted -O -h -a time_coverage_start,c,c,"${year}0101T0000Z" ${inpath}
     ncatted -O -h -a time_coverage_end,c,c,"${year}12${end_day}T0000Z" ${inpath}
