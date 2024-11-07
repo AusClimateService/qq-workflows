@@ -49,6 +49,8 @@ for inpath in "$@"; do
         ncatted -O -h -a summary,global,a,c," The AGCD minimum temperature for the previous 24 hours is recorded at 9am local clock time and then recorded against the observed day's date." ${outpath}
     elif [[ "${var}" == "tasmax" ]] ; then
         ncatted -O -h -a summary,global,a,c," The AGCD maximum temperature for the previous 24 hours is recorded at 9am local clock time and then recorded against the previous day's date." ${outpath}
+    elif [[ "${var}" == "hursmin" ]] ; then
+        ncatted -O -h -a standard_name,hursmin,o,c,"relative_humidity" ${outpath}
     fi
     echo ${outpath}
 done

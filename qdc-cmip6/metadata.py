@@ -83,7 +83,7 @@ var_attrs['hursmax'] = {
     'long_name': 'Daily Maximum Near-Surface Relative Humidity',
 }
 var_attrs['hursmin'] = {
-    'standard_name': 'relative_humidty',
+    'standard_name': 'relative_humidity',
     'long_name': 'Daily Minimum Near-Surface Relative Humidity',
 }
 var_attrs['rsds'] = {
