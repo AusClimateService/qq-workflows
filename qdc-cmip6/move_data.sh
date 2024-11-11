@@ -20,19 +20,20 @@ for inpath in "$@"; do
     var=`echo ${base} | cut -d '_' -f 1`
     grid=`echo ${base} | cut -d '_' -f 6`
     year=`echo ${base} | cut -d '_' -f 7`
-    time=`echo ${inpath} | cut -d '/' -f 14`
-    if [[ "${year}" == "2064" ]] && [[ "${time}" == "2035-2064" ]] ; then
+    obs=`echo ${inpath} | cut -d '/' -f 8`
+    tbounds=`echo ${inpath} | cut -d '/' -f 14`
+    if [[ "${year}" == "2064" ]] && [[ "${tbounds}" == "2035-2064" ]] ; then
         end_day=30
     else
         end_day=31
     fi
     outpath=`echo ${inpath} | sed s:test-data:release:g`
     outpath=`echo ${outpath} | sed s:QDC-CMIP6-v2:QDC-CMIP6:g`
-    outpath=`echo ${outpath} | sed s:${time}:${grid}/${time}/v20241104:g`
+    outpath=`echo ${outpath} | sed s:${tbounds}:${grid}/${tbounds}/v20241104:g`
     outdir=`dirname ${outpath}`
     # Move file
     mkdir -p ${outdir}
-    mv ${inpath} ${outpath}
+    cp ${inpath} ${outpath}
     # Update file attributes
     ncatted -O -h -a creator_url,global,c,c,"https://www.acs.gov.au/" ${outpath}
     ncatted -O -h -a project,global,c,c,"QDC-CMIP6" ${outpath}
@@ -42,12 +43,15 @@ for inpath in "$@"; do
     ncatted -O -h -a standard_name_vocabulary,global,c,c,"CF Standard Name Table v86" ${outpath}
     ncatted -O -h -a processing_level,global,o,c,"Level 1b: Post-processing of output Level 0 scaled data with robust metadata and data reference syntax applied and a quality assurance and quality control check completed." ${outpath}
     ncatted -O -h -a coverage_content_type,${var},c,c,"modelResult" ${outpath}
+    echo ${var} ${obs}
     if [[ "${var}" == "pr" ]] ; then
         ncatted -O -h -a standard_name,pr,o,c,"lwe_precipitation_rate" ${outpath}
-        ncatted -O -h -a summary,global,a,c," The AGCD precipitation for the previous 24 hours is recorded at 9am local clock time and then recorded against the observed day's date." ${outpath}
-    elif [[ "${var}" == "tasmin" ]] ; then
+	if [[ "${obs}" == "AGCD" ]] ; then
+            ncatted -O -h -a summary,global,a,c," The AGCD precipitation for the previous 24 hours is recorded at 9am local clock time and then recorded against the observed day's date." ${outpath}
+	fi
+    elif [[ "${var}" == "tasmin" ]] && [[ "${obs}" == "AGCD" ]] ; then
         ncatted -O -h -a summary,global,a,c," The AGCD minimum temperature for the previous 24 hours is recorded at 9am local clock time and then recorded against the observed day's date." ${outpath}
-    elif [[ "${var}" == "tasmax" ]] ; then
+    elif [[ "${var}" == "tasmax" ]] && [[ "${obs}" == "AGCD" ]] ; then
         ncatted -O -h -a summary,global,a,c," The AGCD maximum temperature for the previous 24 hours is recorded at 9am local clock time and then recorded against the previous day's date." ${outpath}
     elif [[ "${var}" == "hursmin" ]] ; then
         ncatted -O -h -a standard_name,hursmin,o,c,"relative_humidity" ${outpath}
