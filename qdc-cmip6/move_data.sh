@@ -27,13 +27,13 @@ for inpath in "$@"; do
     else
         end_day=31
     fi
-    outpath=`echo ${inpath} | sed s:test-data:release:g`
-    outpath=`echo ${outpath} | sed s:QDC-CMIP6-v2:QDC-CMIP6:g`
-    outpath=`echo ${outpath} | sed s:${tbounds}:${grid}/${tbounds}/v20241104:g`
+    outpath=`echo ${inpath} | sed s:test-data:release:`
+    outpath=`echo ${outpath} | sed s:QDC-CMIP6-v2:QDC-CMIP6:`
+    outpath=`echo ${outpath} | sed s:${tbounds}:${grid}/${tbounds}/v20241104:`
     outdir=`dirname ${outpath}`
     # Move file
     mkdir -p ${outdir}
-    cp ${inpath} ${outpath}
+    mv ${inpath} ${outpath}
     # Update file attributes
     ncatted -O -h -a creator_url,global,c,c,"https://www.acs.gov.au/" ${outpath}
     ncatted -O -h -a project,global,c,c,"QDC-CMIP6" ${outpath}
@@ -43,7 +43,6 @@ for inpath in "$@"; do
     ncatted -O -h -a standard_name_vocabulary,global,c,c,"CF Standard Name Table v86" ${outpath}
     ncatted -O -h -a processing_level,global,o,c,"Level 1b: Post-processing of output Level 0 scaled data with robust metadata and data reference syntax applied and a quality assurance and quality control check completed." ${outpath}
     ncatted -O -h -a coverage_content_type,${var},c,c,"modelResult" ${outpath}
-    echo ${var} ${obs}
     if [[ "${var}" == "pr" ]] ; then
         ncatted -O -h -a standard_name,pr,o,c,"lwe_precipitation_rate" ${outpath}
 	if [[ "${obs}" == "AGCD" ]] ; then
