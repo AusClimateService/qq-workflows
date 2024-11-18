@@ -26,7 +26,7 @@ and just want the (arguably) superior observational underpinning.
   - MPI-ESM1-2-HR
   - NorESM2-MM
   - UKESM1-0-LL
-  - Both the ACS ([Grose et al, 2023](https://doi.org/10.1016/j.cliser.2023.100368)) and NARCliM2.0 ([Di Virgilio et al, 2022](https://doi.org/10.1029/2021EF002625)) went through a process of identifying an appropriate sub-sample of CMIP6 models for dynamical downscaling. They collectively settled on nine CMIP6 models that provided the data needed to drive their models, displayed adequate skill in simulating the historical climate over the Australian region and that together spanned a range of different simulated futures with respect to annual mean temperature and precipitation over Australia. Accordingly, those same nine models were used for the QDC-CMIP dataset. 
+  - Both the ACS ([Grose et al, 2023](https://doi.org/10.1016/j.cliser.2023.100368)) and NARCliM2.0 ([Di Virgilio et al, 2022](https://doi.org/10.1029/2021EF002625)) went through a process of identifying an appropriate sub-sample of CMIP6 models for dynamical downscaling. They collectively settled on nine CMIP6 models that provided the data needed to drive their models, displayed adequate skill in simulating the historical climate over the Australian region and that together spanned a range of different simulated futures with respect to annual mean temperature and precipitation over Australia. Accordingly, those same nine models were used for the QDC-CMIP6 dataset. 
 - Time slice output:
   - Baseline time slice: 1985-2014 ("2000")
     - At least 30 years is preferable for QDC (to reduce the effect of natural variability)
