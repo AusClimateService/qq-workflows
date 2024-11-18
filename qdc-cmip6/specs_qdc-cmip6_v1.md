@@ -78,42 +78,42 @@ Here's a summary of what preliminary time slice data are currently available
 
 | model | run | exp | tas max | tas min | pr | hurs | hurs max | hurs min | rsds | sfcWind | sfcWind max |
 | ---   | --- | --- | :-:    | :-:    | :-:| :-:  | :-:     | :-:     | :-:  | :-:     | :-:        |
-| ACCESS-CM2 | r4i1p1f1 | ssp126 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| ACCESS-CM2 | r4i1p1f1 | ssp245 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| ACCESS-CM2 | r4i1p1f1 | ssp370 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| ACCESS-CM2 | r4i1p1f1 | ssp585 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| ACCESS-ESM1-5 | r6i1p1f1 | ssp126 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| ACCESS-ESM1-5 | r6i1p1f1 | ssp245 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| ACCESS-ESM1-5 | r6i1p1f1 | ssp370 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| ACCESS-ESM1-5 | r6i1p1f1 | ssp585 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| CESM2 | r11i1p1f1 | ssp126 | | | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | |
-| CESM2 | r11i1p1f1 | ssp245 | | | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | |
-| CESM2 | r11i1p1f1 | ssp370 | | | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | |
-| CESM2 | r11i1p1f1 | ssp585 | | | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | |
-| CMCC-ESM2 | r1i1p1f1 | ssp126 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| CMCC-ESM2 | r1i1p1f1 | ssp245 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| CMCC-ESM2 | r1i1p1f1 | ssp370 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| CMCC-ESM2 | r1i1p1f1 | ssp585 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| CNRM-ESM2-1 | r1i1p1f2 | ssp126 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |  | :yellow_circle: |
-| CNRM-ESM2-1 | r1i1p1f2 | ssp245 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |  | :yellow_circle: |
-| CNRM-ESM2-1 | r1i1p1f2 | ssp370 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |  | :yellow_circle: |
-| CNRM-ESM2-1 | r1i1p1f2 | ssp585 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |  | :yellow_circle: |
-| EC-Earth3 | r1i1p1f1 | ssp126 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| EC-Earth3 | r1i1p1f1 | ssp245 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| EC-Earth3 | r1i1p1f1 | ssp370 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| EC-Earth3 | r1i1p1f1 | ssp585 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| MPI-ESM1-2-HR | r1i1p1f1 | ssp126 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| MPI-ESM1-2-HR | r1i1p1f1 | ssp245 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| MPI-ESM1-2-HR | r1i1p1f1 | ssp370 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| MPI-ESM1-2-HR | r1i1p1f1 | ssp585 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| NorESM2-MM | r1i1p1f1 | ssp126 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | |
-| NorESM2-MM | r1i1p1f1 | ssp245 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | |
-| NorESM2-MM | r1i1p1f1 | ssp370 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | |
-| NorESM2-MM | r1i1p1f1 | ssp585 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | |
-| UKESM1-0-LL | r1i1p1f2 | ssp126 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| UKESM1-0-LL | r1i1p1f2 | ssp245 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| UKESM1-0-LL | r1i1p1f2 | ssp370 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| UKESM1-0-LL | r1i1p1f2 | ssp585 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | :yellow_circle: |
+| ACCESS-CM2 | r4i1p1f1 | ssp126 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| ACCESS-CM2 | r4i1p1f1 | ssp245 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| ACCESS-CM2 | r4i1p1f1 | ssp370 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| ACCESS-CM2 | r4i1p1f1 | ssp585 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| ACCESS-ESM1-5 | r6i1p1f1 | ssp126 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| ACCESS-ESM1-5 | r6i1p1f1 | ssp245 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| ACCESS-ESM1-5 | r6i1p1f1 | ssp370 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| ACCESS-ESM1-5 | r6i1p1f1 | ssp585 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| CESM2 | r11i1p1f1 | ssp126 | | | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | |
+| CESM2 | r11i1p1f1 | ssp245 | | | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | |
+| CESM2 | r11i1p1f1 | ssp370 | | | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | |
+| CESM2 | r11i1p1f1 | ssp585 | | | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | |
+| CMCC-ESM2 | r1i1p1f1 | ssp126 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| CMCC-ESM2 | r1i1p1f1 | ssp245 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| CMCC-ESM2 | r1i1p1f1 | ssp370 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| CMCC-ESM2 | r1i1p1f1 | ssp585 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | ssp126 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |  | :green_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | ssp245 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |  | :green_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | ssp370 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |  | :green_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | ssp585 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |  | :green_circle: |
+| EC-Earth3 | r1i1p1f1 | ssp126 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| EC-Earth3 | r1i1p1f1 | ssp245 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| EC-Earth3 | r1i1p1f1 | ssp370 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| EC-Earth3 | r1i1p1f1 | ssp585 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| MPI-ESM1-2-HR | r1i1p1f1 | ssp126 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | :green_circle: |
+| MPI-ESM1-2-HR | r1i1p1f1 | ssp245 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | :green_circle: |
+| MPI-ESM1-2-HR | r1i1p1f1 | ssp370 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | :green_circle: |
+| MPI-ESM1-2-HR | r1i1p1f1 | ssp585 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | :green_circle: |
+| NorESM2-MM | r1i1p1f1 | ssp126 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | |
+| NorESM2-MM | r1i1p1f1 | ssp245 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | |
+| NorESM2-MM | r1i1p1f1 | ssp370 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | |
+| NorESM2-MM | r1i1p1f1 | ssp585 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | |
+| UKESM1-0-LL | r1i1p1f2 | ssp126 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | :green_circle: |
+| UKESM1-0-LL | r1i1p1f2 | ssp245 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | :green_circle: |
+| UKESM1-0-LL | r1i1p1f2 | ssp370 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | :green_circle: |
+| UKESM1-0-LL | r1i1p1f2 | ssp585 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | :green_circle: |
 
 ### Global warming level data
 
@@ -132,42 +132,42 @@ Here's a summary of what preliminary global warming level data are currently ava
 
 | model | run | GWL | tas max | tas min | pr | hurs | hurs max | hurs min | rsds | sfcWind | sfcWindmax | 
 | ---   | --- | --- | :-:     | :-:     | :-:| :-:  | :-:      | :-:      | :-:  | :-:     | :-:        |
-| ACCESS-CM2 | r4i1p1f1 | GWL1.5 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| ACCESS-CM2 | r4i1p1f1 | GWL2.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | 
-| ACCESS-CM2 | r4i1p1f1 | GWL3.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| ACCESS-CM2 | r4i1p1f1 | GWL4.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| ACCESS-ESM1-5 | r6i1p1f1 | GWL1.5 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| ACCESS-ESM1-5 | r6i1p1f1 | GWL2.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| ACCESS-ESM1-5 | r6i1p1f1 | GWL3.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
+| ACCESS-CM2 | r4i1p1f1 | GWL1.5 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| ACCESS-CM2 | r4i1p1f1 | GWL2.0 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | 
+| ACCESS-CM2 | r4i1p1f1 | GWL3.0 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| ACCESS-CM2 | r4i1p1f1 | GWL4.0 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| ACCESS-ESM1-5 | r6i1p1f1 | GWL1.5 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| ACCESS-ESM1-5 | r6i1p1f1 | GWL2.0 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| ACCESS-ESM1-5 | r6i1p1f1 | GWL3.0 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
 | ACCESS-ESM1-5 | r6i1p1f1 | GWL4.0 | :no_entry_sign: :no_entry_sign: | :no_entry_sign: :no_entry_sign: | :no_entry_sign: :no_entry_sign: | :no_entry_sign: | :no_entry_sign: | :no_entry_sign: | :no_entry_sign: | :no_entry_sign: | :no_entry_sign: |
-| CESM2 | r11i1p1f1 | GWL1.5 | | | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | |
-| CESM2 | r11i1p1f1 | GWL2.0 | | | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | |
-| CESM2 | r11i1p1f1 | GWL3.0 | | | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | |
-| CESM2 | r11i1p1f1 | GWL4.0 | | | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | |
-| CMCC-ESM2 | r1i1p1f1 | GWL1.5 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| CMCC-ESM2 | r1i1p1f1 | GWL2.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| CMCC-ESM2 | r1i1p1f1 | GWL3.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| CMCC-ESM2 | r1i1p1f1 | GWL4.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| CNRM-ESM2-1 | r1i1p1f2 | GWL1.5 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |  | :yellow_circle: |
-| CNRM-ESM2-1 | r1i1p1f2 | GWL2.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |  | :yellow_circle: |
-| CNRM-ESM2-1 | r1i1p1f2 | GWL3.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |  | :yellow_circle: |
-| CNRM-ESM2-1 | r1i1p1f2 | GWL4.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |  | :yellow_circle: |
-| EC-Earth3 | r1i1p1f1 | GWL1.5 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| EC-Earth3 | r1i1p1f1 | GWL2.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| EC-Earth3 | r1i1p1f1 | GWL3.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| EC-Earth3 | r1i1p1f1 | GWL4.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| MPI-ESM1-2-HR | r1i1p1f1 | GWL1.5 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| MPI-ESM1-2-HR | r1i1p1f1 | GWL2.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| MPI-ESM1-2-HR | r1i1p1f1 | GWL3.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | :yellow_circle: |
+| CESM2 | r11i1p1f1 | GWL1.5 | | | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | |
+| CESM2 | r11i1p1f1 | GWL2.0 | | | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | |
+| CESM2 | r11i1p1f1 | GWL3.0 | | | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | |
+| CESM2 | r11i1p1f1 | GWL4.0 | | | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | |
+| CMCC-ESM2 | r1i1p1f1 | GWL1.5 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| CMCC-ESM2 | r1i1p1f1 | GWL2.0 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| CMCC-ESM2 | r1i1p1f1 | GWL3.0 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| CMCC-ESM2 | r1i1p1f1 | GWL4.0 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | GWL1.5 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |  | :green_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | GWL2.0 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |  | :green_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | GWL3.0 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |  | :green_circle: |
+| CNRM-ESM2-1 | r1i1p1f2 | GWL4.0 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |  | :green_circle: |
+| EC-Earth3 | r1i1p1f1 | GWL1.5 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| EC-Earth3 | r1i1p1f1 | GWL2.0 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| EC-Earth3 | r1i1p1f1 | GWL3.0 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| EC-Earth3 | r1i1p1f1 | GWL4.0 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: | :green_circle: |
+| MPI-ESM1-2-HR | r1i1p1f1 | GWL1.5 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | :green_circle: |
+| MPI-ESM1-2-HR | r1i1p1f1 | GWL2.0 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | :green_circle: |
+| MPI-ESM1-2-HR | r1i1p1f1 | GWL3.0 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | :green_circle: |
 | MPI-ESM1-2-HR | r1i1p1f1 | GWL4.0 | :no_entry_sign: :no_entry_sign: | :no_entry_sign: :no_entry_sign: | :no_entry_sign: :no_entry_sign: | :no_entry_sign: | | | :no_entry_sign: | :no_entry_sign: | :no_entry_sign: |
-| NorESM2-MM | r1i1p1f1 | GWL1.5 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | |
-| NorESM2-MM | r1i1p1f1 | GWL2.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | |
-| NorESM2-MM | r1i1p1f1 | GWL3.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | |
+| NorESM2-MM | r1i1p1f1 | GWL1.5 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | |
+| NorESM2-MM | r1i1p1f1 | GWL2.0 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | |
+| NorESM2-MM | r1i1p1f1 | GWL3.0 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | |
 | NorESM2-MM | r1i1p1f1 | GWL4.0 | :no_entry_sign: :no_entry_sign: | :no_entry_sign: :no_entry_sign: | :no_entry_sign: :no_entry_sign: | :no_entry_sign: | | | :no_entry_sign: | :no_entry_sign: | |
-| UKESM1-0-LL | r1i1p1f2 | GWL1.5 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| UKESM1-0-LL | r1i1p1f2 | GWL2.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| UKESM1-0-LL | r1i1p1f2 | GWL3.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-| UKESM1-0-LL | r1i1p1f2 | GWL4.0 | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: :yellow_circle: | :yellow_circle: | | | :yellow_circle: | :yellow_circle: | :yellow_circle: |
+| UKESM1-0-LL | r1i1p1f2 | GWL1.5 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | :green_circle: |
+| UKESM1-0-LL | r1i1p1f2 | GWL2.0 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | :green_circle: |
+| UKESM1-0-LL | r1i1p1f2 | GWL3.0 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | :green_circle: |
+| UKESM1-0-LL | r1i1p1f2 | GWL4.0 | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: | | | :green_circle: | :green_circle: | :green_circle: |
 
 ## Observational data
 
