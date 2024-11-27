@@ -12,10 +12,10 @@ import xarray as xr
 import cmdline_provenance as cmdprov
 
 
-var_to_cmor_name = {
-    'precip': 'pr',
-    'tmin': 'tasmin',
-    'tmax': 'tasmax',
+cmor_to_agcd_name = {
+    'pr': 'precip',
+    'tasmin': 'tmin',
+    'tasmax': 'tmax',
 }
 
 cmor_var_attrs = {}
@@ -92,7 +92,6 @@ def get_global_attrs(ds):
 
     global_attrs['standard_name_vocabulary'] = 'CF Standard Name Table v86'
     global_attrs['license'] = 'CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)'
-    global_attrs['code'] = 'https://github.com/AusClimateService/qq-workflows/tree/main/qdc-cmip6'
     global_attrs['comment'] = 'This is a copy of the AGCD data on the CSIRO Digiscape Climate Data Portal (see https://github.com/AusClimateService/agcd-csiro for details) with minor modifications to the file metadata.'
 
     year = str(ds.time.dt.year.values[0])
@@ -119,13 +118,13 @@ def main(args):
     
     ds = xr.open_dataset(args.infile)
 
-    cmor_var = var_to_cmor_name[args.invar]
-    ds = ds.rename({args.invar: cmor_var})
+    agcd_var = cmor_to_agcd_name[args.var]
+    ds = ds.rename({agcd_var: args.var})
 
     ds.attrs = get_global_attrs(ds)
-    ds[cmor_var].attrs = cmor_var_attrs[cmor_var]
+    ds[args.var].attrs = cmor_var_attrs[args.var]
 
-    output_encoding = get_output_encoding(ds, cmor_var)
+    output_encoding = get_output_encoding(ds, args.var)
     ds.to_netcdf(args.outfile, encoding=output_encoding)
 
 
@@ -135,7 +134,7 @@ if __name__ == '__main__':
         formatter_class=argparse.RawDescriptionHelpFormatter
     )     
     parser.add_argument("infile", type=str, help="input files")
-    parser.add_argument("invar", type=str, help="input variable")
+    parser.add_argument("var", type=str, choices=('tasmin', 'tasmax', 'pr'), help="input variable")
     parser.add_argument("outfile", type=str, help="output file")
     args = parser.parse_args()
     main(args)
