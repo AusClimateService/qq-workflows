@@ -18,26 +18,26 @@ var_to_cmor_name = {
     'tmax': 'tasmax',
 }
 
-cmor_var_attrs = = {}
+cmor_var_attrs = {}
 cmor_var_attrs['pr'] = {
     'standard_name': 'lwe_precipitation_rate',
     'long_name': 'Precipitation',
+    'units': 'mm d-1',
+    'coverage_content_type': 'modelResult',
 }
 cmor_var_attrs['tasmax'] = {
     'standard_name': 'air_temperature',
     'long_name': 'Daily Maximum Near-Surface Air Temperature',
+    'units': 'degC',
+    'coverage_content_type': 'modelResult',
 }
 cmor_var_attrs['tasmin'] = {
     'standard_name': 'air_temperature',
     'long_name': 'Daily Minimum Near-Surface Air Temperature',
+    'units': 'degC',
+    'coverage_content_type': 'modelResult',
 }
 
-
-output_units = {
-    'tasmax': 'degC',
-    'tasmin': 'degC',
-    'pr': 'mm d-1',
-}
 
 def get_new_log():
     """Generate command log for output file."""
@@ -70,13 +70,61 @@ def get_output_encoding(ds, var):
     return encoding
 
 
+def get_global_attrs(ds):
+    """Get the global attributes for output file."""
+
+    attrs_to_keep = [
+        'geospatial_lat_min',
+        'geospatial_lat_max',
+        'geospatial_lon_min',
+        'geospatial_lon_max',
+        'bom-cmp-awap_version',
+        'bom-cmp-util_aifs2nc_version',
+        'title',
+        'keywords',
+        'references',
+        'url',
+        'id',
+        'summary',
+    ]
+    global_attrs = {key: ds.attrs[key] for key in attrs_to_keep}
+    global_attrs['acknowledgement'] = ds.attrs['acknowledgment']
+
+    global_attrs['standard_name_vocabulary'] = 'CF Standard Name Table v86'
+    global_attrs['license'] = 'CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)'
+    global_attrs['code'] = 'https://github.com/AusClimateService/qq-workflows/tree/main/qdc-cmip6'
+    global_attrs['comment'] = 'This is a copy of the AGCD data on the CSIRO Digiscape Climate Data Portal (see https://github.com/AusClimateService/agcd-csiro for details) with minor modifications to the file metadata.'
+
+    year = str(ds.time.dt.year.values[0])
+    global_attrs['time_coverage_start'] = f'{year}0101T0000Z'
+    global_attrs['time_coverage_end'] = f'{year}1231T0000Z'
+    global_attrs['time_coverage_duration'] = 'P1Y0M0DT0H0M0S'
+    global_attrs['time_coverage_resolution'] = 'PT1440M0S' 
+
+    global_attrs['contact'] = 'damien.irving@csiro.au'
+    global_attrs['creator_institution'] = 'Australian Bureau of Meteorology'
+    global_attrs['creator_type'] = 'institution'
+    global_attrs['publisher_institution'] = 'Commonwealth Scientific and Industrial Research Organisation'
+    global_attrs['publisher_name'] = 'Australian Climate Service'
+    global_attrs['publisher_type'] = 'group'
+    global_attrs['publisher_url'] = 'https://www.csiro.au/'
+
+    global_attrs['history'] = get_new_log()
+
+    return global_attrs
+
+
 def main(args):
     """Run the program."""
     
-    ds = xr.open_mfdataset(args.infiles)
+    ds = xr.open_dataset(args.infile)
+
     cmor_var = var_to_cmor_name[args.invar]
     ds = ds.rename({args.invar: cmor_var})
-    ds.attrs['history'] = get_new_log()
+
+    ds.attrs = get_global_attrs(ds)
+    ds[cmor_var].attrs = cmor_var_attrs[cmor_var]
+
     output_encoding = get_output_encoding(ds, cmor_var)
     ds.to_netcdf(args.outfile, encoding=output_encoding)
 
@@ -86,7 +134,7 @@ if __name__ == '__main__':
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter
     )     
-    parser.add_argument("infiles", type=str, nargs='*', help="input files")
+    parser.add_argument("infile", type=str, help="input files")
     parser.add_argument("invar", type=str, help="input variable")
     parser.add_argument("outfile", type=str, help="output file")
     args = parser.parse_args()
