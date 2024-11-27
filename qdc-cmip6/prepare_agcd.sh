@@ -9,7 +9,7 @@ var=$1
 if [[ "${var}" == "tasmax" ]] ; then
     agcd_path_start=/g/data/xv83/agcd-csiro/tmax/daily/tmax
 elif [[ "${var}" == "tasmin" ]] ; then
-    agcd_path_start=/g/data/xv83/agcd-csiro/tmax/daily/tmin
+    agcd_path_start=/g/data/xv83/agcd-csiro/tmin/daily/tmin
 elif [[ "${var}" == "pr" ]] ; then
     agcd_path_start=/g/data/xv83/agcd-csiro/precip/daily/precip-total
 fi
