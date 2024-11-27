@@ -15,11 +15,11 @@ elif [[ "${var}" == "pr" ]] ; then
 fi
 
 python=/g/data/xv83/quantile-mapping/miniconda3/envs/qq-workflows/bin/python
-outdir=/g/data/ia39/australian-climate-service/release/QDC-CMIP6/AGCD/raw/historical/v-csiro/day/tasmax/AUS-05/1985-2020/v20241104
+outdir=/g/data/ia39/australian-climate-service/release/QDC-CMIP6/AGCD/raw/historical/v-csiro/day/${var}/AUS-05/1985-2020/v20241104
 mkdir -p ${outdir}
 for year in {1985..2020}; do
     inpath=${agcd_path_start}_AGCD-CSIRO_r005_${year}0101-${year}1231_daily.nc
-    outpath=${outdir}/tasmax_day_AGCD_historical_v-csiro_AUS-05_${year}.nc
+    outpath=${outdir}/${var}_day_AGCD_historical_v-csiro_AUS-05_${year}.nc
     command="${python} /g/data/xv83/quantile-mapping/qq-workflows/qdc-cmip6/prepare_agcd.py ${inpath} ${var} ${outpath}"
     echo ${command}
     ${command}
