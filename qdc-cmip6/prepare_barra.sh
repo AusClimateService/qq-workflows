@@ -21,11 +21,11 @@ python=/g/data/xv83/quantile-mapping/miniconda3/envs/qq-workflows/bin/python
 outdir_start=/g/data/ia39/australian-climate-service/release/QDC-CMIP6/BARRA-R2/raw/historical/v1/day/${var}
 for grid in AUS-11 AUS-05i; do
     outdir=${outdir_start}/${grid}/1985-2020/v20241104
-    #mkdir -p ${outdir}
+    mkdir -p ${outdir}
     for year in {1985..2020}; do
         outpath=${outdir}/${var}_day_BARRA-R2_historical_v1_${grid}_${year}.nc
         command="${python} /g/data/xv83/quantile-mapping/qq-workflows/qdc-cmip6/prepare_barra.py ${indir}/${var}_AUS-11_ERA5_historical_hres_BOM_BARRA-R2_v1_day_${year}??-${year}??.nc ${var} ${grid} ${outpath}"
         echo ${command}
-        #${command}
+        ${command}
     done
 done
