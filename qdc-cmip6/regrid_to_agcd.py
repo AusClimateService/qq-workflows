@@ -16,6 +16,7 @@ def get_outfile_encoding(ds, var):
     for ds_var in ds_vars:
         encoding[ds_var] = {'_FillValue': None}
     encoding[var]['dtype'] = 'float32'
+    encoding['time']['dtype'] = 'double'
     encoding[var]['zlib'] = True
     encoding['time']['units'] = 'days since 1850-01-01'
 
