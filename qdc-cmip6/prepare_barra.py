@@ -140,6 +140,7 @@ def get_global_attrs(orig_global_attrs, grid, year, infile_logs):
         global_attrs['geospatial_lon_min'] = 111.975
         global_attrs['geospatial_lon_max'] = 156.275
     global_attrs['standard_name_vocabulary'] = 'CF Standard Name Table v86'
+    global_attrs['Conventions'] = 'CF-1.8, ACDD-1.3'
     global_attrs['license'] = 'CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)'
     global_attrs['comment'] = 'This is a copy of the BARRA-R2 dataset (https://doi.org/10.25914/1x6g-2v48) merged annually and with minor modifications to the file metadata.'
     global_attrs['time_coverage_start'] = f'{year}0101T0000Z'

@@ -91,6 +91,7 @@ def get_global_attrs(ds):
     global_attrs['acknowledgement'] = ds.attrs['acknowledgment']
 
     global_attrs['standard_name_vocabulary'] = 'CF Standard Name Table v86'
+    global_attrs['Conventions'] = 'CF-1.8, ACDD-1.3'
     global_attrs['license'] = 'CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)'
     global_attrs['comment'] = 'This is a copy of the AGCD data on the CSIRO Digiscape Climate Data Portal (see https://github.com/AusClimateService/agcd-csiro for details) with minor modifications to the file metadata.'
 
