@@ -171,8 +171,8 @@ Here's a summary of what preliminary global warming level data are currently ava
 
 ## Observational data
 
-The AGCD and BARRA-R2 observational data are available on NCI at the following directories:
+The AGCD and BARRA-R2 observational data are available at the following directories:
 ```
-/g/data/wp00/data/observations/AGCD/
-/g/data/ob53/BARRA2/output/reanalysis/AUS-11/BOM/ERA5/historical/hres/BARRA-R2/v1/day/
+/g/data/ia39/australian-climate-service/release/QDC-CMIP6/AGCD/raw/historical/v-csiro/day/
+/g/data/ia39/australian-climate-service/release/QDC-CMIP6/BARRA-R2/raw/historical/v1/day/
 ```
