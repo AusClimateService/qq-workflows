@@ -34,4 +34,4 @@ Future versions will consider:
 - Adding CORDEX-Australisia model data (see details [here](https://opus.nci.org.au/display/CMIP/CMIP6-CORDEX+datasets)). 
 - Replacement of BARRA-R2 (~12km resolution) with [BARRA-C2](http://www.bom.gov.au/research/publications/researchreports/BRR-097.pdf) (~4.4km)
 - Replacement of AGCDv1 with AGCDv2
-- Additional variables and timescales as requested by users (see https://github.com/AusClimateService/qq-workflows/issues/3 for suggested additions).
+- Additional variables and timescales (e.g. hourly) as requested by users (see https://github.com/AusClimateService/qq-workflows/issues/3 for suggested additions).
